@@ -1,0 +1,23 @@
+version: '3.8'
+
+include:
+    - compose.yml
+
+services:
+    userservice:
+        image: userservice:0.0.1-SNAPSHOT
+        environment:
+        - EUREKA_URI=http://servicediscovery:8761/eureka
+
+    gateway:
+        image: gateway:0.0.1-SNAPSHOT
+        ports:
+        - 8080:8080
+        environment:
+        - EUREKA_URI=http://servicediscovery:8761/eureka
+
+
+    servicediscovery:
+        image: servicediscovery:0.0.1-SNAPSHOT
+        ports:
+         - 8761:8761
