@@ -1,6 +1,9 @@
 spring:
   application:
     name: gateway
+    output:
+      ansi:
+        enabled: ALWAYS
 
   cloud:
     gateway:
@@ -20,6 +23,9 @@ management:
     web:
       exposure:
         include: "*"
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URI:http://localhost:9411/}api/v2/spans
 
 eureka:
   client:

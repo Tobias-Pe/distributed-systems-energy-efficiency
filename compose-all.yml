@@ -8,6 +8,10 @@ services:
         image: userservice:0.0.1-SNAPSHOT
         environment:
         - EUREKA_URI=http://servicediscovery:8761/eureka
+        - ZIPKIN_URI=http://zipkin:9411/
+        deploy:
+          mode: replicated
+          replicas: 2
 
     gateway:
         image: gateway:0.0.1-SNAPSHOT
@@ -15,9 +19,12 @@ services:
         - 8080:8080
         environment:
         - EUREKA_URI=http://servicediscovery:8761/eureka
+        - ZIPKIN_URI=http://zipkin:9411/
 
 
     servicediscovery:
         image: servicediscovery:0.0.1-SNAPSHOT
+        environment:
+        - ZIPKIN_URI=http://zipkin:9411/
         ports:
          - 8761:8761

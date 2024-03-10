@@ -1,6 +1,9 @@
 spring:
   application:
     name: userservice
+  output:
+    ansi:
+      enabled: ALWAYS
 
 server:
   port: 8081
@@ -10,6 +13,9 @@ management:
     web:
       exposure:
         include: "*"
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URI:http://localhost:9411/}api/v2/spans
 
 eureka:
   client:
@@ -17,3 +23,6 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+
+
+
