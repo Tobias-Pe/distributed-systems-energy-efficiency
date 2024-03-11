@@ -48,4 +48,4 @@ jobs:
         with:
           file: ${{ matrix.path }}
           push: true
-          tags: ghcr.io/tobias-pe/${{ matrix.image }}:latest, ghcr.io/tobias-pe/${{ matrix.image }}:${{ github.run_id }}
+          tags: ghcr.io/tobias-pe/${{ github.repository }}/${{ matrix.image }}:latest, ghcr.io/tobias-pe/${{ github.repository }}/${{ matrix.image }}:${{ github.run_id }}
