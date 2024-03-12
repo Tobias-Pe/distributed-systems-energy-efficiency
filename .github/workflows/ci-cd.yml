@@ -24,7 +24,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Update dependency graph
-        uses: advanced-security/maven-dependency-submission-action@4
+        uses: advanced-security/maven-dependency-submission-action@v4.0.2
 
   build_publish_docker:
     name: Build&Publish - Util Docker images
