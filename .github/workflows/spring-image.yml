@@ -32,7 +32,7 @@ jobs:
         run: chmod +x ./mvnw
 
       - name: Build image
-        run: ./mvnw clean install
+        run: ./mvnw clean install -pl ${{ matrix.image }} -am
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
