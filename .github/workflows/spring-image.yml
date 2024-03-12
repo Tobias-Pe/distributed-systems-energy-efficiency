@@ -1,9 +1,9 @@
 name: Build Spring Boot images and publish
 
 env:
-  JDK_JAVA_OPTIONS: --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED
-  MAVEN_USERNAME: ch4mpy
-  
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 on: [push]
 
 jobs:
