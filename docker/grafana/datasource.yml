@@ -10,7 +10,7 @@ datasources:
     editable: true
 
   - name: prometheus-kubernetes
-    type: prometheus-kubernetes
+    type: prometheus
     access: proxy
     url: http://prometheus-kubernetes-server.default.svc.cluster.local
     version: 1
