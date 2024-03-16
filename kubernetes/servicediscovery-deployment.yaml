@@ -23,9 +23,17 @@ spec:
     spec:
       containers:
         - env:
+            - name: THC_PATH
+              value: /actuator/health
+            - name: THC_PORT
+              value: "8761"
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/microservices_energyefficiency/servicediscovery:latest
+          livenessProbe:
+            exec:
+              command:
+                - /cnb/process/health-check
           name: servicediscovery
           ports:
             - containerPort: 8761

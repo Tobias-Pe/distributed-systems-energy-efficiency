@@ -3,7 +3,9 @@ kind: DaemonSet
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.security-context.fsgroup: "1000"
     kompose.version: 1.32.0 (765fde254)
+    kompose.volume.storage-class-name: nfs-csi
   labels:
     io.kompose.service: node-exporter
   name: node-exporter
@@ -40,6 +42,8 @@ spec:
               name: node-exporter-claim3
               readOnly: true
       restartPolicy: Always
+      securityContext:
+        fsGroup: 1000
       volumes:
         - name: node-exporter-claim0
           persistentVolumeClaim:

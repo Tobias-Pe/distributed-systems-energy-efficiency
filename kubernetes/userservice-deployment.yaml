@@ -25,8 +25,16 @@ spec:
         - env:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
+            - name: THC_PATH
+              value: /actuator/health
+            - name: THC_PORT
+              value: "8081"
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/microservices_energyefficiency/userservice:latest
+          livenessProbe:
+            exec:
+              command:
+                - /cnb/process/health-check
           name: userservice
       restartPolicy: Always

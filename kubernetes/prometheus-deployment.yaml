@@ -3,7 +3,9 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.security-context.fsgroup: "1000"
     kompose.version: 1.32.0 (765fde254)
+    kompose.volume.storage-class-name: nfs-csi
   labels:
     io.kompose.service: prometheus
   name: prometheus
@@ -18,7 +20,9 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.security-context.fsgroup: "1000"
         kompose.version: 1.32.0 (765fde254)
+        kompose.volume.storage-class-name: nfs-csi
       labels:
         io.kompose.network/docker-default: "true"
         io.kompose.service: prometheus
@@ -39,6 +43,8 @@ spec:
             - mountPath: /prometheus
               name: prometheus-data
       restartPolicy: Always
+      securityContext:
+        fsGroup: 1000
       volumes:
         - name: prometheus-data
           persistentVolumeClaim:

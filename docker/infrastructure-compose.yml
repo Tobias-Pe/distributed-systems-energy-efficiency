@@ -11,8 +11,6 @@ services:
       MYSQL_PASSWORD: mypassword
     ports:
       - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
 
   rabbitmq:
     image: rabbitmq:3.13-management
@@ -35,6 +33,9 @@ services:
 
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.7.0
+    labels:
+      - kompose.security-context.fsgroup=1000
+      - kompose.volume.storage-class-name=nfs-csi
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -57,6 +58,9 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+    labels:
+      - kompose.security-context.fsgroup=1000
+      - kompose.volume.storage-class-name=nfs-csi
     restart: always
     deploy:
       mode: global
@@ -69,6 +73,9 @@ services:
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    labels:
+      - kompose.security-context.fsgroup=1000
+      - kompose.volume.storage-class-name=nfs-csi
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -82,6 +89,9 @@ services:
       context: ..
     container_name: prometheus
     restart: unless-stopped
+    labels:
+      - kompose.security-context.fsgroup=1000
+      - kompose.volume.storage-class-name=nfs-csi
     volumes:
       - prometheus_data:/prometheus
     command:
@@ -93,6 +103,6 @@ services:
       - "9090:9090"
 
 volumes:
-  mysql_data: { }
-  prometheus_data: { }
-  grafana_data: { }
+  mysql_data: {  }
+  prometheus_data: {  }
+  grafana_data: {  }
