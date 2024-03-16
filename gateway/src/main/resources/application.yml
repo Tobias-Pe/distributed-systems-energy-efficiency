@@ -14,6 +14,10 @@ spring:
             - Path=/userservice/**
           filters:
             - RewritePath=/userservice/?(?<segment>.*), /$\{segment}
+  docker:
+    compose:
+      enabled: true
+      file: docker/infrastructure-compose.yml
 
 server:
   port: 8080

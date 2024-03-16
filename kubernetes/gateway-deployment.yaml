@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: gateway
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: gateway
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/docker-default: "true"
+        io.kompose.service: gateway
+    spec:
+      containers:
+        - env:
+            - name: EUREKA_URI
+              value: http://servicediscovery:8761/eureka
+            - name: ZIPKIN_URI
+              value: http://zipkin:9411/
+          image: ghcr.io/tobias-pe/microservices_energyefficiency/gateway:latest
+          name: gateway
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
+      restartPolicy: Always

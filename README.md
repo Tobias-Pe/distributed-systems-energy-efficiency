@@ -29,6 +29,10 @@ TBD
 
 ## Run Locally 🏃
 
+Requirements: 
+ - https://kompose.io/installation/
+ - Docker and or Kubernetes
+
 TBD
 
 ## Deployment 🚀

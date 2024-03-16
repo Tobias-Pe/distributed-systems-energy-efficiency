@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: userservice
+  name: userservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      io.kompose.service: userservice
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/docker-default: "true"
+        io.kompose.service: userservice
+    spec:
+      containers:
+        - env:
+            - name: EUREKA_URI
+              value: http://servicediscovery:8761/eureka
+            - name: ZIPKIN_URI
+              value: http://zipkin:9411/
+          image: ghcr.io/tobias-pe/microservices_energyefficiency/userservice:latest
+          name: userservice
+      restartPolicy: Always
