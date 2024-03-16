@@ -41,7 +41,6 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     labels:
       - kompose.security-context.fsgroup=1000
-      - kompose.volume.storage-class-name=nfs-csi
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -57,7 +56,6 @@ services:
     restart: unless-stopped
     labels:
       - kompose.security-context.fsgroup=1000
-      - kompose.volume.storage-class-name=nfs-csi
     volumes:
       - prometheus_data:/prometheus
     command:
