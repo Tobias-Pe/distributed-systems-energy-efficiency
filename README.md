@@ -31,8 +31,9 @@ TBD
 
 Requirements: 
  - https://kompose.io/installation/
- - Docker and or Kubernetes
- - https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus for Kubernetes Metrics
+ - MicroK8s
+ - https://github.com/prometheus-operator/kube-prometheus for Kubernetes Metrics
+ - https://github.com/sustainable-computing-io/kepler eBPF energy metrics exporter for Pods & Nodes
 
 TBD
 
@@ -41,6 +42,8 @@ TBD
 TBD
 
 ## Known Issues 🦺
+
+- If the prometheus service from prometheus-operator/kube-prometheus can't be scraped by the grafana instance --> Adjust the networkpolicies
 
 TBD
 
