@@ -9,6 +9,13 @@ datasources:
     version: 1
     editable: true
 
+  - name: prometheus-kubernetes
+    type: prometheus-kubernetes
+    access: proxy
+    url: http://prometheus-kubernetes-server.default.svc.cluster.local
+    version: 1
+    editable: true
+
   - name: zipkin
     type: zipkin
     access: proxy

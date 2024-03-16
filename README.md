@@ -32,6 +32,7 @@ TBD
 Requirements: 
  - https://kompose.io/installation/
  - Docker and or Kubernetes
+ - https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus for Kubernetes Metrics
 
 TBD
 

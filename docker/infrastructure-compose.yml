@@ -31,40 +31,6 @@ services:
     ports:
       - "9411:9411"
 
-  node-exporter:
-    image: quay.io/prometheus/node-exporter:v1.7.0
-    labels:
-      - kompose.security-context.fsgroup=1000
-      - kompose.volume.storage-class-name=nfs-csi
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-      - /:/host:ro,rslave
-    command:
-      - '--path.rootfs=/host'
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - --collector.filesystem.ignored-mount-points
-      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-    restart: always
-    deploy:
-      mode: global
-
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    labels:
-      - kompose.security-context.fsgroup=1000
-      - kompose.volume.storage-class-name=nfs-csi
-    restart: always
-    deploy:
-      mode: global
-
   grafana:
     image: ghcr.io/tobias-pe/microservices_energyefficiency/grafana:latest
     build:
