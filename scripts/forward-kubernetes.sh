@@ -8,4 +8,5 @@ kubectl port-forward deployment/prometheus 9090 --pod-running-timeout=5m &
 kubectl port-forward deployment/mysql 3306 --pod-running-timeout=5m &
 kubectl port-forward deployment/rabbitmq 15672 --pod-running-timeout=5m &
 kubectl port-forward deployment/redis 6379 --pod-running-timeout=5m &
+#kubectl port-forward deployment/prometheus-kubernetes-server 9090 --pod-running-timeout=5m -n monitoring &
 wait
