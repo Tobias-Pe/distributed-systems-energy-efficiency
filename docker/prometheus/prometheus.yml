@@ -31,7 +31,7 @@ scrape_configs:
     relabel_configs:
       - source_labels: [ __meta_eureka_app_name ]
         target_label: application
-      - source_labels: [ __meta_eureka_app_instance_metadata_prometheus_path ]
+      - replacement: /actuator/prometheus
         target_label: __metrics_path__
       - source_labels: [ __address__ ]
         target_label: instance
