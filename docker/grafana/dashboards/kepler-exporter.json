@@ -22,10 +22,168 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 5,
   "links": [],
   "liveNow": false,
   "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Watt",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "274"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ex-cb2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "307"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ex-cb3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "340"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ex-cb4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "373"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ex-cb5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "406"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ex-cb6"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "cmcIIIVarValueInt",
+          "instant": false,
+          "legendFormat": "{{cmcIIIVarIndex}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Server PDU Watt Metric",
+      "type": "timeseries"
+    },
     {
       "collapsed": false,
       "datasource": "prometheus",
@@ -33,7 +191,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 8,
       "panels": [],
@@ -164,7 +322,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 1
+        "y": 9
       },
       "id": 16,
       "options": {
@@ -357,7 +515,7 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 19
       },
       "id": 17,
       "options": {
@@ -556,7 +714,7 @@
         "h": 11,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 19
       },
       "id": 2,
       "options": {
@@ -660,7 +818,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 30
       },
       "id": 15,
       "options": {
@@ -768,11 +926,6 @@
           "uid": "${datasource}"
         },
         "definition": "label_values(kepler_container_package_joules_total{container_namespace=~\"$namespace\"}, pod_name)",
-        "error": {
-          "data": {
-            "message": "Unexpected error"
-          }
-        },
         "hide": 0,
         "includeAll": true,
         "label": "Pod",
