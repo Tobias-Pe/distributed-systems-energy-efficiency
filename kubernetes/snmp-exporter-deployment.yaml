@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.security-context.fsgroup: "1000"
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: snmp-exporter
+  name: snmp-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: snmp-exporter
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.security-context.fsgroup: "1000"
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/docker-default: "true"
+        io.kompose.service: snmp-exporter
+    spec:
+      containers:
+        - image: ghcr.io/tobias-pe/microservices_energyefficiency/snmp-exporter:latest
+          name: snmp-exporter
+          ports:
+            - containerPort: 9116
+              hostPort: 9116
+              protocol: TCP
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 1000
