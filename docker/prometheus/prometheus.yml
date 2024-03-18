@@ -35,3 +35,23 @@ scrape_configs:
         target_label: __metrics_path__
       - source_labels: [ __address__ ]
         target_label: instance
+
+  - job_name: 'snmp'
+    static_configs:
+      - targets:
+          - 10.28.1.126
+    metrics_path: /snmp
+    params:
+      auth: [ public_v2 ]
+      module: [ if_power ]
+    relabel_configs:
+      - source_labels: [ __address__ ]
+        target_label: __param_target
+      - source_labels: [ __param_target ]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp_exporter:9116
+
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets: [ 'snmp_exporter:9116' ]

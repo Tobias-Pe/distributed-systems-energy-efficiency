@@ -52,7 +52,6 @@ services:
     build:
       dockerfile: docker/prometheus/Dockerfile
       context: ..
-    container_name: prometheus
     restart: unless-stopped
     labels:
       - kompose.security-context.fsgroup=1000
@@ -65,6 +64,17 @@ services:
       - '--web.console.templates=/etc/prometheus/consoles'
     ports:
       - "9090:9090"
+
+  snmp_exporter:
+    image: ghcr.io/tobias-pe/microservices_energyefficiency/snmp_exporter:latest
+    build:
+      dockerfile: docker/snmp_exporter/Dockerfile
+      context: ..
+    restart: unless-stopped
+    labels:
+      - kompose.security-context.fsgroup=1000
+    ports:
+      - "9116:9116"
 
 volumes:
   mysql_data: {  }

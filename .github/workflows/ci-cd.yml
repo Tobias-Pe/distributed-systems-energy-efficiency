@@ -34,6 +34,7 @@ jobs:
         image:
           - prometheus
           - grafana
+          - snmp_exporter
 
     steps:
       - name: Checkout repository
