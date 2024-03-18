@@ -27,6 +27,20 @@
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
+      "datasource": "prometheus",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "panels": [],
+      "title": "Power Consumption",
+      "type": "row"
+    },
+    {
       "datasource": {
         "type": "prometheus",
         "uid": "P1809F7CD0C75ACF3"
@@ -146,9 +160,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 19,
         "x": 0,
-        "y": 0
+        "y": 1
       },
       "id": 18,
       "options": {
@@ -185,18 +199,71 @@
       "type": "timeseries"
     },
     {
-      "collapsed": false,
-      "datasource": "prometheus",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 8
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
       },
-      "id": 8,
-      "panels": [],
-      "title": "Power Consumption",
-      "type": "row"
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 19,
+        "y": 1
+      },
+      "id": 19,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.12",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "sum(cmcIIIVarValueInt)",
+          "instant": false,
+          "legendFormat": "{{cmcIIIVarIndex}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Server PDU Watt Overall Comsumption",
+      "type": "stat"
     },
     {
       "datasource": {
