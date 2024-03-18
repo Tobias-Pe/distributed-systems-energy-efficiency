@@ -20,6 +20,14 @@ public class ServiceInstanceRestController {
     public List<ServiceInstance> serviceInstancesByApplicationName(
             @PathVariable String applicationName) {
         log.info("Request handling...");
+        busyWork(200);
         return this.discoveryClient.getInstances(applicationName);
+    }
+
+    public static void busyWork(int durationInMilliseconds) {
+        long startTime = System.currentTimeMillis();
+        while ((System.currentTimeMillis() - startTime) < durationInMilliseconds) {
+            // Leere Schleife, um Zeit zu verschwenden
+        }
     }
 }
