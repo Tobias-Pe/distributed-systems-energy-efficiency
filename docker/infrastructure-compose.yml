@@ -65,10 +65,10 @@ services:
     ports:
       - "9090:9090"
 
-  snmp_exporter:
-    image: ghcr.io/tobias-pe/microservices_energyefficiency/snmp_exporter:latest
+  snmp-exporter:
+    image: ghcr.io/tobias-pe/microservices_energyefficiency/snmp-exporter:latest
     build:
-      dockerfile: docker/snmp_exporter/Dockerfile
+      dockerfile: docker/snmp-exporter/Dockerfile
       context: ..
     restart: unless-stopped
     labels:
