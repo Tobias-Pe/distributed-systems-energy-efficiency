@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -34,133 +34,6 @@
         "w": 24,
         "x": 0,
         "y": 0
-      },
-      "id": 11,
-      "panels": [],
-      "title": "Carbon Emissions",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "description": "Using CO2 emissions  by power generation type as reported by US Energy Information Administration https://www.eia.gov/tools/faqs/faq.php?id=74&t=11",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "percentage",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 60
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 19,
-        "x": 2,
-        "y": 1
-      },
-      "id": 12,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto",
-        "text": {}
-      },
-      "pluginVersion": "10.0.12",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "( sum(\n      increase(\n         (kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[24h:1m])\n      )\n   ) * $watt_per_second_to_kWh \n) * $coal",
-          "hide": false,
-          "legendFormat": "CO2 Coal",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "( sum(\n      increase(\n         (kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[24h:1m])\n      )\n   ) * $watt_per_second_to_kWh \n) * $petroleum",
-          "hide": false,
-          "legendFormat": "CO2 Petroleum",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "( sum(\n      increase(\n         (kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[24h:1m])\n      )\n   ) * $watt_per_second_to_kWh \n) * $natural_gas",
-          "hide": false,
-          "legendFormat": "CO2 Natural Gas",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(\n      increase(\n         (kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[24h:1m])\n      )\n   ) * $watt_per_second_to_kWh ",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Watts",
-          "range": true,
-          "refId": "D"
-        }
-      ],
-      "title": "Carbon Footprint (pounds per kWh per day) in Namespace: $namespace  (PKG+DRAM+OTHER+GPU)",
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "collapsed": false,
-      "datasource": "prometheus",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 7
       },
       "id": 8,
       "panels": [],
@@ -235,7 +108,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "orange",
-                  "mode": "fixed"
+                  "mode": "shades"
                 }
               }
             ]
@@ -250,7 +123,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "blue",
-                  "mode": "fixed"
+                  "mode": "shades"
                 }
               }
             ]
@@ -265,7 +138,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "semi-dark-green",
-                  "mode": "fixed"
+                  "mode": "shades"
                 }
               }
             ]
@@ -280,7 +153,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
-                  "mode": "fixed"
+                  "mode": "shades"
                 }
               }
             ]
@@ -291,7 +164,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 1
       },
       "id": 16,
       "options": {
@@ -365,102 +238,6 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "stepBefore",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 3,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 4,
-        "x": 0,
-        "y": 18
-      },
-      "id": 18,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "sum (irate(kepler_container_package_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[1m]))",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Watt/Sec Power Consumption",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -517,7 +294,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*Package.*"
+              "options": ".*PKG.*"
             },
             "properties": [
               {
@@ -577,10 +354,10 @@
         ]
       },
       "gridPos": {
-        "h": 8,
-        "w": 10,
-        "x": 4,
-        "y": 18
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 11
       },
       "id": 17,
       "options": {
@@ -716,7 +493,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*Package.*"
+              "options": ".*PKG.*"
             },
             "properties": [
               {
@@ -776,10 +553,10 @@
         ]
       },
       "gridPos": {
-        "h": 8,
-        "w": 10,
-        "x": 14,
-        "y": 18
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 11
       },
       "id": 2,
       "options": {
@@ -880,10 +657,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 22
       },
       "id": 15,
       "options": {
@@ -923,7 +700,7 @@
       "type": "bargauge"
     }
   ],
-  "refresh": "5s",
+  "refresh": "10s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -951,8 +728,8 @@
         "allValue": ".*",
         "current": {
           "selected": true,
-          "text": "default",
-          "value": "default"
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
@@ -991,6 +768,11 @@
           "uid": "${datasource}"
         },
         "definition": "label_values(kepler_container_package_joules_total{container_namespace=~\"$namespace\"}, pod_name)",
+        "error": {
+          "data": {
+            "message": "Unexpected error"
+          }
+        },
         "hide": 0,
         "includeAll": true,
         "label": "Pod",
@@ -1079,13 +861,13 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Kepler Exporter Dashboard",
   "uid": "NhnADUW4zIBM",
-  "version": 3,
+  "version": 2,
   "weekStart": ""
 }
