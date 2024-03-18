@@ -174,7 +174,9 @@
           ],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
         },
         "tooltip": {
           "mode": "multi",
@@ -360,8 +362,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 12,
+        "h": 11,
+        "w": 19,
         "x": 0,
         "y": 9
       },
@@ -432,143 +434,6 @@
         }
       ],
       "title": "Pod/Process Power Consumption (W) in Namespace: $namespace",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "watt",
-            "axisPlacement": "left",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 44,
-            "gradientMode": "none",
-            "hideFrom": {
-              "graph": false,
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 0,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "always",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 9
-      },
-      "id": 20,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "min",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "datasource": "prometheus",
-          "editorMode": "code",
-          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_package_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{pod_name}} / {{container_namespace}} / PKG",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": "prometheus",
-          "editorMode": "builder",
-          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_dram_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{pod_name}} / {{container_namespace}} / DRAM",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "builder",
-          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_other_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{pod_name}} / {{container_namespace}} / OTHER",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "builder",
-          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_gpu_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
-          "hide": false,
-          "legendFormat": "{{pod_name}} / {{container_namespace}} / GPU",
-          "range": true,
-          "refId": "D"
-        }
-      ],
-      "title": "Stacked: Pod/Process Power Consumption (W) in Namespace: $namespace",
       "type": "timeseries"
     },
     {
@@ -693,9 +558,9 @@
       },
       "gridPos": {
         "h": 11,
-        "w": 12,
-        "x": 0,
-        "y": 18
+        "w": 5,
+        "x": 19,
+        "y": 9
       },
       "id": 17,
       "options": {
@@ -768,6 +633,143 @@
         }
       ],
       "title": "Total Power Consumption (kWh per day) in Namespace: $namespace",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "watt",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 44,
+            "gradientMode": "none",
+            "hideFrom": {
+              "graph": false,
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 0,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 19,
+        "x": 0,
+        "y": 20
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "min",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": "prometheus",
+          "editorMode": "code",
+          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_package_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{pod_name}} / {{container_namespace}} / PKG",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": "prometheus",
+          "editorMode": "builder",
+          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_dram_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{pod_name}} / {{container_namespace}} / DRAM",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_other_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{pod_name}} / {{container_namespace}} / OTHER",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_gpu_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
+          "hide": false,
+          "legendFormat": "{{pod_name}} / {{container_namespace}} / GPU",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "Stacked: Pod/Process Power Consumption (W) in Namespace: $namespace",
       "type": "timeseries"
     },
     {
@@ -892,9 +894,9 @@
       },
       "gridPos": {
         "h": 11,
-        "w": 12,
-        "x": 12,
-        "y": 18
+        "w": 5,
+        "x": 19,
+        "y": 20
       },
       "id": 2,
       "options": {
@@ -905,7 +907,9 @@
           ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
         },
         "tooltip": {
           "mode": "single",
