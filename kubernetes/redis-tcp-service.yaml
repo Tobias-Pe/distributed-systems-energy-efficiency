@@ -3,14 +3,16 @@ kind: Service
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: servicediscovery
-  name: servicediscovery
+    io.kompose.service: redis-tcp
+  name: redis
 spec:
   ports:
-    - name: "8761"
-      port: 8761
-      targetPort: 8761
+    - name: "6379"
+      port: 6379
+      targetPort: 6379
   selector:
-    io.kompose.service: servicediscovery
+    io.kompose.service: redis
+  type: LoadBalancer

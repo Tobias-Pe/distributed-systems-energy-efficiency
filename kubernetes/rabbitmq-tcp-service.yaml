@@ -3,9 +3,11 @@ kind: Service
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.service.group: rabbitmq
+    kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: rabbitmq
+    io.kompose.service: rabbitmq-tcp
   name: rabbitmq
 spec:
   ports:
@@ -17,3 +19,4 @@ spec:
       targetPort: 15672
   selector:
     io.kompose.service: rabbitmq
+  type: LoadBalancer

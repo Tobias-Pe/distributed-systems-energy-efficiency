@@ -4,6 +4,7 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.security-context.fsgroup: "1000"
+    kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
     io.kompose.service: grafana
@@ -20,6 +21,7 @@ spec:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
         kompose.security-context.fsgroup: "1000"
+        kompose.service.type: loadbalancer
         kompose.version: 1.32.0 (765fde254)
       labels:
         io.kompose.network/docker-default: "true"

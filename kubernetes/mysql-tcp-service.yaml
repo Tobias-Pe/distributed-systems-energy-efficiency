@@ -3,14 +3,16 @@ kind: Service
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: zipkin
-  name: zipkin
+    io.kompose.service: mysql-tcp
+  name: mysql
 spec:
   ports:
-    - name: "9411"
-      port: 9411
-      targetPort: 9411
+    - name: "3306"
+      port: 3306
+      targetPort: 3306
   selector:
-    io.kompose.service: zipkin
+    io.kompose.service: mysql
+  type: LoadBalancer

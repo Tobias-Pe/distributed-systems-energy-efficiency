@@ -4,14 +4,16 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.security-context.fsgroup: "1000"
+    kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: prometheus
-  name: prometheus
+    io.kompose.service: grafana-tcp
+  name: grafana
 spec:
   ports:
-    - name: "9090"
-      port: 9090
-      targetPort: 9090
+    - name: "3000"
+      port: 3000
+      targetPort: 3000
   selector:
-    io.kompose.service: prometheus
+    io.kompose.service: grafana
+  type: LoadBalancer

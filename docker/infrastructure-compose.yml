@@ -9,12 +9,17 @@ services:
       MYSQL_DATABASE: mydatabase
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypassword
+    labels:
+      - kompose.service.type=loadbalancer
     ports:
       - "3306:3306"
 
   rabbitmq:
     image: rabbitmq:3.13-management
     container_name: rabbitmq
+    labels:
+      - kompose.service.type=loadbalancer
+      - kompose.service.group=rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -22,12 +27,16 @@ services:
   redis:
     image: redis:7.2
     container_name: redis
+    labels:
+      - kompose.service.type=loadbalancer
     ports:
       - "6379:6379"
 
   zipkin:
     image: openzipkin/zipkin:3
     container_name: zipkin
+    labels:
+      - kompose.service.type=loadbalancer
     ports:
       - "9411:9411"
 
@@ -40,6 +49,7 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     labels:
+      - kompose.service.type=loadbalancer
       - kompose.security-context.fsgroup=1000
     restart: unless-stopped
     ports:
@@ -54,6 +64,7 @@ services:
       context: ..
     restart: unless-stopped
     labels:
+      - kompose.service.type=loadbalancer
       - kompose.security-context.fsgroup=1000
     volumes:
       - prometheus_data:/prometheus
