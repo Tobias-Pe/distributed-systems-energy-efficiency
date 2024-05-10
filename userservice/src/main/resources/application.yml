@@ -10,6 +10,7 @@ spring:
       file: docker/infrastructure-compose.yml
 
 server:
+  forward-headers-strategy: framework
   port: 8081
 
 management:
