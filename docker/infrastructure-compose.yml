@@ -1,18 +1,16 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8.3
-    container_name: mysql
+  postgres:
+    image: postgres:16
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
     labels:
       - kompose.service.type=loadbalancer
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
   rabbitmq:
     image: rabbitmq:3.13-management
