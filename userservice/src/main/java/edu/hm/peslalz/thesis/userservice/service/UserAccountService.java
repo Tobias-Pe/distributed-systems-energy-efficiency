@@ -36,8 +36,9 @@ public class UserAccountService {
     }
 
     public UserAccount updateUser(UserAccountRequest userAccountRequest, Integer id) {
-        UserAccount userAccount = userAccountRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.valueOf(id)));
+        UserAccount userAccount = getUserById(id);
         userAccount.setUsername(userAccountRequest.getUsername());
+        userAccountRepository.save(userAccount);
         return userAccount;
     }
 

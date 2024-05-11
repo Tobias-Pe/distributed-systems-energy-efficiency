@@ -26,7 +26,7 @@ public class UserAccountController {
     }
 
     @PostMapping("/search")
-    public Set<UserAccount> createUserAccount(@RequestParam String query) {
+    public Set<UserAccount> searchUser(@RequestParam String query) {
         return userAccountService.search(query);
     }
 
