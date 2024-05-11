@@ -7,6 +7,8 @@ import edu.hm.peslalz.thesis.userservice.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class UserAccountService {
     UserAccountRepository userAccountRepository;
@@ -27,5 +29,9 @@ public class UserAccountService {
 
     public UserAccount getUserById(Integer id) {
         return userAccountRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.valueOf(id)));
+    }
+
+    public Set<UserAccount> search(String query) {
+        return userAccountRepository.findUserAccountByUsernameLike(query);
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("users")
 public class UserAccountController {
@@ -29,5 +31,10 @@ public class UserAccountController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserAccount createUserAccount(@RequestBody UserAccountRequest userAccountRequest) {
         return userAccountService.createUser(userAccountRequest);
+    }
+
+    @PostMapping("/search")
+    public Set<UserAccount> createUserAccount(@RequestParam String query) {
+        return userAccountService.search(query);
     }
 }
