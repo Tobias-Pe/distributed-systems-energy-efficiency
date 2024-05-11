@@ -11,4 +11,6 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
     Optional<UserAccount> findByUsername(String username);
 
     Set<UserAccount> findUserAccountByUsernameLike(String query);
+
+    Set<UserAccount> findUserAccountsByFollowingContaining(UserAccount userAccount);
 }

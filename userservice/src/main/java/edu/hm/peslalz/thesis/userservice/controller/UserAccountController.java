@@ -19,14 +19,6 @@ public class UserAccountController {
         this.userAccountService = userAccountService;
     }
 
-    @GetMapping()
-    public UserAccount getUserAccount(@RequestParam(required = false) String username, @RequestParam(required = false) Integer id) {
-        if (id != null) {
-            return userAccountService.getUserById(id);
-        }
-        return userAccountService.getUserByUsername(username);
-    }
-
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public UserAccount createUserAccount(@RequestBody UserAccountRequest userAccountRequest) {
@@ -36,5 +28,26 @@ public class UserAccountController {
     @PostMapping("/search")
     public Set<UserAccount> createUserAccount(@RequestParam String query) {
         return userAccountService.search(query);
+    }
+
+    @GetMapping("/{id}")
+    public UserAccount getUserAccount(@PathVariable int id) {
+        return userAccountService.getUserById(id);
+    }
+
+    @PostMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserAccount updateUser(@RequestBody UserAccountRequest userAccountRequest, @PathVariable Integer id) {
+        return userAccountService.updateUser(userAccountRequest, id);
+    }
+
+    @PostMapping("/{id}/follow")
+    public UserAccount followUser(@RequestParam String toBeFollowedUsername, @PathVariable Integer id) {
+        return userAccountService.follow(id, toBeFollowedUsername);
+    }
+
+    @GetMapping("/{id}/followers")
+    public Set<UserAccount> getFollowers(@PathVariable Integer id) {
+        return userAccountService.getFollowers(id);
     }
 }

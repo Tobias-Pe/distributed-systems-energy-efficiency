@@ -34,4 +34,23 @@ public class UserAccountService {
     public Set<UserAccount> search(String query) {
         return userAccountRepository.findUserAccountByUsernameLike(query);
     }
+
+    public UserAccount updateUser(UserAccountRequest userAccountRequest, Integer id) {
+        UserAccount userAccount = userAccountRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.valueOf(id)));
+        userAccount.setUsername(userAccountRequest.getUsername());
+        return userAccount;
+    }
+
+    public UserAccount follow(Integer id, String toBeFollowedUsername) {
+        UserAccount userAccount = getUserById(id);
+        UserAccount toBeFollowedUserAccount = getUserByUsername(toBeFollowedUsername);
+        userAccount.getFollowing().add(toBeFollowedUserAccount);
+        userAccountRepository.save(userAccount);
+        return userAccount;
+    }
+
+    public Set<UserAccount> getFollowers(Integer id) {
+        UserAccount userAccount = getUserById(id);
+        return userAccountRepository.findUserAccountsByFollowingContaining(userAccount);
+    }
 }
