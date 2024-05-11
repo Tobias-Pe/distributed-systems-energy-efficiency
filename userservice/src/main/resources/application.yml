@@ -8,6 +8,16 @@ spring:
     compose:
       enabled: true
       file: docker/infrastructure-compose.yml
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: myuser
+    password: mypassword
+    url: ${POSTGRES_URI:jdbc:postgresql://localhost:5432/}mydatabase
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
 
 server:
   forward-headers-strategy: framework
@@ -31,6 +41,5 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
-
 
 
