@@ -7,7 +7,7 @@ services:
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
-      - POSTGRES_URI=jdbc:postgresql://postgres:5432/
+      - POSTGRES_URI=jdbc:postgresql://userservice-db:5432/
       - THC_PATH=/actuator/health
       - THC_PORT=8081
     deploy:
