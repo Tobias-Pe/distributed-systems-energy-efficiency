@@ -3,7 +3,9 @@ package edu.hm.peslalz.thesis.userservice.service;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import edu.hm.peslalz.thesis.userservice.exceptions.UserNotFoundException;
+import edu.hm.peslalz.thesis.userservice.exceptions.UsernameTakenException;
 import edu.hm.peslalz.thesis.userservice.repository.UserAccountRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,16 @@ public class UserAccountService {
 
     public UserAccount createUser(UserAccountRequest userAccountRequest) {
         UserAccount userAccount = new UserAccount(userAccountRequest);
-        return userAccountRepository.save(userAccount);
+        try {
+            userAccount = userAccountRepository.save(userAccount);
+        } catch (RuntimeException ex) {
+            if (ex.getCause() instanceof ConstraintViolationException) {
+                throw new UsernameTakenException(userAccountRequest.getUsername());
+            } else {
+                throw ex;
+            }
+        }
+        return userAccount;
     }
 
     public UserAccount getUserByUsername(String username) {
