@@ -1,0 +1,4 @@
+# https://github.com/github/linguist/blob/master/docs/overrides.md
+
+loadtesting/results/** linguist-documentation=true
+kubernetes/*.yaml linguist-generated=true
