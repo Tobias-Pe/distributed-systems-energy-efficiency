@@ -3,7 +3,7 @@ package edu.hm.peslalz.thesis.userservice.service;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import edu.hm.peslalz.thesis.userservice.exceptions.UserNotFoundException;
-import edu.hm.peslalz.thesis.userservice.exceptions.UsernameTakenException;
+import edu.hm.peslalz.thesis.userservice.exceptions.UserConstraintConflictException;
 import edu.hm.peslalz.thesis.userservice.repository.UserAccountRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,16 @@ public class UserAccountService {
 
     public UserAccount createUser(UserAccountRequest userAccountRequest) {
         UserAccount userAccount = new UserAccount(userAccountRequest);
+        userAccount = saveUser(userAccount);
+        return userAccount;
+    }
+
+    UserAccount saveUser(UserAccount userAccount) throws UserConstraintConflictException {
         try {
             userAccount = userAccountRepository.save(userAccount);
         } catch (RuntimeException ex) {
             if (ex.getCause() instanceof ConstraintViolationException) {
-                throw new UsernameTakenException(userAccountRequest.getUsername());
+                throw new UserConstraintConflictException(userAccount.getUsername());
             } else {
                 throw ex;
             }
@@ -51,7 +56,7 @@ public class UserAccountService {
     public UserAccount updateUser(UserAccountRequest userAccountRequest, Integer id) {
         UserAccount userAccount = getUserById(id);
         userAccount.setUsername(userAccountRequest.getUsername());
-        userAccountRepository.save(userAccount);
+        this.saveUser(userAccount);
         return userAccount;
     }
 
@@ -59,7 +64,7 @@ public class UserAccountService {
         UserAccount userAccount = getUserById(id);
         UserAccount toBeFollowedUserAccount = getUserByUsername(toBeFollowedUsername);
         userAccount.getFollowing().add(toBeFollowedUserAccount);
-        userAccountRepository.save(userAccount);
+        this.saveUser(userAccount);
         return userAccount;
     }
 
