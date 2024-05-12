@@ -6,13 +6,13 @@ metadata:
     kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: mysql
-  name: mysql
+    io.kompose.service: userservice-db
+  name: userservice-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: mysql
+      io.kompose.service: userservice-db
   template:
     metadata:
       annotations:
@@ -21,22 +21,20 @@ spec:
         kompose.version: 1.32.0 (765fde254)
       labels:
         io.kompose.network/docker-default: "true"
-        io.kompose.service: mysql
+        io.kompose.service: userservice-db
     spec:
       containers:
         - env:
-            - name: MYSQL_DATABASE
+            - name: POSTGRES_DB
               value: mydatabase
-            - name: MYSQL_PASSWORD
+            - name: POSTGRES_PASSWORD
               value: mypassword
-            - name: MYSQL_ROOT_PASSWORD
-              value: example
-            - name: MYSQL_USER
+            - name: POSTGRES_USER
               value: myuser
-          image: mysql:8.3
-          name: mysql
+          image: postgres:16
+          name: userservice-db
           ports:
-            - containerPort: 3306
-              hostPort: 3306
+            - containerPort: 5432
+              hostPort: 5432
               protocol: TCP
       restartPolicy: Always
