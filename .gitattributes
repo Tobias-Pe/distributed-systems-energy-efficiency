@@ -2,3 +2,6 @@
 
 loadtesting/results/** linguist-documentation=true
 kubernetes/*.yaml linguist-generated=true
+.mvn/** linguist-generated=true
+mvnw linguist-generated=true
+mvnw.cmd linguist-generated=true
