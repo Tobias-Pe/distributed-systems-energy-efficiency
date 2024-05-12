@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "loadtesting"
+version = "0.1.0"
+description = ""
+package-mode = false
+authors = ["Tobias Peslalz <peslalz.tobias@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+locust = "^2.27.0"
+random-username = "^1.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
