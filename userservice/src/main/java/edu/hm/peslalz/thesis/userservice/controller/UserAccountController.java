@@ -4,6 +4,7 @@ import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import edu.hm.peslalz.thesis.userservice.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,8 @@ public class UserAccountController {
     }
 
     @PostMapping("/search")
-    public Set<UserAccount> searchUser(@RequestParam String query) {
-        return userAccountService.search(query);
+    public Page<UserAccount> searchUser(@RequestParam String query, @RequestParam(defaultValue = "0") int page) {
+        return userAccountService.search(query, page);
     }
 
     @GetMapping("/{id}")

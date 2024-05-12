@@ -7,6 +7,8 @@ import edu.hm.peslalz.thesis.userservice.exceptions.UsernameTakenException;
 import edu.hm.peslalz.thesis.userservice.repository.UserAccountRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -42,8 +44,8 @@ public class UserAccountService {
         return userAccountRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.valueOf(id)));
     }
 
-    public Set<UserAccount> search(String query) {
-        return userAccountRepository.findUserAccountByUsernameLike(query);
+    public Page<UserAccount> search(String query, int page) {
+        return userAccountRepository.findUserAccountByUsernameLike(query, PageRequest.of(page, 50));
     }
 
     public UserAccount updateUser(UserAccountRequest userAccountRequest, Integer id) {
