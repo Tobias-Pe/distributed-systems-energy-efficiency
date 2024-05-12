@@ -28,7 +28,7 @@ class UserserviceApplicationTests {
     private UserAccount createUser() {
         UserAccount testiasTestlalz = userAccountController.createUserAccount(new UserAccountRequest("Testias Testlaz"));
         assertThat(testiasTestlalz.getId()).isNotNull();
-        assertThat(userAccountController.getUserAccount(testiasTestlalz.getId())).isEqualTo(userAccountController.searchUser("Testias Testlalz", 0).stream().iterator().next());
+        assertThat(userAccountController.getUserAccount(testiasTestlalz.getId())).isEqualTo(userAccountController.searchUser("Testias Testlaz", 0).stream().iterator().next());
         return testiasTestlalz;
     }
 
