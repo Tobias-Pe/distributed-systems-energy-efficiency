@@ -6,13 +6,13 @@ metadata:
     kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: mysql-tcp
-  name: mysql
+    io.kompose.service: userservice-db-tcp
+  name: userservice-db
 spec:
   ports:
-    - name: "3306"
-      port: 3306
-      targetPort: 3306
+    - name: "5432"
+      port: 5432
+      targetPort: 5432
   selector:
-    io.kompose.service: mysql
+    io.kompose.service: userservice-db
   type: LoadBalancer
