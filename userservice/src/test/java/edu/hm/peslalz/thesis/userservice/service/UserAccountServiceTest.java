@@ -2,15 +2,19 @@ package edu.hm.peslalz.thesis.userservice.service;
 
 import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
+import edu.hm.peslalz.thesis.userservice.exceptions.UserConstraintConflictException;
 import edu.hm.peslalz.thesis.userservice.exceptions.UserNotFoundException;
 import edu.hm.peslalz.thesis.userservice.repository.UserAccountRepository;
-import org.junit.jupiter.api.BeforeEach;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,10 +31,6 @@ class UserAccountServiceTest {
 
     @InjectMocks
     UserAccountService userAccountService;
-
-    @BeforeEach
-    void setUp() {
-    }
 
     @Test
     void createUser() {
@@ -59,8 +59,8 @@ class UserAccountServiceTest {
 
     @Test
     void search() {
-        assertThat(userAccountService.search("Testias")).isEmpty();
-        verify(userAccountRepository, times(1)).findUserAccountByUsernameLike("Testias");
+        assertThat(userAccountService.search("Testias", 0)).isNull();
+        verify(userAccountRepository, times(1)).findUserAccountByUsernameLike("Testias", PageRequest.of(0,50));
     }
 
     @Test
@@ -83,5 +83,11 @@ class UserAccountServiceTest {
         when(userAccountRepository.findById(any())).thenReturn(Optional.of(new UserAccount()));
         userAccountService.getFollowers(1);
         verify(userAccountRepository, times(1)).findUserAccountsByFollowingContaining(any());
+    }
+
+    @Test
+    void saveUser() {
+        when(userAccountRepository.save(any(UserAccount.class))).thenThrow(new DataIntegrityViolationException("bla",new ConstraintViolationException("bla",new SQLException(),"nono")));
+        assertThrows(UserConstraintConflictException.class, () -> userAccountService.saveUser(new UserAccount()));
     }
 }

@@ -19,14 +19,33 @@ class UserserviceApplicationTests {
     @Test
     @Transactional
     void scenario() {
+        UserAccount testiasTestlalz = createUser();
+        testiasTestlalz = updateUsername(testiasTestlalz);
+        UserAccount contentCreator = createNewUserAndFollow(testiasTestlalz);
+        countFollowers(contentCreator);
+    }
+
+    private UserAccount createUser() {
         UserAccount testiasTestlalz = userAccountController.createUserAccount(new UserAccountRequest("Testias Testlaz"));
         assertThat(testiasTestlalz.getId()).isNotNull();
+        assertThat(userAccountController.getUserAccount(testiasTestlalz.getId())).isEqualTo(userAccountController.searchUser("Testias Testlalz", 0).stream().iterator().next());
+        return testiasTestlalz;
+    }
+
+    private UserAccount updateUsername(UserAccount testiasTestlalz) {
         testiasTestlalz = userAccountController.updateUser(new UserAccountRequest("Testias Testlalz"), testiasTestlalz.getId());
         assertThat(testiasTestlalz.getUsername()).isEqualTo("Testias Testlalz");
-        assertThat(userAccountController.getUserAccount(testiasTestlalz.getId())).isEqualTo(userAccountController.searchUser("Testias Testlalz").stream().iterator().next());
+        return testiasTestlalz;
+    }
+
+    private UserAccount createNewUserAndFollow(UserAccount testiasTestlalz) {
         UserAccount contentCreator = userAccountController.createUserAccount(new UserAccountRequest("ContentCreator"));
-        testiasTestlalz=userAccountController.followUser(contentCreator.getUsername(), testiasTestlalz.getId());
+        testiasTestlalz = userAccountController.followUser(contentCreator.getUsername(), testiasTestlalz.getId());
         assertThat(testiasTestlalz.getFollowing()).hasSize(1);
+        return contentCreator;
+    }
+
+    private void countFollowers(UserAccount contentCreator) {
         UserAccount contentCreatorLover = userAccountController.createUserAccount(new UserAccountRequest("ContentCreatorLover"));
         userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId());
         userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId());
