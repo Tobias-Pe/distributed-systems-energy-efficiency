@@ -4,11 +4,12 @@ services:
   userservice-db:
     image: postgres:16
     environment:
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_DB=userdatabase
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
     labels:
       - kompose.service.type=loadbalancer
+      - org.springframework.boot.ignore=true
     ports:
       - "5432:5432"
 
