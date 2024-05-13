@@ -18,6 +18,7 @@ spring:
     compose:
       enabled: true
       file: docker/infrastructure-compose.yml
+      lifecycle-management: start-only
 
 server:
   port: 8080

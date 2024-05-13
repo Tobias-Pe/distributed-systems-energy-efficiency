@@ -8,10 +8,11 @@ spring:
     compose:
       enabled: true
       file: docker/infrastructure-compose.yml
+      lifecycle-management: start-only
   datasource:
     username: myuser
     password: mypassword
-    url: ${POSTGRES_URI:jdbc:postgresql://localhost:5432/}mydatabase
+    url: ${POSTGRES_URI:jdbc:postgresql://localhost:5432/}userdatabase
 
   jpa:
     hibernate:
