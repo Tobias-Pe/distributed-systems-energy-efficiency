@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: postservice
+  output:
+    ansi:
+      enabled: ALWAYS
+  docker:
+    compose:
+      enabled: true
+      file: docker/infrastructure-compose.yml
+      lifecycle-management: start-only
+  datasource:
+    username: myuser
+    password: mypassword
+    url: ${POSTGRES_URI:jdbc:postgresql://localhost:5433/}postdatabase
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+server:
+  forward-headers-strategy: framework
+  port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URI:http://localhost:9411/}api/v2/spans
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+

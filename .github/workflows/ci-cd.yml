@@ -74,6 +74,7 @@ jobs:
           - gateway
           - servicediscovery
           - userservice
+          - postservice
 
     steps:
       - name: Checkout repository

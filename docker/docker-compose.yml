@@ -16,6 +16,20 @@ services:
     healthcheck:
       test: ["CMD", "/cnb/process/health-check"]
 
+  postservice:
+    image: ghcr.io/tobias-pe/microservices_energyefficiency/postservice:latest
+    environment:
+      - EUREKA_URI=http://servicediscovery:8761/eureka
+      - ZIPKIN_URI=http://zipkin:9411/
+      - POSTGRES_URI=jdbc:postgresql://postservice-db:5432/
+      - THC_PATH=/actuator/health
+      - THC_PORT=8082
+    deploy:
+      mode: replicated
+      replicas: 2
+    healthcheck:
+      test: ["CMD", "/cnb/process/health-check"]
+
   gateway:
     image: ghcr.io/tobias-pe/microservices_energyefficiency/gateway:latest
     ports:

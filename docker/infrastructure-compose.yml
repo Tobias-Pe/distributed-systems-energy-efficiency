@@ -12,6 +12,18 @@ services:
     ports:
       - "5432:5432"
 
+  postservice-db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=postdatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+    labels:
+      - kompose.service.type=loadbalancer
+      - org.springframework.boot.ignore=true
+    ports:
+      - "5433:5432"
+
   rabbitmq:
     image: rabbitmq:3.13-management
     container_name: rabbitmq

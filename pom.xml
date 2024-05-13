@@ -21,6 +21,7 @@
     <modules>
         <module>servicediscovery</module>
         <module>userservice</module>
+        <module>postservice</module>
         <module>gateway</module>
     </modules>
 
