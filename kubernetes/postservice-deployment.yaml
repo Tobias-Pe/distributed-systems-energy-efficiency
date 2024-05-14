@@ -26,7 +26,7 @@ spec:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
             - name: POSTGRES_URI
-              value: jdbc:postgresql://postservice-db:5433/
+              value: jdbc:postgresql://postservice-db:5432/
             - name: THC_PATH
               value: /actuator/health
             - name: THC_PORT
