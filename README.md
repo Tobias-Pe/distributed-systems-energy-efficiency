@@ -1,4 +1,4 @@
-# Error Handling in a Microservice Architecture
+# Optimization of Energy Efficiency in Distributed Systems 
 
 [![MIT License](https://img.shields.io/github/license/Tobias-Pe/microservices_energyefficiency)](https://github.com/Tobias-Pe/microservices-error-handling/blob/main/LICENSE)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.dev)
@@ -33,7 +33,7 @@ Requirements:
  - https://kompose.io/installation/
  - MicroK8s
  - https://github.com/prometheus-operator/kube-prometheus for Kubernetes Metrics
- - https://github.com/sustainable-computing-io/kepler eBPF energy metrics exporter for Pods & Nodes
+ - https://sustainable-computing.io/installation/strategy eBPF energy metrics exporter for Pods & Nodes
 
 TBD
 
