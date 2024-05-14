@@ -20,6 +20,5 @@ public class Category {
     private String name;
 
     @ManyToMany
-    @JoinColumn(name="post_id", nullable=false)
     private Set<Post> posts = new HashSet<>();
 }
