@@ -7,13 +7,13 @@ metadata:
     kompose.version: 1.32.0 (765fde254)
     org.springframework.boot.ignore: "true"
   labels:
-    io.kompose.service: userservice-db
-  name: userservice-db
+    io.kompose.service: postservice-db
+  name: postservice-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: userservice-db
+      io.kompose.service: postservice-db
   template:
     metadata:
       annotations:
@@ -23,20 +23,20 @@ spec:
         org.springframework.boot.ignore: "true"
       labels:
         io.kompose.network/docker-default: "true"
-        io.kompose.service: userservice-db
+        io.kompose.service: postservice-db
     spec:
       containers:
         - env:
             - name: POSTGRES_DB
-              value: userdatabase
+              value: postdatabase
             - name: POSTGRES_PASSWORD
               value: mypassword
             - name: POSTGRES_USER
               value: myuser
           image: postgres:16
-          name: userservice-db
+          name: postservice-db
           ports:
             - containerPort: 5432
-              hostPort: 5432
+              hostPort: 5433
               protocol: TCP
       restartPolicy: Always

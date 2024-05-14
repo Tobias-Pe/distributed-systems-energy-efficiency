@@ -7,13 +7,13 @@ metadata:
     kompose.version: 1.32.0 (765fde254)
     org.springframework.boot.ignore: "true"
   labels:
-    io.kompose.service: userservice-db-tcp
-  name: userservice-db
+    io.kompose.service: postservice-db-tcp
+  name: postservice-db
 spec:
   ports:
-    - name: "5432"
-      port: 5432
+    - name: "5433"
+      port: 5433
       targetPort: 5432
   selector:
-    io.kompose.service: userservice-db
+    io.kompose.service: postservice-db
   type: LoadBalancer
