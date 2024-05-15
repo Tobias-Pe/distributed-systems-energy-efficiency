@@ -1,9 +1,6 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
-import edu.hm.peslalz.thesis.postservice.entity.Comment;
-import edu.hm.peslalz.thesis.postservice.entity.CommentRequest;
-import edu.hm.peslalz.thesis.postservice.entity.Post;
-import edu.hm.peslalz.thesis.postservice.entity.PostRequest;
+import edu.hm.peslalz.thesis.postservice.entity.*;
 import edu.hm.peslalz.thesis.postservice.repository.CatergoryRepository;
 import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
@@ -51,7 +48,7 @@ public class PostService {
 
     public Post likePost(int id) {
         Post post = getPostById(id);
-        post.setLikes(post.getLikes()+1);
+        post.setLikes(post.getLikes() + 1);
         return savePost(post);
     }
 
@@ -63,5 +60,12 @@ public class PostService {
 
     public Set<Post> getPostsByCatergory(String catergory) {
         return postRepository.findByCategories_NameLike(catergory);
+    }
+
+    public Comment likeComment(int id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        comment.setLikes(comment.getLikes() + 1);
+        commentRepository.save(comment);
+        return comment;
     }
 }

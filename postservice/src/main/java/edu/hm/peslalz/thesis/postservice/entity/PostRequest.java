@@ -15,5 +15,5 @@ public class PostRequest {
 
     private String text;
 
-    private Set<Category> categories = new HashSet<>();
+    private Set<String> categories = new HashSet<>();
 }
