@@ -14,6 +14,12 @@ spring:
             - Path=/userservice/**
           filters:
             - RewritePath=/userservice/?(?<segment>.*), /$\{segment}
+        - id: postservice
+          uri: lb://POSTSERVICE:8081/
+          predicates:
+            - Path=/postservice/**
+          filters:
+            - RewritePath=/postservice/?(?<segment>.*), /$\{segment}
   docker:
     compose:
       enabled: true
