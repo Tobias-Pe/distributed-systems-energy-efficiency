@@ -1,5 +1,7 @@
 package edu.hm.peslalz.thesis.postservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +11,15 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter
 @RequiredArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,12 +39,12 @@ public class Post {
     @OneToMany
     private Set<Comment> comments= new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE}, mappedBy = "posts")
     private Set<Category> categories = new HashSet<>();
 
     public Post(PostRequest postRequest) {
         this.userId = postRequest.getUserId();
         this.text = postRequest.getText();
-        this.categories = postRequest.getCategories();
+        this.categories = postRequest.getCategories().stream().map(Category::new).collect(Collectors.toSet());
     }
 }
