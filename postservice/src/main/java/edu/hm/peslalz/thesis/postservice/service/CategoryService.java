@@ -1,20 +1,20 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
 import edu.hm.peslalz.thesis.postservice.entity.*;
-import edu.hm.peslalz.thesis.postservice.repository.CatergoryRepository;
+import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CategoryService {
-    CatergoryRepository catergoryRepository;
+    CategoryRepository categoryRepository;
 
-    public CategoryService(CatergoryRepository catergoryRepository) {
-        this.catergoryRepository = catergoryRepository;
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Category> getCategories() {
-        return catergoryRepository.findAll();
+        return categoryRepository.findAll();
     }
 }
