@@ -39,7 +39,7 @@ public class Post {
     @OneToMany
     private Set<Comment> comments= new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, mappedBy = "posts")
+    @ManyToMany
     private Set<Category> categories = new HashSet<>();
 
     public Post(PostRequest postRequest) {

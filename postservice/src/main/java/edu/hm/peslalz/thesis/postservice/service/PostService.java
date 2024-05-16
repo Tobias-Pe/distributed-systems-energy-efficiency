@@ -1,7 +1,7 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
 import edu.hm.peslalz.thesis.postservice.entity.*;
-import edu.hm.peslalz.thesis.postservice.repository.CatergoryRepository;
+import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
 import org.hibernate.exception.ConstraintViolationException;
@@ -15,18 +15,19 @@ import java.util.Set;
 @Service
 public class PostService {
     PostRepository postRepository;
-    CatergoryRepository catergoryRepository;
+    CategoryRepository categoryRepository;
     CommentRepository commentRepository;
 
     @Autowired
-    public PostService(PostRepository postRepository, CatergoryRepository catergoryRepository, CommentRepository commentRepository) {
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository) {
         this.postRepository = postRepository;
-        this.catergoryRepository = catergoryRepository;
+        this.categoryRepository = categoryRepository;
         this.commentRepository = commentRepository;
     }
 
     Post savePost(Post post) {
         try {
+            categoryRepository.saveAll(post.getCategories());
             post = postRepository.save(post);
         } catch (RuntimeException ex) {
             if (ex.getCause() instanceof ConstraintViolationException) {
@@ -54,7 +55,8 @@ public class PostService {
 
     public Post commentPost(int id, CommentRequest commentRequest) {
         Post post = getPostById(id);
-        post.getComments().add(new Comment(commentRequest));
+        Comment comment = new Comment(commentRequest);
+        post.getComments().add(comment);
         return savePost(post);
     }
 
