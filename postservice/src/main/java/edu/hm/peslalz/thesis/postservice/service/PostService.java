@@ -61,7 +61,7 @@ public class PostService {
     }
 
     public Set<Post> getPostsByCatergory(String catergory) {
-        return postRepository.findByCategories_NameLike(catergory);
+        return categoryRepository.findById(catergory).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)).getPosts();
     }
 
     public Comment likeComment(int id) {
