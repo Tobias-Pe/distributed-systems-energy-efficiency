@@ -36,7 +36,7 @@ public class Post {
     @Column(name = "likes", nullable = false)
     private Integer likes = 0;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Comment> comments= new HashSet<>();
 
     @ManyToMany
