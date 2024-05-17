@@ -45,8 +45,5 @@ public class PostController {
         return postService.commentPost(id, commentRequest);
     }
 
-    @PostMapping("/{post_id}/comments/{comment_id}/like")
-    public Comment commentPost(@PathVariable int postId, @PathVariable(name = "comment_id") int commentId) {
-        return postService.likeComment(commentId);
-    }
+
 }
