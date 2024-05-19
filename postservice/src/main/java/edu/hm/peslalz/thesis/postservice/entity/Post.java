@@ -1,7 +1,6 @@
 package edu.hm.peslalz.thesis.postservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +16,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -37,9 +33,10 @@ public class Post {
     private Integer likes = 0;
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    private Set<Comment> comments= new HashSet<>();
+    private Set<Comment> comments = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties("posts")
     private Set<Category> categories = new HashSet<>();
 
     public Post(PostRequest postRequest) {
@@ -47,4 +44,7 @@ public class Post {
         this.text = postRequest.getText();
         this.categories = postRequest.getCategories().stream().map(Category::new).collect(Collectors.toSet());
     }
+
+    @Version
+    Integer version;
 }

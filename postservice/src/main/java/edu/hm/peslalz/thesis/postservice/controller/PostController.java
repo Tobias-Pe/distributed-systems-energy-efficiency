@@ -35,7 +35,7 @@ public class PostController {
     @Operation(description = "Get all posts from a category")
     @GetMapping
     public Set<Post> getPostsByCategory(@RequestParam String category) {
-        return postService.getPostsByCatergory(category);
+        return postService.getPostsByCategory(category);
     }
 
     @Operation(description = "Like a post")
@@ -49,6 +49,4 @@ public class PostController {
     public Post commentPost(@PathVariable int id, @RequestBody CommentRequest commentRequest) {
         return postService.commentPost(id, commentRequest);
     }
-
-
 }
