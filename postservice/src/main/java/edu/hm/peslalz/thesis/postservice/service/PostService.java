@@ -1,17 +1,24 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
-import edu.hm.peslalz.thesis.postservice.entity.*;
+import edu.hm.peslalz.thesis.postservice.entity.Comment;
+import edu.hm.peslalz.thesis.postservice.entity.CommentRequest;
+import edu.hm.peslalz.thesis.postservice.entity.Post;
+import edu.hm.peslalz.thesis.postservice.entity.PostRequest;
 import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
-import org.hibernate.exception.ConstraintViolationException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 
+@EnableRetry
 @Service
 public class PostService {
     PostRepository postRepository;
@@ -26,17 +33,7 @@ public class PostService {
     }
 
     Post savePost(Post post) {
-        try {
-            categoryRepository.saveAll(post.getCategories());
-            post = postRepository.save(post);
-        } catch (RuntimeException ex) {
-            if (ex.getCause() instanceof ConstraintViolationException) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT);
-            } else {
-                throw ex;
-            }
-        }
-        return post;
+        return postRepository.save(post);
     }
 
     public Post getPostById(int id) {
@@ -44,28 +41,53 @@ public class PostService {
     }
 
     public Post createPost(PostRequest postRequest) {
-        return savePost(new Post(postRequest));
+        Post post = new Post(postRequest);
+        categoryRepository.saveAll(post.getCategories());
+        return savePost(post);
     }
 
+    @Transactional
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 5,
+            backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
+    )
     public Post likePost(int id) {
-        Post post = getPostById(id);
+        Post post = lockAndGetPost(id);
         post.setLikes(post.getLikes() + 1);
         return savePost(post);
     }
 
+    private Post lockAndGetPost(int id) {
+        return postRepository.lockAndFindById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @Transactional
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 5,
+            backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
+    )
     public Post commentPost(int id, CommentRequest commentRequest) {
-        Post post = getPostById(id);
+        Post post = lockAndGetPost(id);
         Comment comment = new Comment(commentRequest);
+        commentRepository.save(comment);
         post.getComments().add(comment);
         return savePost(post);
     }
 
-    public Set<Post> getPostsByCatergory(String catergory) {
-        return categoryRepository.findById(catergory).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)).getPosts();
+    public Set<Post> getPostsByCategory(String category) {
+        return categoryRepository.findById(category).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)).getPosts();
     }
 
+    @Transactional
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 5,
+            backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
+    )
     public Comment likeComment(int id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Comment comment = commentRepository.lockAndFindById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         comment.setLikes(comment.getLikes() + 1);
         commentRepository.save(comment);
         return comment;

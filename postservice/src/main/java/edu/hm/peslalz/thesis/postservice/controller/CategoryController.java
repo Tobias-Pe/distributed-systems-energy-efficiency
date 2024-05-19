@@ -20,7 +20,7 @@ public class CategoryController {
 
     @Operation(description = "Get all categories")
     @GetMapping
-    Page<Category> getCategories(@RequestParam(defaultValue = "0") int page) {
+    public Page<Category> getCategories(@RequestParam(defaultValue = "0") int page) {
         return categoryService.getCategories(page);
     }
 }

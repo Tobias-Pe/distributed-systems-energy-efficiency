@@ -1,6 +1,6 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
-import edu.hm.peslalz.thesis.postservice.entity.*;
+import edu.hm.peslalz.thesis.postservice.entity.Category;
 import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

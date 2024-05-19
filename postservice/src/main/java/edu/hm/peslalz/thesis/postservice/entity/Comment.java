@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.Objects;
+
 @Entity
 @Getter
 @Setter
@@ -31,4 +33,25 @@ public class Comment {
         this.text = commentRequest.getText();
         this.userId = commentRequest.getUserId();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+        return Objects.equals(getId(), comment.getId()) && getUserId().equals(comment.getUserId()) && getText().equals(comment.getText()) && getLikes().equals(comment.getLikes());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(getId());
+        result = 31 * result + getUserId().hashCode();
+        result = 31 * result + getText().hashCode();
+        result = 31 * result + getLikes().hashCode();
+        return result;
+    }
+
+    @Version
+    Integer version;
 }

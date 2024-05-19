@@ -1,9 +1,10 @@
 package edu.hm.peslalz.thesis.postservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,9 +15,6 @@ import java.util.Set;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "name")
 public class Category {
     public Category(String name) {
         this.name = name;
@@ -27,7 +25,7 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    @JsonIgnore
+    @JsonIgnoreProperties("categories")
     private Set<Post> posts;
 
     @Override
