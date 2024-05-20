@@ -1,5 +1,6 @@
 package edu.hm.peslalz.thesis.postservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,6 @@ public class Comment {
     }
 
     @Version
+    @JsonIgnore
     Integer version;
 }
