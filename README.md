@@ -1,6 +1,6 @@
-# Optimization of Energy Efficiency in Distributed Systems 
+# Optimization of Energy Efficiency in Distributed Systems
 
-[![MIT License](https://img.shields.io/github/license/Tobias-Pe/microservices_energyefficiency)](https://github.com/Tobias-Pe/microservices-error-handling/blob/main/LICENSE)
+[![MIT License](https://img.shields.io/github/license/Tobias-Pe/distributed-systems-energy-efficiency)](https://github.com/Tobias-Pe/microservices-error-handling/blob/main/LICENSE)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.dev)
 
 TBD
@@ -29,11 +29,12 @@ TBD
 
 ## Run Locally 🏃
 
-Requirements: 
- - https://kompose.io/installation/
- - MicroK8s
- - https://github.com/prometheus-operator/kube-prometheus for Kubernetes Metrics
- - https://sustainable-computing.io/installation/strategy eBPF energy metrics exporter for Pods & Nodes
+Requirements:
+
+- https://kompose.io/installation/
+- MicroK8s
+- https://github.com/prometheus-operator/kube-prometheus for Kubernetes Metrics
+- https://sustainable-computing.io/installation/strategy eBPF energy metrics exporter for Pods & Nodes
 
 TBD
 
@@ -43,7 +44,8 @@ TBD
 
 ## Known Issues 🦺
 
-- If the prometheus service from prometheus-operator/kube-prometheus can't be scraped by the grafana instance --> Adjust the networkpolicies
+- If the prometheus service from prometheus-operator/kube-prometheus can't be scraped by the grafana instance --> Adjust
+  the networkpolicies
 
 TBD
 

@@ -11,12 +11,12 @@
     </parent>
 
     <groupId>edu.hm.peslalz.thesis</groupId>
-    <artifactId>microservices_energyefficiency</artifactId>
+    <artifactId>distributed-systems-energy-efficiency</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>microservices_energyefficiency</name>
-    <description>microservices_energyefficiency</description>
+    <name>distributed-systems-energy-efficiency</name>
+    <description>distributed-systems-energy-efficiency</description>
 
     <modules>
         <module>servicediscovery</module>
