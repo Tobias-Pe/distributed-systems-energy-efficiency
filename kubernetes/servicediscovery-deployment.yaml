@@ -31,7 +31,7 @@ spec:
               value: "8761"
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/microservices_energyefficiency/servicediscovery:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:latest
           livenessProbe:
             exec:
               command:
