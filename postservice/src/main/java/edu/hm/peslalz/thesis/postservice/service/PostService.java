@@ -1,9 +1,6 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
-import edu.hm.peslalz.thesis.postservice.entity.Comment;
-import edu.hm.peslalz.thesis.postservice.entity.CommentRequest;
-import edu.hm.peslalz.thesis.postservice.entity.Post;
-import edu.hm.peslalz.thesis.postservice.entity.PostRequest;
+import edu.hm.peslalz.thesis.postservice.entity.*;
 import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
@@ -14,6 +11,7 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
@@ -40,8 +38,16 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Post createPost(PostRequest postRequest) {
-        Post post = new Post(postRequest);
+    public Set<Post> getPostsByCategory(String category) {
+        return categoryRepository.findById(category).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)).getPosts();
+    }
+
+    public ImageData getPostImage(int id) {
+        return postRepository.findByIdJoinImage(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)).getImageData();
+    }
+
+    public Post createPost(PostRequest postRequest, MultipartFile multipartFile) {
+        Post post = new Post(postRequest, multipartFile);
         categoryRepository.saveAll(post.getCategories());
         return savePost(post);
     }
@@ -74,10 +80,6 @@ public class PostService {
         commentRepository.save(comment);
         post.getComments().add(comment);
         return savePost(post);
-    }
-
-    public Set<Post> getPostsByCategory(String category) {
-        return categoryRepository.findById(category).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)).getPosts();
     }
 
     @Transactional
