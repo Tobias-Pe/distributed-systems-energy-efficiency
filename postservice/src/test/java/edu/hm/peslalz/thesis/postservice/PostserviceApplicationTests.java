@@ -1,13 +1,19 @@
 package edu.hm.peslalz.thesis.postservice;
 
+import edu.hm.peslalz.thesis.postservice.client.UserClient;
 import edu.hm.peslalz.thesis.postservice.controller.CategoryController;
 import edu.hm.peslalz.thesis.postservice.controller.CommentController;
 import edu.hm.peslalz.thesis.postservice.controller.PostController;
 import edu.hm.peslalz.thesis.postservice.entity.*;
+import feign.FeignException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,8 +40,12 @@ class PostserviceApplicationTests {
     @Autowired
     private CommentController commentController;
 
+    @MockBean
+    private UserClient userClient;
+
     @Test
     void scenario() throws IOException {
+        Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenReturn(ResponseEntity.ok().build());
         File file = ResourceUtils.getFile("classpath:ExampleImage.png");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
         Post postFirst = postController.createPost(new PostRequest(1, "MyFirstPost", Set.of("beginnings", "blog")), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes));
@@ -58,6 +68,13 @@ class PostserviceApplicationTests {
         Assertions.assertThat(categories).hasSize(3);
         Set<Post> blogPosts = categories.stream().filter(category -> "blog".equals(category.getName())).findFirst().get().getPosts();
         Assertions.assertThat(blogPosts).hasSize(2);
+    }
+
+    @Test
+    void scenarioUserNotFound() {
+        Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenThrow(FeignException.class);
+        PostRequest postRequest = new PostRequest(1, null, null);
+        assertThrows(ResponseStatusException.class, () -> postController.createPost(postRequest, null));
     }
 
     @Test
