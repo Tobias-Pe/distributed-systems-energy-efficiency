@@ -52,7 +52,7 @@ services:
       - "9411:9411"
 
   grafana:
-    image: ghcr.io/tobias-pe/microservices_energyefficiency/grafana:latest
+    image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/grafana:latest
     build:
       dockerfile: docker/grafana/Dockerfile
       context: ..
@@ -69,7 +69,7 @@ services:
       - 'grafana_data:/var/lib/grafana'
 
   prometheus:
-    image: ghcr.io/tobias-pe/microservices_energyefficiency/prometheus:latest
+    image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/prometheus:latest
     build:
       dockerfile: docker/prometheus/Dockerfile
       context: ..
@@ -88,7 +88,7 @@ services:
       - "9090:9090"
 
   snmp-exporter:
-    image: ghcr.io/tobias-pe/microservices_energyefficiency/snmp-exporter:latest
+    image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/snmp-exporter:latest
     build:
       dockerfile: docker/snmp-exporter/Dockerfile
       context: ..
@@ -99,6 +99,6 @@ services:
       - "9116:9116"
 
 volumes:
-  mysql_data: {  }
-  prometheus_data: {  }
-  grafana_data: {  }
+  mysql_data: { }
+  prometheus_data: { }
+  grafana_data: { }
