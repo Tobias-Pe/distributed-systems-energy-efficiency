@@ -1,9 +1,11 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
+import edu.hm.peslalz.thesis.postservice.client.UserClient;
 import edu.hm.peslalz.thesis.postservice.entity.*;
 import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
+import feign.FeignException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +24,14 @@ public class PostService {
     PostRepository postRepository;
     CategoryRepository categoryRepository;
     CommentRepository commentRepository;
+    UserClient userClient;
 
     @Autowired
-    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository) {
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.commentRepository = commentRepository;
+        this.userClient = userClient;
     }
 
     Post savePost(Post post) {
@@ -47,9 +51,18 @@ public class PostService {
     }
 
     public Post createPost(PostRequest postRequest, MultipartFile multipartFile) {
+        checkUserExists(postRequest.getUserId());
         Post post = new Post(postRequest, multipartFile);
         categoryRepository.saveAll(post.getCategories());
         return savePost(post);
+    }
+
+    void checkUserExists(Integer userId) {
+        try {
+            userClient.getUserAccount(userId);
+        } catch (FeignException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist", e);
+        }
     }
 
     @Transactional
@@ -75,6 +88,7 @@ public class PostService {
             backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
     )
     public Post commentPost(int id, CommentRequest commentRequest) {
+        checkUserExists(commentRequest.getUserId());
         Post post = lockAndGetPost(id);
         Comment comment = new Comment(commentRequest);
         commentRepository.save(comment);
