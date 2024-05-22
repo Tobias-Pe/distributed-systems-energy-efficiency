@@ -13,11 +13,13 @@ spring:
     username: myuser
     password: mypassword
     url: ${POSTGRES_URI:jdbc:postgresql://localhost:5433/}postdatabase
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
 
 server:
   forward-headers-strategy: framework

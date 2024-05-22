@@ -7,6 +7,8 @@ import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
 import feign.FeignException;
 import jakarta.transaction.Transactional;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.retry.annotation.Backoff;
@@ -24,14 +26,19 @@ public class PostService {
     PostRepository postRepository;
     CategoryRepository categoryRepository;
     CommentRepository commentRepository;
+
     UserClient userClient;
+    private final RabbitTemplate template;
+    private final Queue notificationsQueue;
 
     @Autowired
-    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient) {
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient, RabbitTemplate template, Queue notificationsQueue) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.commentRepository = commentRepository;
         this.userClient = userClient;
+        this.template = template;
+        this.notificationsQueue = notificationsQueue;
     }
 
     Post savePost(Post post) {
@@ -54,7 +61,9 @@ public class PostService {
         checkUserExists(postRequest.getUserId());
         Post post = new Post(postRequest, multipartFile);
         categoryRepository.saveAll(post.getCategories());
-        return savePost(post);
+        post = savePost(post);
+        this.template.convertAndSend(notificationsQueue.getName(), new PostMessage(post));
+        return post;
     }
 
     void checkUserExists(Integer userId) {
