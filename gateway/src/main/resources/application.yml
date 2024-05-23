@@ -20,13 +20,18 @@ spring:
             - Path=/postservice/**
           filters:
             - RewritePath=/postservice/?(?<segment>.*), /$\{segment}
+        - id: notificationservice
+          uri: lb://NOTIFICATIONSERVICE:8083/
+          predicates:
+            - Path=/notificationservice/**
+          filters:
+            - RewritePath=/notificationservice/?(?<segment>.*), /$\{segment}
   docker:
     compose:
       enabled: true
       file: docker/infrastructure-compose.yml
       lifecycle-management: start-only
 
-server:
   port: 8080
 
 management:
