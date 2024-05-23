@@ -15,7 +15,7 @@ spring:
           filters:
             - RewritePath=/userservice/?(?<segment>.*), /$\{segment}
         - id: postservice
-          uri: lb://POSTSERVICE:8081/
+          uri: lb://POSTSERVICE:8082/
           predicates:
             - Path=/postservice/**
           filters:
