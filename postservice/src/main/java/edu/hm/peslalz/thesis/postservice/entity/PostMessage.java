@@ -1,5 +1,6 @@
 package edu.hm.peslalz.thesis.postservice.entity;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter
 @RequiredArgsConstructor
 public class PostMessage implements Serializable {
     private Integer id;

@@ -1,5 +1,7 @@
 package edu.hm.peslalz.thesis.postservice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.peslalz.thesis.postservice.client.UserClient;
 import edu.hm.peslalz.thesis.postservice.entity.*;
 import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
@@ -62,7 +64,15 @@ public class PostService {
         Post post = new Post(postRequest, multipartFile);
         categoryRepository.saveAll(post.getCategories());
         post = savePost(post);
-        this.template.convertAndSend(notificationsQueue.getName(), new PostMessage(post));
+        ObjectMapper mapper = new ObjectMapper();
+        String message;
+        try {
+            message = mapper.writeValueAsString(new PostMessage(post));
+        } catch (JsonProcessingException e) {
+            postRepository.delete(post);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Could not process request to json",e);
+        }
+        this.template.convertAndSend(notificationsQueue.getName(), message);
         return post;
     }
 
