@@ -40,6 +40,8 @@ public class PostService {
         this.commentRepository = commentRepository;
         this.userClient = userClient;
         this.template = template;
+        // enable tracing for rabbitmq template
+        this.template.setObservationEnabled(true);
         this.notificationsQueue = notificationsQueue;
     }
 
