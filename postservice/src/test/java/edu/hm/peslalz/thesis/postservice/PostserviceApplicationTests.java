@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,6 +28,10 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 class PostserviceApplicationTests {
@@ -43,12 +48,16 @@ class PostserviceApplicationTests {
     @MockBean
     private UserClient userClient;
 
+    @MockBean
+    private RabbitTemplate rabbitTemplate;
+
     @Test
     void scenario() throws IOException {
         Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenReturn(ResponseEntity.ok().build());
         File file = ResourceUtils.getFile("classpath:ExampleImage.png");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
         Post postFirst = postController.createPost(new PostRequest(1, "MyFirstPost", Set.of("beginnings", "blog")), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes));
+        verify(rabbitTemplate, times(1)).convertAndSend(eq("notifications"), any(String.class));
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Assertions.assertThat(Objects.requireNonNull(postController.getPostImage(postFirst.getId()).getBody()).getContentAsByteArray()).isEqualTo(imageBytes);
         postController.likePost(postFirst.getId());
