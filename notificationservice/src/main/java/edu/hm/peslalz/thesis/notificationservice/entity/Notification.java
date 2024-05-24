@@ -22,13 +22,16 @@ public class Notification {
     private Integer postId;
 
     @Column(nullable = false)
-    private Integer userId;
+    private Integer postingUsersId;
 
     @Column(nullable = false)
-    private boolean wasSent = false;
+    private Integer notifiedUsersId;
+
+    @Column(nullable = false)
+    private boolean wasRead = false;
 
     public Notification(PostMessage postMessage) {
         this.postId = postMessage.getId();
-        this.userId = postMessage.getUserId();
+        this.postingUsersId = postMessage.getUserId();
     }
 }

@@ -8,8 +8,10 @@ import edu.hm.peslalz.thesis.notificationservice.repository.NotificationReposito
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -18,6 +20,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -35,12 +39,38 @@ public class NotificationService {
         this.userClient = userClient;
     }
 
+    public Set<Notification> getUsersNotifications(Integer userId) {
+        return notificationRepository.findAllByNotifiedUsersId(userId);
+    }
+
+    public Long countNotificationOfUser(Integer userId, Boolean wasRead) {
+        if (wasRead != null) {
+            return notificationRepository.countByAndNotifiedUsersIdIsAndWasReadIs(userId, wasRead);
+        }
+        return notificationRepository.countByAndNotifiedUsersIdIs(userId);
+    }
+
+    public Notification setReadStatus(Integer notificationId, boolean wasRead) {
+        Optional<Notification> notification = notificationRepository.findById(notificationId);
+        if (!notification.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Notification with id %s not found", notificationId));
+        }
+        notification.get().setWasRead(wasRead);
+        return notificationRepository.save(notification.get());
+    }
+
+    public Notification createNotification(Notification notification) {
+        return notificationRepository.save(notification);
+    }
+
     public void notifySubscriber(PostMessage postMessage) {
-        Notification notification = new Notification(postMessage);
-        ResponseEntity<List<UserMessage>> responseEntity = userClient.getUserFollowers(notification.getUserId());
+        ResponseEntity<List<UserMessage>> responseEntity = userClient.getUserFollowers(postMessage.getUserId());
         List<UserMessage> followers = responseEntity.getBody();
         for (UserMessage follower : followers) {
             simulateEmailSending(follower, String.valueOf(postMessage.getId()));
+            Notification notification = new Notification(postMessage);
+            notification.setNotifiedUsersId(follower.getId());
+            createNotification(notification);
         }
     }
 
