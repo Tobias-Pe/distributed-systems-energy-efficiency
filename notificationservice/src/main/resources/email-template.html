@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            color: #333; /* Darker text for better readability */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: #555;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        a { /* Styles for the anchors that are not buttons */
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        a:hover, .btn:hover { /* Hover effect for links and buttons */
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<div class="container">
+    <h2>Hello {{username}},</h2>
+    <p>We have brewed a fresh post just for you, and it's steeping with insights! ☕</p>
+    <p>Quick! <a href="http://localhost:8080/postservice/posts/{{postId}}" target="_blank">Click this link to the newest
+        post from your favorite artist</a> before it cools down 🚀</p>
+    <img src="http://localhost:8080/postservice/posts/{{postId}}/image" alt="Post Image" style="max-width:100%; height:auto;">
+    <p>But don't just sip on the knowledge, gulp it down and feel the warmth of newfound understanding spread through
+        your brain!</p>
+    <p>Keep on percolating greatness, and stay caffeinated with our latest posts.</p>
+
+    <!-- Like Button -->
+    <button onclick="likePost()" class="btn">Like this Post</button>
+
+    <!-- Comment Field and Button -->
+    <textarea id="commentText" placeholder="Write your comment here"></textarea>
+    <button onclick="leaveComment()" class="btn">Leave a Comment</button>
+
+    <div class="footer">
+        Cheers to a brew-tiful day,<br>
+        The Java Beans at YourFavoriteBlog
+    </div>
+</div>
+
+<script>
+    function likePost() {
+        fetch('http://localhost:8080/postservice/posts/{{postId}}/like', {
+            method: 'POST',
+            mode: 'no-cors' // No body needed for like operations (assuming this is the case)
+        }).then(response => {
+            alert("Post liked!"); // This returns a promise
+        });
+    }
+
+    function leaveComment() {
+        const commentText = document.getElementById('commentText').value;
+        const commentData = {
+            userId: {{userId}}, // Set the user ID according to your requirements
+            text: commentText // Use the comment text from the textarea
+        };
+
+        if (!commentText) {
+            alert('Please enter a comment.');
+            return;
+        }
+
+        fetch('http://localhost:8080/postservice/posts/{{postId}}/comments', {
+            method: 'POST',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify(commentData)
+        })
+            .then(response => {
+                alert("Comment submitted!"); // Currently can't access the server's actual response due to 'no-cors'
+            })
+            .catch(error => console.error("An error occurred:", error));
+    }
+</script>

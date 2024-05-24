@@ -1,4 +1,4 @@
-package edu.hm.peslalz.thesis.notificationservice.client;
+package edu.hm.peslalz.thesis.notificationservice.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 @Log4j2
 public class PostReceiverService {
+
+    NotificationService notificationService;
+
+    public PostReceiverService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     // enable tracing for rabbitmq listener
     @Bean
     ContainerCustomizer<SimpleMessageListenerContainer> containerCustomizer() {
@@ -24,5 +31,6 @@ public class PostReceiverService {
         ObjectMapper mapper = new ObjectMapper();
         PostMessage postMessage = mapper.readValue(post, PostMessage.class);
         log.info("received {}", postMessage);
+        notificationService.notifySubscriber(postMessage);
     }
 }
