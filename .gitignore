@@ -1,3 +1,10 @@
+# application specific
+
+/loadtesting/.idea/workspace.xml
+notificationservice/inbox/**
+
+# End of application specific
+
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,macos,visualstudiocode,jetbrains+all,intellij+all,java,maven,jetbrains+iml
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,macos,visualstudiocode,jetbrains+all,intellij+all,java,maven,jetbrains+iml
 
@@ -340,4 +347,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,visualstudiocode,jetbrains+all,intellij+all,java,maven,jetbrains+iml
-/loadtesting/.idea/workspace.xml
+

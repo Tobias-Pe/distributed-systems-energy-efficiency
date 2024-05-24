@@ -1,7 +1,6 @@
 package edu.hm.peslalz.thesis.userservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +18,6 @@ import java.util.Set;
 @Getter
 @Setter
 @RequiredArgsConstructor
-// prevent infinite loop on following each other
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class UserAccount {
     public UserAccount(UserAccountRequest userAccountRequest) {
         this.username = userAccountRequest.getUsername();
@@ -38,6 +33,7 @@ public class UserAccount {
     private String username;
 
     @ManyToMany
+    @JsonIgnoreProperties("following")
     private Set<UserAccount> following = new HashSet<>();
 
     private Date created = new Date();
