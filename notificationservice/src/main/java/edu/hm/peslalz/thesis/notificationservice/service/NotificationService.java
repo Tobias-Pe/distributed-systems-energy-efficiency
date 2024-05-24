@@ -32,6 +32,7 @@ public class NotificationService {
 
     @Value("classpath:email-template.html")
     Resource templateFile;
+
     public static final String OUTPUT_FOLDERNAME = "notificationservice/inbox/";
 
     public NotificationService(NotificationRepository notificationRepository, UserClient userClient) {
@@ -52,7 +53,7 @@ public class NotificationService {
 
     public Notification setReadStatus(Integer notificationId, boolean wasRead) {
         Optional<Notification> notification = notificationRepository.findById(notificationId);
-        if (!notification.isPresent()) {
+        if (notification.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Notification with id %s not found", notificationId));
         }
         notification.get().setWasRead(wasRead);
@@ -76,6 +77,7 @@ public class NotificationService {
 
     public void simulateEmailSending(UserMessage user, String postId) {
         try {
+
             // Read template content
             String templateContent = templateFile.getContentAsString(Charset.defaultCharset());
 
