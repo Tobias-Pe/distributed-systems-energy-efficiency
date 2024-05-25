@@ -18,6 +18,12 @@ class PostActions(TaskSet):
             print("No users present")
             return
         user_id = random.choice(list(users.keys()))
+        category_parameters, multipart_file, text = self.generate_post_data()
+        self.client.post(f"/postservice/posts?userId={user_id}&text={text}{category_parameters}",
+                         files={"image": multipart_file},
+                         name="/postservice/posts")
+
+    def generate_post_data(self):
         words = fake.words(nb=fake.random_int(1, 6, 1), unique=True)
         category_parameters = ""
         for word in words:
@@ -28,9 +34,7 @@ class PostActions(TaskSet):
             multipart_file = self.create_jpg(width_height_size)
         else:
             multipart_file = self.create_png(width_height_size)
-        self.client.post(f"/postservice/posts?userId={user_id}&text={text}{category_parameters}",
-                         files={"image": multipart_file},
-                         name="/postservice/posts")
+        return category_parameters, multipart_file, text
 
     def create_jpg(self, size):
         image_file = fake.graphic_jpeg_file(raw=True, size=size)
