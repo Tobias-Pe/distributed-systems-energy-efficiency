@@ -1,10 +1,10 @@
 import random
 
 from locust import TaskSet, task
-from common.util import chance, wait_random_duration, users, fake
+from common.util import wait_random_duration, users, fake
 
 
-def handle_user_respone(response):
+def handle_user_response(response):
     if response.status_code >= 500:
         response.failure(response.text)
     elif response.status_code == 201:
@@ -18,7 +18,7 @@ class UserActions(TaskSet):
     def create_user(self):
         with self.client.post("/userservice/users", json={"username": fake.user_name()}, name="/userservice/users",
                               catch_response=True) as response:
-            handle_user_respone(response)
+            handle_user_response(response)
 
     def if_no_user_exists_create(self):
         if len(users) == 0:
@@ -32,15 +32,16 @@ class UserActions(TaskSet):
         with self.client.put(f"/userservice/users/{user_id}", json={"username": fake.user_name()},
                              name="/userservice/users/{id}",
                              catch_response=True) as response:
-            handle_user_respone(response)
+            handle_user_response(response)
 
     @task(8)
     def follow(self):
         self.if_no_user_exists_create()
         follower_id = random.choice(list(users.keys()))
         to_be_subscribed_username = random.choice(list(users.values()))
-        with self.client.put(f"/userservice/users/{follower_id}/follow?toBeFollowedUsername={to_be_subscribed_username}",
-                        name="/userservice/users/{id}/follow", catch_response=True) as response:
+        with self.client.put(
+                f"/userservice/users/{follower_id}/follow?toBeFollowedUsername={to_be_subscribed_username}",
+                name="/userservice/users/{id}/follow", catch_response=True) as response:
             if response.status_code >= 500:
                 response.failure(response.text)
                 return
@@ -78,6 +79,6 @@ class UserActions(TaskSet):
                 response.failure(response.text)
                 return
             response.success()
-            if response.json().get("totalPages") > page and chance(0.5):
+            if response.json().get("totalPages") > page and fake.boolean(50):
                 wait_random_duration(0.5, 5)
                 self.search_user_paginated(query, page + 1)
