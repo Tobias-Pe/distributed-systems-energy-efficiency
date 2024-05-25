@@ -17,6 +17,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+    #show-sql: true
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672

@@ -17,7 +17,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
+    #show-sql: true
 server:
   forward-headers-strategy: framework
   port: 8081
