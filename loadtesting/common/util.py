@@ -1,6 +1,12 @@
 import random
 import time
+from faker import Faker
 
+fake = Faker()
+
+users = {}
+
+posts = {}
 
 def chance(probability):
     if not 0 <= probability <= 1:
