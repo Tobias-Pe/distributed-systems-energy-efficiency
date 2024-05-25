@@ -66,6 +66,7 @@ public class PostService {
         Post post = new Post(postRequest, multipartFile);
         categoryRepository.saveAll(post.getCategories());
         post = savePost(post);
+        // notify notification service about new post
         ObjectMapper mapper = new ObjectMapper();
         String message;
         try {
