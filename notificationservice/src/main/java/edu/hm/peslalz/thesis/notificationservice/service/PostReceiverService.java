@@ -30,7 +30,7 @@ public class PostReceiverService {
     public void receive(String post) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostMessage postMessage = mapper.readValue(post, PostMessage.class);
-        log.info("received {}", postMessage);
+        log.info("received post {} from {}", postMessage.getId(), postMessage.getUserId());
         notificationService.notifySubscriber(postMessage);
     }
 }
