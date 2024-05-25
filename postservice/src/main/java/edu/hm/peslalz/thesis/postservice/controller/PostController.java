@@ -6,6 +6,7 @@ import edu.hm.peslalz.thesis.postservice.entity.Post;
 import edu.hm.peslalz.thesis.postservice.entity.PostRequest;
 import edu.hm.peslalz.thesis.postservice.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("posts")
+@Log4j2
 public class PostController {
     PostService postService;
 
@@ -26,21 +28,24 @@ public class PostController {
     }
 
     @Operation(description = "Create a post")
-    @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public Post createPost(@ModelAttribute PostRequest postRequest, @RequestPart(value = "image", required = false) MultipartFile file) {
+        log.info("Creating a new post by user {}; Image is present: {}", postRequest.getUserId(), file == null);
         return postService.createPost(postRequest, file);
     }
 
     @Operation(description = "Get the information of a post")
     @GetMapping(value = "/{id}")
     public Post getPost(@PathVariable int id) {
+        log.info("Getting post with id {}", id);
         return postService.getPostById(id);
     }
 
     @Operation(description = "Get the information of a post")
     @GetMapping(value = "/{id}/image")
     public ResponseEntity<InputStreamResource> getPostImage(@PathVariable int id) {
+        log.info("Getting image of post with id {}", id);
         ImageData image = postService.getPostImage(id);
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getImageType())).body(new InputStreamResource(new ByteArrayInputStream(image.getImageBytes())));
     }
@@ -48,18 +53,21 @@ public class PostController {
     @Operation(description = "Get all posts from a category")
     @GetMapping
     public Set<Post> getPostsByCategory(@RequestParam String category) {
+        log.info("Getting all posts of category: {}", category);
         return postService.getPostsByCategory(category);
     }
 
     @Operation(description = "Like a post")
     @PostMapping("/{id}/like")
     public Post likePost(@PathVariable int id) {
+        log.info("Liking post with id {}", id);
         return postService.likePost(id);
     }
 
     @Operation(description = "Leave a comment to a post")
     @PostMapping("/{id}/comments")
     public Post commentPost(@PathVariable int id, @RequestBody CommentRequest commentRequest) {
+        log.info("User {} commenting post with id {}", commentRequest.getUserId(), id);
         return postService.commentPost(id, commentRequest);
     }
 }
