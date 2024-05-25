@@ -1,11 +1,7 @@
 import random
 
 from locust import TaskSet, task
-from faker import Faker
-from locustfile import users
-from common.util import chance, wait_random_duration
-
-fake = Faker()
+from common.util import chance, wait_random_duration, users, fake
 
 
 def handle_user_respone(response):
@@ -26,6 +22,7 @@ class UserActions(TaskSet):
 
     def if_no_user_exists_create(self):
         if len(users) == 0:
+            print("No users present, creating one before continuing...")
             self.create_user()
 
     @task
@@ -60,9 +57,10 @@ class UserActions(TaskSet):
     @task(2)
     def search_user(self):
         letters = ''.join(fake.random_letters(fake.random_int(1, 4, 1)))
-        if chance(0.33):
+        choice = random.choice(["start", "end", "both"])
+        if choice == "start":
             letters += "%"
-        elif chance(0.33):
+        elif choice == "end":
             letters = "%" + letters
         else:
             letters = "%" + letters + "%"
@@ -72,7 +70,10 @@ class UserActions(TaskSet):
     def search_user_paginated(self, query, page):
         with self.client.post(f"/userservice/users/search?page={page}&query={query}", name="/userservice/users/search",
                               catch_response=True) as response:
-            if response.json().get("totalPages") > page and chance(0.5):
+            if response.status_code < 400:
                 response.success()
+            else:
+                response.failure(response.text)
+            if response.json().get("totalPages") > page and chance(0.5):
                 wait_random_duration(0.5, 5)
                 self.search_user_paginated(query, page + 1)
