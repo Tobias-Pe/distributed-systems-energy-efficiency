@@ -1,11 +1,10 @@
-import os
 import random
-import time
 
-from locust import TaskSet, task
-from common.util import chance, wait_random_duration, posts, users, fake
-from faker_file.providers.png_file import GraphicPngFileProvider
 from faker_file.providers.jpeg_file import GraphicJpegFileProvider
+from faker_file.providers.png_file import GraphicPngFileProvider
+from locust import TaskSet, task
+
+from common.util import if_no_user_exists_wait, posts, users, fake
 
 fake.add_provider(GraphicPngFileProvider)
 fake.add_provider(GraphicJpegFileProvider)
@@ -15,11 +14,7 @@ class PostActions(TaskSet):
 
     @task
     def create_post(self):
-        # abort if no user is present
-        while len(users) == 0:
-            print("No users present")
-            time.sleep(2)
-            return
+        if_no_user_exists_wait()
 
         user_id = random.choice(list(users.keys()))
         category_parameters, multipart_file, text = self.generate_post_data()
@@ -39,7 +34,7 @@ class PostActions(TaskSet):
             category_parameters += f"&categories={word}"
         text = fake.text(max_nb_chars=500)
         width_height_size = (fake.random_int(200, 8000, 100), fake.random_int(200, 8000, 100))
-        if chance(0.5):
+        if fake.boolean(50):
             multipart_file = self.create_jpg(width_height_size)
         else:
             multipart_file = self.create_png(width_height_size)
