@@ -34,10 +34,10 @@ public class Post {
     @Column(name = "likes", nullable = false)
     private Integer likes = 0;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Comment> comments = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("posts")
     private Set<Category> categories = new HashSet<>();
 
@@ -52,7 +52,7 @@ public class Post {
         this.imageData = new ImageData(image);
     }
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     private ImageData imageData;
 
