@@ -39,8 +39,12 @@ class UserActions(TaskSet):
         self.if_no_user_exists_create()
         follower_id = random.choice(list(users.keys()))
         to_be_subscribed_username = random.choice(list(users.values()))
-        self.client.put(f"/userservice/users/{follower_id}/follow?toBeFollowedUsername={to_be_subscribed_username}",
-                        name="/userservice/users/{id}/follow")
+        with self.client.put(f"/userservice/users/{follower_id}/follow?toBeFollowedUsername={to_be_subscribed_username}",
+                        name="/userservice/users/{id}/follow", catch_response=True) as response:
+            if response.status_code >= 500:
+                response.failure(response.text)
+                return
+            response.success()
 
     @task
     def get_followers(self):
@@ -70,10 +74,10 @@ class UserActions(TaskSet):
     def search_user_paginated(self, query, page):
         with self.client.post(f"/userservice/users/search?page={page}&query={query}", name="/userservice/users/search",
                               catch_response=True) as response:
-            if response.status_code < 400:
-                response.success()
-            else:
+            if response.status_code >= 400:
                 response.failure(response.text)
+                return
+            response.success()
             if response.json().get("totalPages") > page and chance(0.5):
                 wait_random_duration(0.5, 5)
                 self.search_user_paginated(query, page + 1)
