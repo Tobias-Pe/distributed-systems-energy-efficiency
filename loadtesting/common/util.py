@@ -8,6 +8,8 @@ users = {}
 
 posts = {}
 
+categories = []
+
 
 def wait_random_duration(min_seconds, max_seconds):
     if min_seconds > max_seconds:
