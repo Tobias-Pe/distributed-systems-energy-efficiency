@@ -60,7 +60,7 @@ class PostserviceApplicationTests {
         verify(rabbitTemplate, times(1)).convertAndSend(eq("postservice.direct"), eq("post"),any(String.class));
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Assertions.assertThat(Objects.requireNonNull(postController.getPostImage(postFirst.getId()).getBody()).getContentAsByteArray()).isEqualTo(imageBytes);
-        postController.likePost(postFirst.getId());
+        postController.likePost(postFirst.getId(), 1);
         postController.commentPost(postFirst.getId(), new CommentRequest(2, "What a first post! Wow :)"));
         postFirst = postController.getPost(postFirst.getId());
         Assertions.assertThat(postFirst).isNotNull();
@@ -92,7 +92,7 @@ class PostserviceApplicationTests {
         Post postFirst = postController.createPost(new PostRequest(1, "MyFirstPost", Set.of("beginnings", "blog")), null);
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Post finalPostFirst = postFirst;
-        IntStream.range(0, 20).parallel().forEach(i -> postController.likePost(finalPostFirst.getId()));
+        IntStream.range(0, 20).parallel().forEach(i -> postController.likePost(finalPostFirst.getId(),1));
         postFirst = postController.getPost(postFirst.getId());
         Assertions.assertThat(postFirst.getLikes()).isEqualTo(20);
     }

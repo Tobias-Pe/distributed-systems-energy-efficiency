@@ -66,17 +66,16 @@ public class PostService {
         Post post = new Post(postRequest, multipartFile);
         categoryRepository.saveAll(post.getCategories());
         post = savePost(post);
-        publish(post, "post");
+        publish(new PostMessage(post), "post");
         return post;
     }
 
-    private void publish(Post post, String routingKey) {
+    private void publish(Object object, String routingKey) {
         ObjectMapper mapper = new ObjectMapper();
         String message;
         try {
-            message = mapper.writeValueAsString(new PostMessage(post));
+            message = mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            postRepository.delete(post);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not process request to json", e);
         }
         this.template.convertAndSend(directExchange.getName(), routingKey, message);
@@ -96,11 +95,11 @@ public class PostService {
             maxAttempts = 5,
             backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
     )
-    public Post likePost(int id) {
+    public Post likePost(int id, Integer userId) {
         Post post = lockAndGetPost(id);
         post.setLikes(post.getLikes() + 1);
         post = savePost(post);
-        publish(post, "like");
+        publish(new PostActionMessage(id, userId, "like"), "like");
         return post;
     }
 
@@ -121,7 +120,7 @@ public class PostService {
         commentRepository.save(comment);
         post.getComments().add(comment);
         post = savePost(post);
-        publish(post, "comment");
+        publish(new PostActionMessage(id, commentRequest.getUserId(), "comment"), "comment");
         return post;
     }
 
