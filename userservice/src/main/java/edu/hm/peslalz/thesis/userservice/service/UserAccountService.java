@@ -25,9 +25,11 @@ public class UserAccountService {
 
     @Autowired
     public UserAccountService(RabbitTemplate template, FanoutExchange fanoutExchange, UserAccountRepository userAccountRepository) {
-        this.template = template;
         this.fanoutExchange = fanoutExchange;
         this.userAccountRepository = userAccountRepository;
+        this.template = template;
+        // enable tracing for rabbitmq template
+        this.template.setObservationEnabled(true);
     }
 
     public UserAccount createUser(UserAccountRequest userAccountRequest) {
