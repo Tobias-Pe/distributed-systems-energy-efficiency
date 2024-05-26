@@ -22,6 +22,6 @@ public class CategoryService {
         // don't page in memory --> page fetch only id's and then load the joined data
         Page<String> allNames = categoryRepository.findAllNames(PageRequest.of(page, 50));
         List<Category> joinedData = categoryRepository.findAllById(allNames.toSet());
-        return new PageImpl<>(joinedData);
+        return new PageImpl<>(joinedData, allNames.getPageable(), allNames.getTotalElements());
     }
 }
