@@ -77,12 +77,9 @@ class PostActions(TaskSet):
 
     @task
     def comment_post(self):
-        # abort if no user is present
-        if len(users) == 0:
-            print("No users present")
-            return
-
+        if_no_user_exists_wait()
         self.if_no_post_exists_create()
+
         post_id = random.choice(list(posts.keys()))
         user_id = random.choice(list(users.keys()))
         text = fake.text(max_nb_chars=200)
