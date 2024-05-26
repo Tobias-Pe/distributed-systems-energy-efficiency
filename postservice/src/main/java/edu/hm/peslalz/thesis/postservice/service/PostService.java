@@ -13,6 +13,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.retry.annotation.Backoff;
@@ -21,6 +22,8 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @EnableRetry
 @Service
@@ -54,7 +57,9 @@ public class PostService {
     }
 
     public Page<Post> getPostsByCategoryUserId(String category, Integer userId, int page) {
-        return postRepository.findByCategories_NameAndUserId(category, userId, PageRequest.of(page, 50));
+        Page<Integer> postIDs = postRepository.findAllIDsByCategoryAndUserId(category, userId, PageRequest.of(page, 50));
+        List<Post> postList = postRepository.findAllById(postIDs.getContent());
+        return new PageImpl<>(postList, postIDs.getPageable(), postIDs.getTotalElements());
     }
 
     public ImageData getPostImage(int id) {
