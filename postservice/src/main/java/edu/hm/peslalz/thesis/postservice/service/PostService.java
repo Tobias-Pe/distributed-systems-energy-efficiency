@@ -99,7 +99,7 @@ public class PostService {
         Post post = lockAndGetPost(id);
         post.setLikes(post.getLikes() + 1);
         post = savePost(post);
-        publish(new PostActionMessage(id, userId, "like"), "like");
+        publish(new PostActionMessage(userId, "like", new PostMessage(post)), "like");
         return post;
     }
 
@@ -120,7 +120,7 @@ public class PostService {
         commentRepository.save(comment);
         post.getComments().add(comment);
         post = savePost(post);
-        publish(new PostActionMessage(id, commentRequest.getUserId(), "comment"), "comment");
+        publish(new PostActionMessage(commentRequest.getUserId(), "comment", new PostMessage(post)), "comment");
         return post;
     }
 
