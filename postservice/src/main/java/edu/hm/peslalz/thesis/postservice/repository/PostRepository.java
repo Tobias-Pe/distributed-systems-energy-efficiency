@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
@@ -21,15 +23,27 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     @Override
     @EntityGraph(attributePaths = {"comments", "categories"})
-    Optional<Post> findById(Integer id);
+    @NonNull
+    Optional<Post> findById(@NonNull Integer id);
 
     @Transactional
     @Query("select p from Post p left join fetch p.imageData where p.id = ?1")
     Optional<Post> findByIdJoinImage(Integer id);
 
-    @EntityGraph(attributePaths = {"comments"})
-    @Query("select p from Post p left join fetch p.categories categories where (:name is null or categories.name = :name) and (:userId is null or p.userId = :userId)")
-    Page<Post> findByCategories_NameAndUserId(@Nullable String name, @Nullable Integer userId, Pageable pageable);
+    @Query("""
+            select p.id
+            from Post p
+            inner join p.categories categories
+            where
+                (:name is null or categories.name = :name) and
+                (:userId is null or p.userId = :userId)
+            """)
+    Page<Integer> findAllIDsByCategoryAndUserId(@Nullable String name, @Nullable Integer userId, Pageable pageable);
+
+    @Override
+    @EntityGraph(attributePaths = {"comments", "categories"})
+    @NonNull
+    List<Post> findAllById(@NonNull Iterable<Integer> strings);
 
 
 }
