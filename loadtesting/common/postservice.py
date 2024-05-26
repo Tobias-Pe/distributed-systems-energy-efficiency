@@ -89,17 +89,45 @@ class PostActions(TaskSet):
 
     @task
     def get_categories(self):
+        self.get_categories_paginated(0)
+
+    def get_categories_paginated(self, page):
         with self.client.get(f"/postservice/categories",
                              name="/postservice/categories", catch_response=True) as response:
             if not response.ok:
                 response.failure(response.text)
                 return
             response.success()
-            categories = response.json().get("content")
-            if categories is None or len(categories) == 0:
-                return
-            category = random.choice(categories).get("name")
-            self.get_posts_by_category(category)
+            # if there is a next page query it with a change of 50%
+            if response.json().get("totalPages") > page + 1 and fake.boolean(50):
+                wait_random_duration(0.5, 5)
+                self.get_categories_paginated(page + 1)
 
-    def get_posts_by_category(self, category):
-        self.client.get(f"/postservice/posts?category={category}", name="/postservice/posts")
+    @task
+    def get_posts(self):
+        user_id = None
+        if users and fake.boolean(50):
+            user_id = random.choice(list(users.keys()))
+
+        category = None
+        if categories and fake.boolean(50):
+            category = random.choice(categories)
+
+        self.get_posts_paginated_filtered(0, category=category, user_id=user_id)
+
+    def get_posts_paginated_filtered(self, page, category=None, user_id=None):
+        params = f"?page={page}"
+        if category is not None:
+            params += f"&category={category}"
+        if user_id is not None:
+            params += f"&userId={user_id}"
+        with self.client.get(f"/postservice/posts?category={category}", name="/postservice/posts",
+                             catch_response=True) as response:
+            if not response.ok:
+                response.failure(response.text)
+                return
+            response.success()
+            # if there is a next page query it with a change of 50%
+            if response.json().get("totalPages") > page + 1 and fake.boolean(50):
+                wait_random_duration(0.5, 5)
+                self.get_posts_paginated_filtered(page + 1, category, user_id)
