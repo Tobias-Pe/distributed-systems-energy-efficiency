@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.util.Set;
 
 @RestController
 @RequestMapping("posts")
@@ -60,9 +59,9 @@ public class PostController {
 
     @Operation(description = "Like a post")
     @PostMapping("/{id}/like")
-    public Post likePost(@PathVariable int id) {
-        log.info("Liking post with id {}", id);
-        return postService.likePost(id);
+    public Post likePost(@PathVariable int id, @RequestParam int userId) {
+        log.info("User {} likes post with id {}", userId, id);
+        return postService.likePost(id, userId);
     }
 
     @Operation(description = "Leave a comment to a post")
