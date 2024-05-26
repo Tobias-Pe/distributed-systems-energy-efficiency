@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.EnableRetry;
@@ -19,8 +21,6 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Set;
 
 @EnableRetry
 @Service
@@ -53,8 +53,8 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Set<Post> getPostsByCategory(String category) {
-        return categoryRepository.findById(category).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)).getPosts();
+    public Page<Post> getPostsByCategoryUserId(String category, Integer userId, int page) {
+        return postRepository.findByCategories_NameAndUserId(category, userId, PageRequest.of(page, 50));
     }
 
     public ImageData getPostImage(int id) {

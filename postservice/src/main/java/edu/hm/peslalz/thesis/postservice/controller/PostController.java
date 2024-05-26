@@ -8,6 +8,7 @@ import edu.hm.peslalz.thesis.postservice.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,11 +51,11 @@ public class PostController {
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getImageType())).body(new InputStreamResource(new ByteArrayInputStream(image.getImageBytes())));
     }
 
-    @Operation(description = "Get all posts from a category")
+    @Operation(description = "Get all posts paged using filters")
     @GetMapping
-    public Set<Post> getPostsByCategory(@RequestParam String category) {
-        log.info("Getting all posts of category: {}", category);
-        return postService.getPostsByCategory(category);
+    public Page<Post> getPosts(@RequestParam(required = false) String category, @RequestParam(required = false) Integer userId, @RequestParam(defaultValue = "0") int page) {
+        log.info("Getting all posts filter: [category:{}; userId:{}; page:{}]", category, userId, page);
+        return postService.getPostsByCategoryUserId(category, userId, page);
     }
 
     @Operation(description = "Like a post")
