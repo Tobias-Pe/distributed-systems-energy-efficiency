@@ -17,7 +17,9 @@ def wait_random_duration(min_seconds, max_seconds):
 
 
 def if_no_user_exists_wait():
-    while len(users) == 0:
-        print("No users present. Waiting...")
-        time.sleep(2)
-        return
+    for _ in range(10):
+        if not users:
+            time.sleep(2)
+        else:
+            return
+    raise Exception("No users present after waiting.")
