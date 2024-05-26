@@ -52,7 +52,6 @@ class PostActions(TaskSet):
 
     def if_no_post_exists_create(self):
         if len(posts) == 0:
-            print("No posts present, creating one before continuing...")
             self.create_post()
 
     @task(5)
@@ -92,7 +91,7 @@ class PostActions(TaskSet):
     def get_categories(self):
         with self.client.get(f"/postservice/categories",
                              name="/postservice/categories", catch_response=True) as response:
-            if response.status_code >= 400:
+            if not response.ok:
                 response.failure(response.text)
                 return
             response.success()

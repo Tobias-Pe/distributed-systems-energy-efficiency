@@ -20,7 +20,7 @@ class NotificationActions(TaskSet):
         user_id = random.choice(list(users.keys()))
         with self.client.get(f"/notificationservice/notifications?userId={user_id}",
                              name="/notificationservice/notifications", catch_response=True) as response:
-            if response.status_code >= 400:
+            if not response.ok:
                 response.failure(response.text)
                 return
             response.success()
