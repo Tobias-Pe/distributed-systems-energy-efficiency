@@ -5,13 +5,23 @@ import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class UserserviceApplicationTests {
+
+    @MockBean
+    FanoutExchange fanoutExchange;
+
+    @MockBean
+    RabbitTemplate rabbitTemplate;
 
     @Autowired
     private UserAccountController userAccountController;
@@ -52,5 +62,4 @@ class UserserviceApplicationTests {
         userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId());
         assertThat(userAccountController.getFollowers(contentCreator.getId())).hasSize(2);
     }
-
 }

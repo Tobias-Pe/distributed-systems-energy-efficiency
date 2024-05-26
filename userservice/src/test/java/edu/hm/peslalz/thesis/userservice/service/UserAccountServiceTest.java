@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 
@@ -28,6 +30,12 @@ class UserAccountServiceTest {
 
     @Mock
     UserAccountRepository userAccountRepository;
+
+    @Mock
+    FanoutExchange fanoutExchange;
+
+    @Mock
+    RabbitTemplate template;
 
     @InjectMocks
     UserAccountService userAccountService;
@@ -73,9 +81,11 @@ class UserAccountServiceTest {
 
     @Test
     void follow() {
+        when(fanoutExchange.getName()).thenReturn("Testias");
         when(userAccountRepository.findById(any())).thenReturn(Optional.of(new UserAccount()));
         when(userAccountRepository.findByUsername(any())).thenReturn(Optional.of(new UserAccount()));
         assertThat(userAccountService.follow(1, "Testias").getFollowing()).hasSize(1);
+        verify(template, times(1)).convertAndSend(eq("Testias"), eq(""), nullable(String.class));
     }
 
     @Test
