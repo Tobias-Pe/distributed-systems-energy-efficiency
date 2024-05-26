@@ -9,7 +9,7 @@ import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
 import feign.FeignException;
 import jakarta.transaction.Transactional;
-import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,10 +31,10 @@ public class PostService {
 
     UserClient userClient;
     private final RabbitTemplate template;
-    private final FanoutExchange fanout;
+    private final DirectExchange directExchange;
 
     @Autowired
-    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient, RabbitTemplate template, FanoutExchange fanout) {
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient, RabbitTemplate template, DirectExchange directExchange) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.commentRepository = commentRepository;
@@ -42,7 +42,7 @@ public class PostService {
         this.template = template;
         // enable tracing for rabbitmq template
         this.template.setObservationEnabled(true);
-        this.fanout = fanout;
+        this.directExchange = directExchange;
     }
 
     Post savePost(Post post) {
@@ -79,7 +79,7 @@ public class PostService {
             postRepository.delete(post);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not process request to json", e);
         }
-        this.template.convertAndSend(fanout.getName(), routingKey, message);
+        this.template.convertAndSend(directExchange.getName(), routingKey, message);
     }
 
     void checkUserExists(Integer userId) {
