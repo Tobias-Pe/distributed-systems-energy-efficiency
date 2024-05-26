@@ -57,7 +57,7 @@ class PostserviceApplicationTests {
         File file = ResourceUtils.getFile("classpath:ExampleImage.png");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
         Post postFirst = postController.createPost(new PostRequest(1, "MyFirstPost", Set.of("beginnings", "blog")), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes));
-        verify(rabbitTemplate, times(1)).convertAndSend(eq("postservice.posts.fanout"), eq(""),any(String.class));
+        verify(rabbitTemplate, times(1)).convertAndSend(eq("postservice.direct"), eq("post"),any(String.class));
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Assertions.assertThat(Objects.requireNonNull(postController.getPostImage(postFirst.getId()).getBody()).getContentAsByteArray()).isEqualTo(imageBytes);
         postController.likePost(postFirst.getId());
