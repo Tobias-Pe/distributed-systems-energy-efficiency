@@ -59,9 +59,12 @@ class PostActions(TaskSet):
 
     @task(5)
     def like_post(self):
+        if_no_user_exists_wait()
         self.if_no_post_exists_create()
+
         post_id = random.choice(list(posts.keys()))
-        self.client.post(f"/postservice/posts/{post_id}/like", name="/postservice/posts/{id}/like")
+        user_id = random.choice(list(users.keys()))
+        self.client.post(f"/postservice/posts/{post_id}/like?userId={user_id}", name="/postservice/posts/{id}/like")
 
     @task
     def get_post(self):
