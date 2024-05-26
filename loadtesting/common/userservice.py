@@ -75,8 +75,7 @@ class UserActions(TaskSet):
             letters = "%" + letters
         else:
             letters = "%" + letters + "%"
-        page = 0
-        self.search_user_paginated(letters, page)
+        self.search_user_paginated(letters, 0)
 
     def search_user_paginated(self, query, page):
         with self.client.post(f"/userservice/users/search?page={page}&query={query}", name="/userservice/users/search",
@@ -85,7 +84,7 @@ class UserActions(TaskSet):
                 response.failure(response.text)
                 return
             response.success()
-
-            if response.json().get("totalPages") > page and fake.boolean(50):
+            # if there is a next page query it with a change of 50%
+            if response.json().get("totalPages") > page + 1 and fake.boolean(50):
                 wait_random_duration(0.5, 5)
                 self.search_user_paginated(query, page + 1)
