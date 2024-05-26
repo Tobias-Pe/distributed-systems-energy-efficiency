@@ -5,11 +5,13 @@ from common.util import wait_random_duration, users, fake
 
 
 def handle_user_response(response):
-    if response.status_code >= 500:
-        response.failure(response.text)
-    elif response.status_code == 201:
+    if response.status_code == 201:
         users[response.json().get("id")] = response.json().get("username")
-    response.success()
+        response.success()
+    elif response.status_code == 409:
+        response.success()
+    else:
+        response.failure(response.text)
 
 
 class UserActions(TaskSet):
@@ -21,9 +23,13 @@ class UserActions(TaskSet):
             handle_user_response(response)
 
     def if_no_user_exists_create(self):
-        if len(users) == 0:
-            print("No users present, creating one before continuing...")
-            self.create_user()
+        for _ in range(10):
+            if not users:
+                print("No users present, creating one before continuing...")
+                self.create_user()
+            else:
+                return
+        raise Exception("No users present after retried creation.")
 
     @task
     def edit_profile(self):
@@ -42,7 +48,7 @@ class UserActions(TaskSet):
         with self.client.put(
                 f"/userservice/users/{follower_id}/follow?toBeFollowedUsername={to_be_subscribed_username}",
                 name="/userservice/users/{id}/follow", catch_response=True) as response:
-            if response.status_code >= 500:
+            if response.ok or response.status_code == 409:
                 response.failure(response.text)
                 return
             response.success()
@@ -75,10 +81,11 @@ class UserActions(TaskSet):
     def search_user_paginated(self, query, page):
         with self.client.post(f"/userservice/users/search?page={page}&query={query}", name="/userservice/users/search",
                               catch_response=True) as response:
-            if response.status_code >= 400:
+            if not response.ok:
                 response.failure(response.text)
                 return
             response.success()
+
             if response.json().get("totalPages") > page and fake.boolean(50):
                 wait_random_duration(0.5, 5)
                 self.search_user_paginated(query, page + 1)
