@@ -49,9 +49,9 @@ class UserActions(TaskSet):
                 f"/userservice/users/{follower_id}/follow?toBeFollowedUsername={to_be_subscribed_username}",
                 name="/userservice/users/{id}/follow", catch_response=True) as response:
             if response.ok or response.status_code == 409:
-                response.failure(response.text)
+                response.success()
                 return
-            response.success()
+            response.failure(response.text)
 
     @task
     def get_followers(self):
