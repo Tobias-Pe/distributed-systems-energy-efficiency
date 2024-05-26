@@ -67,8 +67,9 @@ class PostserviceApplicationTests {
         Assertions.assertThat(postFirst.getComments()).hasSize(1);
         Assertions.assertThat(postFirst.getLikes()).isEqualTo(1);
         assertThrows(ResponseStatusException.class, () -> commentController.likeComment(12345));
-        assertThrows(ResponseStatusException.class, () -> postController.getPostsByCategory("12345"));
         assertThrows(ResponseStatusException.class, () -> postController.getPost(12345));
+        Assertions.assertThat(postController.getPosts("blog", null, 0)).hasSize(1);
+        Assertions.assertThat(postController.getPosts(null, 1, 0)).hasSize(1);
         Comment comment = commentController.likeComment(postFirst.getComments().stream().findFirst().get().getId());
         Assertions.assertThat(comment.getLikes()).isEqualTo(1);
 
