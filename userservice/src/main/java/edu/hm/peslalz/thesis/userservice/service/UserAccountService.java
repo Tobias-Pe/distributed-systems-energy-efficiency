@@ -6,6 +6,8 @@ import edu.hm.peslalz.thesis.userservice.exceptions.UserNotFoundException;
 import edu.hm.peslalz.thesis.userservice.exceptions.UserConstraintConflictException;
 import edu.hm.peslalz.thesis.userservice.repository.UserAccountRepository;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,8 +19,14 @@ import java.util.Set;
 public class UserAccountService {
     UserAccountRepository userAccountRepository;
 
+    private final RabbitTemplate template;
+
+    private final FanoutExchange fanoutExchange;
+
     @Autowired
-    public UserAccountService(UserAccountRepository userAccountRepository) {
+    public UserAccountService(RabbitTemplate template, FanoutExchange fanoutExchange, UserAccountRepository userAccountRepository) {
+        this.template = template;
+        this.fanoutExchange = fanoutExchange;
         this.userAccountRepository = userAccountRepository;
     }
 
@@ -65,6 +73,7 @@ public class UserAccountService {
         UserAccount toBeFollowedUserAccount = getUserByUsername(toBeFollowedUsername);
         userAccount.getFollowing().add(toBeFollowedUserAccount);
         this.saveUser(userAccount);
+        template.convertAndSend(fanoutExchange.getName(), "", toBeFollowedUserAccount.getId());
         return userAccount;
     }
 

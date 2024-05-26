@@ -1,4 +1,4 @@
-package edu.hm.peslalz.thesis.postservice.client;
+package edu.hm.peslalz.thesis.userservice.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -11,18 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitmqQueuesConfig {
     @Bean
     public Queue statisticsQueue() {
-        return new Queue("post-statistics");
-    }
-
-    @Bean
-    public Queue notificationsQueue() {
-        return new Queue("notifications");
-    }
-
-    @Bean
-    public Binding bindingNotificationsQueue(FanoutExchange fanout,
-                                             Queue notificationsQueue) {
-        return BindingBuilder.bind(notificationsQueue).to(fanout);
+        return new Queue("user-statistics");
     }
 
     @Bean
@@ -33,6 +22,6 @@ public class RabbitmqQueuesConfig {
 
     @Bean
     public FanoutExchange fanout() {
-        return new FanoutExchange("postservice.posts.fanout");
+        return new FanoutExchange("userservice.subscription.fanout");
     }
 }

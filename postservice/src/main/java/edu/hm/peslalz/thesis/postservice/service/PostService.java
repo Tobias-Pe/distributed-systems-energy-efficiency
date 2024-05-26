@@ -9,7 +9,7 @@ import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
 import feign.FeignException;
 import jakarta.transaction.Transactional;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,10 +31,10 @@ public class PostService {
 
     UserClient userClient;
     private final RabbitTemplate template;
-    private final Queue notificationsQueue;
+    private final FanoutExchange fanout;
 
     @Autowired
-    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient, RabbitTemplate template, Queue notificationsQueue) {
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient, RabbitTemplate template, FanoutExchange fanout) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.commentRepository = commentRepository;
@@ -42,7 +42,7 @@ public class PostService {
         this.template = template;
         // enable tracing for rabbitmq template
         this.template.setObservationEnabled(true);
-        this.notificationsQueue = notificationsQueue;
+        this.fanout = fanout;
     }
 
     Post savePost(Post post) {
@@ -73,9 +73,9 @@ public class PostService {
             message = mapper.writeValueAsString(new PostMessage(post));
         } catch (JsonProcessingException e) {
             postRepository.delete(post);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Could not process request to json",e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not process request to json", e);
         }
-        this.template.convertAndSend(notificationsQueue.getName(), message);
+        this.template.convertAndSend(fanout.getName(), "", message);
         return post;
     }
 
