@@ -4,7 +4,8 @@ from faker_file.providers.jpeg_file import GraphicJpegFileProvider
 from faker_file.providers.png_file import GraphicPngFileProvider
 from locust import TaskSet, task
 
-from common.util import if_no_user_exists_wait, posts, users, fake
+from common import util
+from common.util import if_no_user_exists_wait, posts, users, categories, fake, wait_random_duration
 
 fake.add_provider(GraphicPngFileProvider)
 fake.add_provider(GraphicJpegFileProvider)
@@ -30,6 +31,8 @@ class PostActions(TaskSet):
     def generate_post_data(self):
         words = fake.words(nb=fake.random_int(1, 6, 1), unique=True)
         category_parameters = ""
+        # keep track of all categories
+        util.categories.extend(words)
         for word in words:
             category_parameters += f"&categories={word}"
         text = fake.text(max_nb_chars=500)
