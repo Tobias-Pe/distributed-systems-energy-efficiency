@@ -66,7 +66,11 @@ public class PostService {
         Post post = new Post(postRequest, multipartFile);
         categoryRepository.saveAll(post.getCategories());
         post = savePost(post);
-        // notify notification service about new post
+        publish(post, "post");
+        return post;
+    }
+
+    private void publish(Post post, String routingKey) {
         ObjectMapper mapper = new ObjectMapper();
         String message;
         try {
@@ -75,8 +79,7 @@ public class PostService {
             postRepository.delete(post);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not process request to json", e);
         }
-        this.template.convertAndSend(fanout.getName(), "", message);
-        return post;
+        this.template.convertAndSend(fanout.getName(), routingKey, message);
     }
 
     void checkUserExists(Integer userId) {
@@ -96,7 +99,9 @@ public class PostService {
     public Post likePost(int id) {
         Post post = lockAndGetPost(id);
         post.setLikes(post.getLikes() + 1);
-        return savePost(post);
+        post = savePost(post);
+        publish(post, "like");
+        return post;
     }
 
     private Post lockAndGetPost(int id) {
@@ -115,7 +120,9 @@ public class PostService {
         Comment comment = new Comment(commentRequest);
         commentRepository.save(comment);
         post.getComments().add(comment);
-        return savePost(post);
+        post = savePost(post);
+        publish(post, "comment");
+        return post;
     }
 
     @Transactional
