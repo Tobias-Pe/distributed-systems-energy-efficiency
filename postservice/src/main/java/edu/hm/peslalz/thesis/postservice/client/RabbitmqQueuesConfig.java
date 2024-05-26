@@ -1,9 +1,6 @@
 package edu.hm.peslalz.thesis.postservice.client;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,19 +17,31 @@ public class RabbitmqQueuesConfig {
     }
 
     @Bean
-    public Binding bindingNotificationsQueue(FanoutExchange fanout,
-                                             Queue notificationsQueue) {
-        return BindingBuilder.bind(notificationsQueue).to(fanout);
+    public Binding bindingNotificationsQueueOnPost(DirectExchange directExchange,
+                                                   Queue notificationsQueue) {
+        return BindingBuilder.bind(notificationsQueue).to(directExchange).with("post");
     }
 
     @Bean
-    public Binding bindingStatisticsQueue(FanoutExchange fanout,
-                                          Queue statisticsQueue) {
-        return BindingBuilder.bind(statisticsQueue).to(fanout);
+    public Binding bindingStatisticsQueueOnPost(DirectExchange directExchange,
+                                                Queue statisticsQueue) {
+        return BindingBuilder.bind(statisticsQueue).to(directExchange).with("post");
     }
 
     @Bean
-    public FanoutExchange fanout() {
-        return new FanoutExchange("postservice.posts.fanout");
+    public Binding bindingStatisticsQueueOnLike(DirectExchange directExchange,
+                                                Queue statisticsQueue) {
+        return BindingBuilder.bind(statisticsQueue).to(directExchange).with("like");
+    }
+
+    @Bean
+    public Binding bindingStatisticsQueueOnComment(DirectExchange directExchange,
+                                                   Queue statisticsQueue) {
+        return BindingBuilder.bind(statisticsQueue).to(directExchange).with("comment");
+    }
+
+    @Bean
+    public DirectExchange directExchange() {
+        return new DirectExchange("postservice.direct");
     }
 }
