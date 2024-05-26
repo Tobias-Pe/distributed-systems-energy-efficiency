@@ -10,9 +10,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class PostActionMessage implements Serializable {
-    private Integer postId;
-
     private Integer userId;
 
     private String action;
+
+    private PostMessage postMessage;
 }
