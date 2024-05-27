@@ -7,6 +7,7 @@ services:
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
+      - RABBITMQ_HOST=rabbitmq
       - POSTGRES_URI=jdbc:postgresql://userservice-db:5432/
       - THC_PATH=/actuator/health
       - THC_PORT=8081
@@ -22,7 +23,7 @@ services:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
-      - POSTGRES_URI=jdbc:postgresql://postservice-db:5432/
+      - POSTGRES_URI=jdbc:postgresql://postservice-db:5433/
       - THC_PATH=/actuator/health
       - THC_PORT=8082
     deploy:
@@ -37,7 +38,7 @@ services:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
-      - POSTGRES_URI=jdbc:postgresql://notificationservice-db:5432/
+      - POSTGRES_URI=jdbc:postgresql://notificationservice-db:5434/
       - THC_PATH=/actuator/health
       - THC_PORT=8083
     deploy:

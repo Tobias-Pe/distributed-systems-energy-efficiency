@@ -27,6 +27,8 @@ spec:
               value: http://servicediscovery:8761/eureka
             - name: POSTGRES_URI
               value: jdbc:postgresql://userservice-db:5432/
+            - name: RABBITMQ_HOST
+              value: rabbitmq
             - name: THC_PATH
               value: /actuator/health
             - name: THC_PORT

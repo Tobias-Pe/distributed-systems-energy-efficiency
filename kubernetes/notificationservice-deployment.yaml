@@ -26,7 +26,7 @@ spec:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
             - name: POSTGRES_URI
-              value: jdbc:postgresql://notificationservice-db:5432/
+              value: jdbc:postgresql://notificationservice-db:5434/
             - name: RABBITMQ_HOST
               value: rabbitmq
             - name: THC_PATH
