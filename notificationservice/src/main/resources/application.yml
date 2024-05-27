@@ -14,7 +14,6 @@ spring:
     password: mypassword
     url: ${POSTGRES_URI:jdbc:postgresql://localhost:5434/}notificationdatabase
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     #show-sql: true
