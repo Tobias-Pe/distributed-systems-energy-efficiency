@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Log4j2
 public class StatisticsReceiveService {
+    TrendService trendService;
+
+    public StatisticsReceiveService(TrendService trendService) {
+        this.trendService = trendService;
+    }
+
     // enable tracing for rabbitmq listener
     @Bean
     ContainerCustomizer<SimpleMessageListenerContainer> containerCustomizer() {
@@ -25,6 +31,7 @@ public class StatisticsReceiveService {
         ObjectMapper mapper = new ObjectMapper();
         PostMessage postMessage = mapper.readValue(post, PostMessage.class);
         log.info("post {} received from {}", postMessage.getId(), postMessage.getUserId());
+        trendService.registerNewPost(postMessage);
     }
 
     @RabbitListener(queues = "post-action-statistics")
@@ -32,11 +39,13 @@ public class StatisticsReceiveService {
         ObjectMapper mapper = new ObjectMapper();
         PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
         log.info("post-action {} received from {}", postActionMessage.getPostMessage().getId(), postActionMessage.getUserId());
+        trendService.registerPostAction(postActionMessage);
     }
 
     @RabbitListener(queues = "user-statistics")
     public void receiveUser(String user) {
         Integer followedUser = Integer.valueOf(user);
         log.info("user {} has a new follower", followedUser);
+        trendService.registerAccountFollowed(followedUser);
     }
 }
