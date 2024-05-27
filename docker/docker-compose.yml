@@ -53,7 +53,7 @@ services:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
-      - POSTGRES_URI=jdbc:postgresql://statisticservice-db:5436/
+      - POSTGRES_URI=jdbc:postgresql://statisticservice-db:5435/
       - THC_PATH=/actuator/health
       - THC_PORT=8084
     deploy:
