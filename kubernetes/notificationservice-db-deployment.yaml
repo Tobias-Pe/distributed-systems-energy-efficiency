@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.service.type: loadbalancer
+    kompose.version: 1.32.0 (765fde254)
+    org.springframework.boot.ignore: "true"
+  labels:
+    io.kompose.service: notificationservice-db
+  name: notificationservice-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: notificationservice-db
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.service.type: loadbalancer
+        kompose.version: 1.32.0 (765fde254)
+        org.springframework.boot.ignore: "true"
+      labels:
+        io.kompose.network/docker-default: "true"
+        io.kompose.service: notificationservice-db
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: notificationdatabase
+            - name: POSTGRES_PASSWORD
+              value: mypassword
+            - name: POSTGRES_USER
+              value: myuser
+          image: postgres:16
+          name: notificationservice-db
+          ports:
+            - containerPort: 5432
+              hostPort: 5434
+              protocol: TCP
+      restartPolicy: Always

@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: postservice
-  name: postservice
+    io.kompose.service: notificationservice
+  name: notificationservice
 spec:
   replicas: 2
   selector:
     matchLabels:
-      io.kompose.service: postservice
+      io.kompose.service: notificationservice
   template:
     metadata:
       annotations:
@@ -19,26 +19,26 @@ spec:
         kompose.version: 1.32.0 (765fde254)
       labels:
         io.kompose.network/docker-default: "true"
-        io.kompose.service: postservice
+        io.kompose.service: notificationservice
     spec:
       containers:
         - env:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
             - name: POSTGRES_URI
-              value: jdbc:postgresql://postservice-db:5432/
+              value: jdbc:postgresql://notificationservice-db:5432/
             - name: RABBITMQ_HOST
               value: rabbitmq
             - name: THC_PATH
               value: /actuator/health
             - name: THC_PORT
-              value: "8082"
+              value: "8083"
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
           livenessProbe:
             exec:
               command:
                 - /cnb/process/health-check
-          name: postservice
+          name: notificationservice
       restartPolicy: Always
