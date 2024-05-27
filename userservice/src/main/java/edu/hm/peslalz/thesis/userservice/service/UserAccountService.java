@@ -73,6 +73,9 @@ public class UserAccountService {
     public UserAccount follow(Integer id, String toBeFollowedUsername) {
         UserAccount userAccount = getUserById(id);
         UserAccount toBeFollowedUserAccount = getUserByUsername(toBeFollowedUsername);
+        if (userAccount.getFollowing().contains(toBeFollowedUserAccount)) {
+            return userAccount;
+        }
         userAccount.getFollowing().add(toBeFollowedUserAccount);
         this.saveUser(userAccount);
         template.convertAndSend(fanoutExchange.getName(), "", toBeFollowedUserAccount.getId());
