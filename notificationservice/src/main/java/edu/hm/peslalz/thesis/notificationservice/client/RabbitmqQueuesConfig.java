@@ -10,15 +10,4 @@ public class RabbitmqQueuesConfig {
     public Queue notificationsQueue() {
         return new Queue("notifications");
     }
-
-    @Bean
-    public Binding bindingNotificationsQueueOnPost(DirectExchange directExchange,
-                                                   Queue notificationsQueue) {
-        return BindingBuilder.bind(notificationsQueue).to(directExchange).with("post");
-    }
-
-    @Bean
-    public DirectExchange directExchange() {
-        return new DirectExchange("postservice.direct");
-    }
 }
