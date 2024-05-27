@@ -61,4 +61,14 @@ public class TrendService {
         Date oldestRelevantActions = Date.from(LocalDateTime.now().minusMinutes(TREND_RELEVANT_TIMERANGE_MINUTES).atZone(ZoneId.systemDefault()).toInstant());
         return categoryRepository.findByMostInteractionsAfter(oldestRelevantActions, PageRequest.of(page, TREND_SIZE));
     }
+
+    public Page<TrendInterface> getPostTrends(int page) {
+        Date oldestRelevantActions = Date.from(LocalDateTime.now().minusMinutes(TREND_RELEVANT_TIMERANGE_MINUTES).atZone(ZoneId.systemDefault()).toInstant());
+        return postRepository.findByMostInteractionsAfter(oldestRelevantActions, PageRequest.of(page, TREND_SIZE));
+    }
+
+    public Page<TrendInterface> getUserTrends(int page) {
+        Date oldestRelevantActions = Date.from(LocalDateTime.now().minusMinutes(TREND_RELEVANT_TIMERANGE_MINUTES).atZone(ZoneId.systemDefault()).toInstant());
+        return followedUserRepository.findByMostInteractionsAfter(oldestRelevantActions, PageRequest.of(page, TREND_SIZE));
+    }
 }

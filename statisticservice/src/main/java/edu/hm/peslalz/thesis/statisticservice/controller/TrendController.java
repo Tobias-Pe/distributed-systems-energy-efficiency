@@ -28,4 +28,18 @@ public class TrendController {
         log.info("Querying category trends | page {}", page);
         return trendService.getCategoryTrends(page);
     }
+
+    @Operation(description = "Get the current category trends")
+    @GetMapping("/posts")
+    public Page<TrendInterface> getTrendingPosts(@RequestParam(defaultValue = "0") int page) {
+        log.info("Querying post trends | page {}", page);
+        return trendService.getPostTrends(page);
+    }
+
+    @Operation(description = "Get the current category trends")
+    @GetMapping("/users")
+    public Page<TrendInterface> getTrendingUsers(@RequestParam(defaultValue = "0") int page) {
+        log.info("Querying user trends | page {}", page);
+        return trendService.getUserTrends(page);
+    }
 }
