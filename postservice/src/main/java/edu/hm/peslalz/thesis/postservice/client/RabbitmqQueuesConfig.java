@@ -7,8 +7,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitmqQueuesConfig {
     @Bean
-    public Queue statisticsQueue() {
+    public Queue postStatisticsQueue() {
         return new Queue("post-statistics");
+    }
+
+    @Bean
+    public Queue postActionStatisticsQueue() {
+        return new Queue("post-action-statistics");
     }
 
     @Bean
@@ -24,20 +29,20 @@ public class RabbitmqQueuesConfig {
 
     @Bean
     public Binding bindingStatisticsQueueOnPost(DirectExchange directExchange,
-                                                Queue statisticsQueue) {
-        return BindingBuilder.bind(statisticsQueue).to(directExchange).with("post");
+                                                Queue postStatisticsQueue) {
+        return BindingBuilder.bind(postStatisticsQueue).to(directExchange).with("post");
     }
 
     @Bean
     public Binding bindingStatisticsQueueOnLike(DirectExchange directExchange,
-                                                Queue statisticsQueue) {
-        return BindingBuilder.bind(statisticsQueue).to(directExchange).with("like");
+                                                Queue postActionStatisticsQueue) {
+        return BindingBuilder.bind(postActionStatisticsQueue).to(directExchange).with("like");
     }
 
     @Bean
     public Binding bindingStatisticsQueueOnComment(DirectExchange directExchange,
-                                                   Queue statisticsQueue) {
-        return BindingBuilder.bind(statisticsQueue).to(directExchange).with("comment");
+                                                   Queue postActionStatisticsQueue) {
+        return BindingBuilder.bind(postActionStatisticsQueue).to(directExchange).with("comment");
     }
 
     @Bean
