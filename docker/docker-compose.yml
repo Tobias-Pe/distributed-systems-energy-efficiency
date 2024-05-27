@@ -47,6 +47,21 @@ services:
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
+  statisticservice:
+    image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
+    environment:
+      - EUREKA_URI=http://servicediscovery:8761/eureka
+      - ZIPKIN_URI=http://zipkin:9411/
+      - RABBITMQ_HOST=rabbitmq
+      - POSTGRES_URI=jdbc:postgresql://statisticservice-db:5436/
+      - THC_PATH=/actuator/health
+      - THC_PORT=8084
+    deploy:
+      mode: replicated
+      replicas: 2
+    healthcheck:
+      test: [ "CMD", "/cnb/process/health-check" ]
+
   gateway:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
     ports:
@@ -58,6 +73,9 @@ services:
       - ZIPKIN_URI=http://zipkin:9411/
       - THC_PATH=/actuator/health
       - THC_PORT=8080
+    deploy:
+      mode: replicated
+      replicas: 2
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 

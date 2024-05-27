@@ -76,6 +76,7 @@ jobs:
           - userservice
           - postservice
           - notificationservice
+          - statisticservice
 
     steps:
       - name: Checkout repository

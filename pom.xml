@@ -23,6 +23,7 @@
         <module>userservice</module>
         <module>postservice</module>
         <module>notificationservice</module>
+        <module>statisticservice</module>
         <module>gateway</module>
     </modules>
 
