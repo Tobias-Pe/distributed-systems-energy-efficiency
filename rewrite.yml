@@ -1,0 +1,14 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: SpringBoot3BestPracticesDB
+displayName: Spring Boot 3.x best practices
+description: Applies best practices to Spring Boot 3 applications.
+tags:
+  - spring
+  - boot
+recipeList:
+  - org.openrewrite.java.spring.boot2.SpringBoot2BestPractices
+  - org.openrewrite.java.migrate.UpgradeToJava21
+  - org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3
+  - org.openrewrite.java.spring.http.SimplifyMediaTypeParseCalls
+  - org.openrewrite.java.spring.http.SimplifyWebTestClientCalls

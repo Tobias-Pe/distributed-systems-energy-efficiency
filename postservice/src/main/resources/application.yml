@@ -20,6 +20,9 @@ spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672
+  threads:
+    virtual:
+      enabled: true
 
 server:
   forward-headers-strategy: framework

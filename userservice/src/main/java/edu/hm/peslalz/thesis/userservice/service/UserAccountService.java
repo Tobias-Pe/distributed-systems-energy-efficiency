@@ -6,7 +6,6 @@ import edu.hm.peslalz.thesis.userservice.exceptions.UserNotFoundException;
 import edu.hm.peslalz.thesis.userservice.exceptions.UserConstraintConflictException;
 import edu.hm.peslalz.thesis.userservice.repository.UserAccountRepository;
 import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.util.Set;
 public class UserAccountService {
     UserAccountRepository userAccountRepository;
 
-    @Autowired
     public UserAccountService(UserAccountRepository userAccountRepository) {
         this.userAccountRepository = userAccountRepository;
     }

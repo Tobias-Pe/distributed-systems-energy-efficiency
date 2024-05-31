@@ -17,6 +17,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  threads:
+    virtual:
+      enabled: true
 
 server:
   forward-headers-strategy: framework

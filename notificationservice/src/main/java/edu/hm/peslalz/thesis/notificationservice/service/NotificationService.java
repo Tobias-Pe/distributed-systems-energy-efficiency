@@ -54,7 +54,7 @@ public class NotificationService {
     public Notification setReadStatus(Integer notificationId, boolean wasRead) {
         Optional<Notification> notification = notificationRepository.findById(notificationId);
         if (notification.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Notification with id %s not found", notificationId));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Notification with id %s not found".formatted(notificationId));
         }
         notification.get().setWasRead(wasRead);
         return notificationRepository.save(notification.get());
@@ -93,7 +93,7 @@ public class NotificationService {
                 Files.createDirectories(directoryPath);
             }
             String outputFile = "sent-email-" + postId + "-" + UUID.randomUUID() + ".html";
-            Files.writeString(Path.of(String.format("%s/%s", directoryPath, outputFile)),
+            Files.writeString(Path.of("%s/%s".formatted(directoryPath, outputFile)),
                     personalizedContent, StandardOpenOption.CREATE_NEW);
         } catch (IOException e) {
             log.error(e.getMessage(), e);

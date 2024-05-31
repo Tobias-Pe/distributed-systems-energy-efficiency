@@ -18,20 +18,20 @@ public class NotificationController {
 
     @Operation(summary = "Set the read status of the notification")
     @PostMapping("/{id}")
-    public Notification setReadStatus(@PathVariable(name = "id") int notificationId, @RequestParam("isRead") boolean isRead) {
+    public Notification setReadStatus(@PathVariable(name = "id") int notificationId, @RequestParam boolean isRead) {
         return notificationService.setReadStatus(notificationId, isRead);
     }
 
     @Operation(summary = "Count how many notifications a user has with query option for the read status")
     @PostMapping("/count")
-    public Long getNotificationCount(@RequestParam(name = "userId") int userId,
-                                     @RequestParam(name = "wasRead", required = false) Boolean wasRead) {
+    public Long getNotificationCount(@RequestParam int userId,
+                                     @RequestParam(required = false) Boolean wasRead) {
         return notificationService.countNotificationOfUser(userId, wasRead);
     }
 
     @Operation(summary = "Find all notifications an user has")
     @GetMapping
-    public Set<Notification> getUsersNotifications(@RequestParam(name = "userId") int userId) {
+    public Set<Notification> getUsersNotifications(@RequestParam int userId) {
         return notificationService.getUsersNotifications(userId);
     }
 

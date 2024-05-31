@@ -4,7 +4,6 @@ import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import edu.hm.peslalz.thesis.userservice.service.UserAccountService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.Set;
 public class UserAccountController {
     UserAccountService userAccountService;
 
-    @Autowired
     public UserAccountController(UserAccountService userAccountService) {
         this.userAccountService = userAccountService;
     }

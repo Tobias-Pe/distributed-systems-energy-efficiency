@@ -11,7 +11,6 @@ import feign.FeignException;
 import jakarta.transaction.Transactional;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.EnableRetry;
@@ -33,7 +32,6 @@ public class PostService {
     private final RabbitTemplate template;
     private final Queue notificationsQueue;
 
-    @Autowired
     public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient, RabbitTemplate template, Queue notificationsQueue) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;

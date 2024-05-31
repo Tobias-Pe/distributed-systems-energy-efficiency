@@ -44,6 +44,9 @@ spring:
       lifecycle-management: start-only
 
   port: 8080
+  threads:
+    virtual:
+      enabled: true
 
 management:
   endpoints:
