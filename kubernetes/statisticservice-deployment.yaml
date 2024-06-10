@@ -3,44 +3,42 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-    kompose.service.type: loadbalancer
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: gateway
-  name: gateway
+    io.kompose.service: statisticservice
+  name: statisticservice
 spec:
   replicas: 2
   selector:
     matchLabels:
-      io.kompose.service: gateway
+      io.kompose.service: statisticservice
   template:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-        kompose.service.type: loadbalancer
         kompose.version: 1.32.0 (765fde254)
       labels:
         io.kompose.network/docker-default: "true"
-        io.kompose.service: gateway
+        io.kompose.service: statisticservice
     spec:
       containers:
         - env:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
+            - name: POSTGRES_URI
+              value: jdbc:postgresql://statisticservice-db:5435/
+            - name: RABBITMQ_HOST
+              value: rabbitmq
             - name: THC_PATH
               value: /actuator/health
             - name: THC_PORT
-              value: "8080"
+              value: "8084"
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
           livenessProbe:
             exec:
               command:
                 - /cnb/process/health-check
-          name: gateway
-          ports:
-            - containerPort: 8080
-              hostPort: 8080
-              protocol: TCP
+          name: statisticservice
       restartPolicy: Always
