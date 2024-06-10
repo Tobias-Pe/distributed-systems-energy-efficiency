@@ -62,6 +62,21 @@ services:
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
+  feedservice:
+    image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
+    environment:
+      - EUREKA_URI=http://servicediscovery:8761/eureka
+      - ZIPKIN_URI=http://zipkin:9411/
+      - RABBITMQ_HOST=rabbitmq
+      - POSTGRES_URI=jdbc:postgresql://feedservice-db:5436/
+      - THC_PATH=/actuator/health
+      - THC_PORT=8085
+    deploy:
+      mode: replicated
+      replicas: 2
+    healthcheck:
+      test: [ "CMD", "/cnb/process/health-check" ]
+
   gateway:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
     ports:

@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16-alpine:///integration-testing
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  properties:
+    hibernate:
+      format_sql: true
