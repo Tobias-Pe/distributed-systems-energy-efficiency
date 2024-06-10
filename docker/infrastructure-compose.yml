@@ -49,6 +49,18 @@ services:
     ports:
       - "5435:5432"
 
+  feedservice-db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=feeddatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+    labels:
+      - kompose.service.type=loadbalancer
+      - org.springframework.boot.ignore=true
+    ports:
+      - "5436:5432"
+
   rabbitmq:
     image: rabbitmq:3.13-management
     container_name: rabbitmq
@@ -123,6 +135,5 @@ services:
       - "9116:9116"
 
 volumes:
-  mysql_data: { }
   prometheus_data: { }
   grafana_data: { }
