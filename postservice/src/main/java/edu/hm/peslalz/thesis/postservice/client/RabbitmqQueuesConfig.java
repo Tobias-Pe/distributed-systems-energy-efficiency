@@ -17,6 +17,16 @@ public class RabbitmqQueuesConfig {
     }
 
     @Bean
+    public Queue postFeedQueue() {
+        return new Queue("post-feed");
+    }
+
+    @Bean
+    public Queue postActionFeedQueue() {
+        return new Queue("post-action-feed");
+    }
+
+    @Bean
     public Queue notificationsQueue() {
         return new Queue("notifications");
     }
@@ -43,6 +53,24 @@ public class RabbitmqQueuesConfig {
     public Binding bindingStatisticsQueueOnComment(DirectExchange directExchange,
                                                    Queue postActionStatisticsQueue) {
         return BindingBuilder.bind(postActionStatisticsQueue).to(directExchange).with("comment");
+    }
+
+    @Bean
+    public Binding bindingFeedQueueOnPost(DirectExchange directExchange,
+                                                Queue postFeedQueue) {
+        return BindingBuilder.bind(postFeedQueue).to(directExchange).with("post");
+    }
+
+    @Bean
+    public Binding bindingFeedQueueOnLike(DirectExchange directExchange,
+                                                Queue postActionFeedQueue) {
+        return BindingBuilder.bind(postActionFeedQueue).to(directExchange).with("like");
+    }
+
+    @Bean
+    public Binding bindingFeedQueueOnComment(DirectExchange directExchange,
+                                                   Queue postActionFeedQueue) {
+        return BindingBuilder.bind(postActionFeedQueue).to(directExchange).with("comment");
     }
 
     @Bean
