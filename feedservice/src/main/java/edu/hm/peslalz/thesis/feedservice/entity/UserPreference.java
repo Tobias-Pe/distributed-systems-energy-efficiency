@@ -31,7 +31,7 @@ public class UserPreference {
     private Map<String, Integer> categoryInteractions = new HashMap<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @MapKeyColumn(name = "liked_user_id")
+    @MapKeyColumn(name = "user_id")
     @Column(name = "interaction_count")
     private Map<Integer, Integer> userInteractions = new HashMap<>();
 
