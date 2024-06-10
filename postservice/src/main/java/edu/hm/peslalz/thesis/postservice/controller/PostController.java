@@ -52,9 +52,9 @@ public class PostController {
 
     @Operation(description = "Get all posts paged using filters")
     @GetMapping
-    public Page<Post> getPosts(@RequestParam(required = false) String category, @RequestParam(required = false) Integer userId, @RequestParam(defaultValue = "0") int page) {
-        log.info("Getting all posts filter: [category:{}; userId:{}; page:{}]", category, userId, page);
-        return postService.getPostsByCategoryUserId(category, userId, page);
+    public Page<Post> getPosts(@RequestParam(required = false) String category, @RequestParam(required = false) Integer userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size) {
+        log.info("Getting all posts filter: [category:{}; userId:{}; page:{}, size:{}]", category, userId, page, size);
+        return postService.getPostsByCategoryUserId(category, userId, page, size);
     }
 
     @Operation(description = "Like a post")

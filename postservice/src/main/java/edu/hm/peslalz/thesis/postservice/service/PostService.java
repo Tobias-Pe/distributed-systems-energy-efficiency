@@ -56,8 +56,8 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Page<Post> getPostsByCategoryUserId(String category, Integer userId, int page) {
-        Page<Integer> postIDs = postRepository.findAllIDsByCategoryAndUserId(category, userId, PageRequest.of(page, 50));
+    public Page<Post> getPostsByCategoryUserId(String category, Integer userId, int page, int size) {
+        Page<Integer> postIDs = postRepository.findAllIDsByCategoryAndUserId(category, userId, PageRequest.of(page, size));
         List<Post> postList = postRepository.findAllById(postIDs.getContent());
         return new PageImpl<>(postList, postIDs.getPageable(), postIDs.getTotalElements());
     }
