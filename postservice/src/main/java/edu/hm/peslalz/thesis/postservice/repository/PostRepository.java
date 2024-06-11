@@ -37,6 +37,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             where
                 (:name is null or categories.name = :name) and
                 (:userId is null or p.userId = :userId)
+            group by p.id
             """)
     Page<Integer> findAllIDsByCategoryAndUserId(@Nullable String name, @Nullable Integer userId, Pageable pageable);
 
