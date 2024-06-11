@@ -51,6 +51,13 @@ public class FeedService {
         categories.forEach(id -> posts.addAll(postClient.getPosts(id, null, page, 2).getContent()));
         contentCreators.forEach(id -> posts.addAll(postClient.getPosts(null, Integer.valueOf(id), page, 2).getContent()));
         trendingPosts.forEach(trendInterface -> posts.add(postClient.getPost(Integer.parseInt(trendInterface.identifier()))));
+        fillUpWithRecentPosts(page, posts);
         return new SliceImpl<>(posts);
+    }
+
+    private void fillUpWithRecentPosts(int page, List<PostDTO> posts) {
+        if (posts.size() < 50) {
+            posts.addAll(postClient.getPosts(null, null, page, 50 - posts.size()).getContent());
+        }
     }
 }
