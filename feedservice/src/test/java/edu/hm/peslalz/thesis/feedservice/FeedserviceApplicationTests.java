@@ -133,7 +133,7 @@ class FeedserviceApplicationTests {
         Mockito.when(postClient.getPosts(any(), any(),anyInt(),anyInt())).thenReturn(new PageImpl<>(List.of(new PostDTO(), new PostDTO())));
         Mockito.when(postClient.getPost(anyInt())).thenReturn(new PostDTO());
         Slice<PostDTO> personalizedFeed = feedController.getPersonalizedFeed(1, 0);
-        Mockito.verify(postClient, Mockito.times(4)).getPosts(any(), any(), anyInt(), anyInt());
+        Mockito.verify(postClient, Mockito.times(5)).getPosts(any(), any(), anyInt(), anyInt());
         Mockito.verify(postClient, Mockito.times(2)).getPost(anyInt());
         Assertions.assertThat(personalizedFeed).isNotNull();
         Assertions.assertThat(personalizedFeed.getContent()).isNotEmpty();
