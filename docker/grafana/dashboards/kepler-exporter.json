@@ -390,10 +390,10 @@
         {
           "datasource": "prometheus",
           "editorMode": "builder",
-          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
+          "expr": "sum by(container_name, container_namespace) (rate(kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{pod_name}} / {{container_namespace}} / Total",
+          "legendFormat": "{{container_name}} / {{container_namespace}} / Total",
           "range": true,
           "refId": "A"
         }
@@ -691,10 +691,10 @@
         {
           "datasource": "prometheus",
           "editorMode": "builder",
-          "expr": "sum by(pod_name, container_namespace) (rate(kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
+          "expr": "sum by(container_name, container_namespace) (rate(kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{pod_name}} / {{container_namespace}} / Total",
+          "legendFormat": "{{container_name}} / {{container_namespace}} / Total",
           "range": true,
           "refId": "A"
         }
@@ -1066,7 +1066,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "default",
           "value": "default"
         },
@@ -1202,6 +1202,6 @@
   "timezone": "browser",
   "title": "Kepler Exporter Dashboard",
   "uid": "NhnADUW4zIBM",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
