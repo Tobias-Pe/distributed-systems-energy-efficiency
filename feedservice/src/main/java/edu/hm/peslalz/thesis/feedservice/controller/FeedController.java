@@ -8,7 +8,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("feed")
+@RequestMapping("feeds")
 @Log4j2
 public class FeedController {
     FeedService feedService;
