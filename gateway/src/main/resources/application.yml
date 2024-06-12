@@ -37,6 +37,12 @@ spring:
             - Path=/notificationservice/**
           filters:
             - RewritePath=/notificationservice/?(?<segment>.*), /$\{segment}
+        - id: feedservice
+          uri: lb://FEEDSERVICE:8085/
+          predicates:
+            - Path=/feedservice/**
+          filters:
+            - RewritePath=/feedservice/?(?<segment>.*), /$\{segment}
   docker:
     compose:
       enabled: true
