@@ -137,6 +137,6 @@ class FeedserviceApplicationTests {
         Mockito.verify(postClient, Mockito.times(2)).getPost(anyInt());
         Assertions.assertThat(personalizedFeed).isNotNull();
         Assertions.assertThat(personalizedFeed.getContent()).isNotEmpty();
-        Assertions.assertThat(personalizedFeed.getContent()).hasSize(10);
+        Assertions.assertThat(personalizedFeed.getContent()).hasSize(12);
     }
 }
