@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.service.type: loadbalancer
+    kompose.version: 1.32.0 (765fde254)
+    org.springframework.boot.ignore: "true"
+  labels:
+    io.kompose.service: feedservice-db-tcp
+  name: feedservice-db
+spec:
+  ports:
+    - name: "5436"
+      port: 5436
+      targetPort: 5432
+  selector:
+    io.kompose.service: feedservice-db
+  type: LoadBalancer
