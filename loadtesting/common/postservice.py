@@ -5,7 +5,7 @@ from faker_file.providers.png_file import GraphicPngFileProvider
 from locust import TaskSet, task
 
 from common import util
-from common.util import if_no_user_exists_wait, posts, users, categories, fake, wait_random_duration
+from common.util import if_no_user_exists_wait, posts, users, feeds, categories, fake, wait_random_duration
 
 fake.add_provider(GraphicPngFileProvider)
 fake.add_provider(GraphicJpegFileProvider)
@@ -59,11 +59,7 @@ class PostActions(TaskSet):
 
     @task(5)
     def like_post(self):
-        if_no_user_exists_wait()
-        self.if_no_post_exists_create()
-
-        post_id = random.choice(list(posts.keys()))
-        user_id = random.choice(list(users.keys()))
+        post_id, user_id = self.get_post_and_user_pair()
         self.client.post(f"/postservice/posts/{post_id}/like?userId={user_id}", name="/postservice/posts/{id}/like")
 
     @task
@@ -80,15 +76,22 @@ class PostActions(TaskSet):
 
     @task
     def comment_post(self):
-        if_no_user_exists_wait()
-        self.if_no_post_exists_create()
-
-        post_id = random.choice(list(posts.keys()))
-        user_id = random.choice(list(users.keys()))
+        post_id, user_id = self.get_post_and_user_pair()
         text = fake.text(max_nb_chars=200)
         self.client.post(f"/postservice/posts/{post_id}/comments",
                          json={"userId": user_id, "text": text},
                          name="/postservice/posts/{id}/comments")
+
+    def get_post_and_user_pair(self):
+        if len(feeds) > 0 and fake.boolean(50):
+            user_id, feed_posts = random.choice(list(feeds.items()))
+            post_id = random.choice(feed_posts).get("id")
+            return post_id, user_id
+        if_no_user_exists_wait()
+        self.if_no_post_exists_create()
+        post_id = random.choice(list(posts.keys()))
+        user_id = random.choice(list(users.keys()))
+        return post_id, user_id
 
     @task
     def get_categories(self):
