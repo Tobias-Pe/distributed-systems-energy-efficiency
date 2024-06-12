@@ -5,9 +5,8 @@ from faker import Faker
 fake = Faker()
 
 users = {}
-
+feeds = {}
 posts = {}
-
 categories = []
 
 
