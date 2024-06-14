@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.service.group: rabbitmq
     kompose.service.type: loadbalancer
-    kompose.version: 1.32.0 (765fde254)
+    kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: rabbitmq
   name: rabbitmq
@@ -20,9 +20,8 @@ spec:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
         kompose.service.group: rabbitmq
         kompose.service.type: loadbalancer
-        kompose.version: 1.32.0 (765fde254)
+        kompose.version: 1.34.0 (cbf2835db)
       labels:
-        io.kompose.network/docker-default: "true"
         io.kompose.service: rabbitmq
     spec:
       containers:
@@ -30,9 +29,7 @@ spec:
           name: rabbitmq
           ports:
             - containerPort: 5672
-              hostPort: 5672
               protocol: TCP
             - containerPort: 15672
-              hostPort: 15672
               protocol: TCP
       restartPolicy: Always
