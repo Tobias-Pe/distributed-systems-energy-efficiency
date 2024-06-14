@@ -4,7 +4,7 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.service.type: loadbalancer
-    kompose.version: 1.32.0 (765fde254)
+    kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: zipkin
   name: zipkin
@@ -18,9 +18,8 @@ spec:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
         kompose.service.type: loadbalancer
-        kompose.version: 1.32.0 (765fde254)
+        kompose.version: 1.34.0 (cbf2835db)
       labels:
-        io.kompose.network/docker-default: "true"
         io.kompose.service: zipkin
     spec:
       containers:
@@ -28,6 +27,5 @@ spec:
           name: zipkin
           ports:
             - containerPort: 9411
-              hostPort: 9411
               protocol: TCP
       restartPolicy: Always

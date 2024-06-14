@@ -3,8 +3,11 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.hpa.cpu: "70"
+    kompose.hpa.memory: "850"
+    kompose.hpa.replicas.max: "10"
     kompose.service.type: loadbalancer
-    kompose.version: 1.32.0 (765fde254)
+    kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: gateway
   name: gateway
@@ -17,16 +20,20 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.hpa.cpu: "70"
+        kompose.hpa.memory: "850"
+        kompose.hpa.replicas.max: "10"
         kompose.service.type: loadbalancer
-        kompose.version: 1.32.0 (765fde254)
+        kompose.version: 1.34.0 (cbf2835db)
       labels:
-        io.kompose.network/docker-default: "true"
         io.kompose.service: gateway
     spec:
       containers:
         - env:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
+            - name: JAVA_TOOL_OPTIONS
+              value: -XX:ActiveProcessorCount=4
             - name: THC_PATH
               value: /actuator/health
             - name: THC_PORT
@@ -41,6 +48,11 @@ spec:
           name: gateway
           ports:
             - containerPort: 8080
-              hostPort: 8080
               protocol: TCP
+          resources:
+            limits:
+              memory: "1048576e3"
+            requests:
+              cpu: "2"
+              memory: "1048576e3"
       restartPolicy: Always

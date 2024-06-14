@@ -4,6 +4,9 @@ include:
 services:
   userservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/userservice:latest
+    labels:
+      - kompose.hpa.cpu=70
+      - kompose.hpa.replicas.max=10
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -11,14 +14,25 @@ services:
       - POSTGRES_URI=jdbc:postgresql://userservice-db:5432/
       - THC_PATH=/actuator/health
       - THC_PORT=8081
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
     deploy:
       mode: replicated
       replicas: 2
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          cpus: '2.0'
+          memory: 1000M
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
   postservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
+    labels:
+      - kompose.hpa.cpu=80
+      - kompose.hpa.memory=80
+      - kompose.hpa.replicas.max=10
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -26,14 +40,25 @@ services:
       - POSTGRES_URI=jdbc:postgresql://postservice-db:5433/
       - THC_PATH=/actuator/health
       - THC_PORT=8082
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
     deploy:
       mode: replicated
       replicas: 2
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          cpus: '2.0'
+          memory: 1000M
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
   notificationservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
+    labels:
+      - kompose.hpa.cpu=80
+      - kompose.hpa.memory=80
+      - kompose.hpa.replicas.max=10
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -41,14 +66,25 @@ services:
       - POSTGRES_URI=jdbc:postgresql://notificationservice-db:5434/
       - THC_PATH=/actuator/health
       - THC_PORT=8083
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
     deploy:
       mode: replicated
       replicas: 2
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          cpus: '2.0'
+          memory: 1000M
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
   statisticservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
+    labels:
+      - kompose.hpa.cpu=80
+      - kompose.hpa.memory=80
+      - kompose.hpa.replicas.max=10
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -56,14 +92,25 @@ services:
       - POSTGRES_URI=jdbc:postgresql://statisticservice-db:5435/
       - THC_PATH=/actuator/health
       - THC_PORT=8084
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
     deploy:
       mode: replicated
       replicas: 2
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          cpus: '2.0'
+          memory: 1000M
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
   feedservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
+    labels:
+      - kompose.hpa.cpu=80
+      - kompose.hpa.memory=80
+      - kompose.hpa.replicas.max=10
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -71,9 +118,16 @@ services:
       - POSTGRES_URI=jdbc:postgresql://feedservice-db:5436/
       - THC_PATH=/actuator/health
       - THC_PORT=8085
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
     deploy:
       mode: replicated
       replicas: 2
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          cpus: '2.0'
+          memory: 1000M
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
@@ -82,27 +136,45 @@ services:
     ports:
       - "8080:8080"
     labels:
+      - kompose.hpa.cpu=80
+      - kompose.hpa.memory=80
+      - kompose.hpa.replicas.max=10
       - kompose.service.type=loadbalancer
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - THC_PATH=/actuator/health
       - THC_PORT=8080
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
     deploy:
       mode: replicated
       replicas: 2
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          cpus: '2.0'
+          memory: 1000M
     healthcheck:
       test: [ "CMD", "/cnb/process/health-check" ]
 
 
   servicediscovery:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:latest
+    labels:
+      - kompose.service.type=loadbalancer
     environment:
       - ZIPKIN_URI=http://zipkin:9411/
       - THC_PATH=/actuator/health
       - THC_PORT=8761
-    labels:
-      - kompose.service.type=loadbalancer
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          cpus: '2.0'
+          memory: 1000M
     ports:
       - "8761:8761"
     healthcheck:
