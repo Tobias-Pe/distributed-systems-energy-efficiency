@@ -17,7 +17,7 @@ public class FeedController {
         this.feedService = feedService;
     }
 
-    @Operation(description = "Get the information of a post")
+    @Operation(description = "Get a user's personalized feed")
     @GetMapping(value = "/{userId}")
     public Slice<PostDTO> getPersonalizedFeed(@PathVariable int userId, @RequestParam(defaultValue = "0") int page) {
         log.info("Getting personalized feed for user {}", userId);
