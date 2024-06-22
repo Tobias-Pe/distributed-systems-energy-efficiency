@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "loadtesting"
+version = "0.1.0"
+description = ""
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+locust = "^2.29.0"
+Faker = "^25.2.0"
+faker-file = {extras = ["all"], version = "^0.17.11"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
