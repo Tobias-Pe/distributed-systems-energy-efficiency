@@ -44,7 +44,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Override
     @EntityGraph(attributePaths = {"comments", "categories"})
     @NonNull
-    List<Post> findAllById(@NonNull Iterable<Integer> strings);
+    List<Post> findAllById(@NonNull Iterable<Integer> ids);
 
 
 }
