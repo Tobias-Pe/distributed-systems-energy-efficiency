@@ -24,6 +24,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: JAVA_TOOL_OPTIONS
+              value: -XX:ActiveProcessorCount=4
             - name: THC_PATH
               value: /actuator/health
             - name: THC_PORT
@@ -39,4 +41,10 @@ spec:
           ports:
             - containerPort: 8761
               protocol: TCP
+          resources:
+            limits:
+              memory: "1048576e3"
+            requests:
+              cpu: "1"
+              memory: "1048576e3"
       restartPolicy: Always

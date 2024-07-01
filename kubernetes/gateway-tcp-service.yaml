@@ -3,6 +3,10 @@ kind: Service
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.hpa.cpu: "80"
+    kompose.hpa.memory: "80"
+    kompose.hpa.replicas.max: "10"
+    kompose.hpa.replicas.min: "2"
     kompose.service.type: loadbalancer
     kompose.version: 1.34.0 (cbf2835db)
   labels:

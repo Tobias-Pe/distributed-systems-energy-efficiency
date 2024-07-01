@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.hpa.cpu: "80"
+    kompose.hpa.memory: "70"
+    kompose.hpa.replicas.max: "10"
+    kompose.hpa.replicas.min: "2"
     kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: feedservice
@@ -16,6 +20,10 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.hpa.cpu: "80"
+        kompose.hpa.memory: "70"
+        kompose.hpa.replicas.max: "10"
+        kompose.hpa.replicas.min: "2"
         kompose.version: 1.34.0 (cbf2835db)
       labels:
         io.kompose.service: feedservice
@@ -24,6 +32,8 @@ spec:
         - env:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
+            - name: JAVA_TOOL_OPTIONS
+              value: -XX:ActiveProcessorCount=4
             - name: POSTGRES_URI
               value: jdbc:postgresql://feedservice-db:5436/
             - name: RABBITMQ_HOST
@@ -40,4 +50,10 @@ spec:
               command:
                 - /cnb/process/health-check
           name: feedservice
+          resources:
+            limits:
+              memory: "1048576e3"
+            requests:
+              cpu: "1"
+              memory: "1048576e3"
       restartPolicy: Always
