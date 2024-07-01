@@ -8,7 +8,7 @@ from common.util import if_no_user_exists_wait, users, fake
 class NotificationActions(TaskSet):
 
     @task
-    def create_user(self):
+    def count_notifications(self):
         if_no_user_exists_wait()
         user_id = random.choice(list(users.keys()))
         self.client.post(f"/notificationservice/notifications/count?userId={user_id}",
