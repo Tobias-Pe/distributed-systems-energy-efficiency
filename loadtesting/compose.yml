@@ -8,11 +8,11 @@ services:
      - "8089:8089"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://10.28.45.81:8080 --csv data --headless --expect-workers 4 --reset-stats #--csv-full-history
+    command: -f /mnt/locust/locustfile.py --master -H http://10.28.45.81:8080 --csv data --headless --expect-workers 8 --reset-stats --only-summary --loglevel WARNING
 
   worker:
     build:
       dockerfile: Dockerfile
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --worker --master-host master --reset-stats
+    command: -f /mnt/locust/locustfile.py --worker --master-host master --reset-stats --only-summary --loglevel WARNING
