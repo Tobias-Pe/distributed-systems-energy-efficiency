@@ -54,5 +54,6 @@ scrape_configs:
         replacement: snmp-exporter:9116
 
   - job_name: 'snmp-exporter'
+    scrape_interval: 3s
     static_configs:
       - targets: [ 'snmp-exporter:9116' ]
