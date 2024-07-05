@@ -8,6 +8,8 @@ datasources:
     isDefault: true
     version: 1
     editable: true
+    jsonData:
+      timeInterval: 3s
 
   - name: prometheus-kubernetes
     type: prometheus
