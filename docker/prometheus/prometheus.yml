@@ -37,6 +37,7 @@ scrape_configs:
         target_label: instance
 
   - job_name: 'snmp'
+    scrape_interval: 3s
     static_configs:
       - targets:
           - 10.28.1.126
