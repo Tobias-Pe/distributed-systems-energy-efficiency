@@ -14,7 +14,7 @@ class GatewayUser(HttpUser):
 multiplier = 5
 
 stages = [
-    {"duration": 60 * multiplier, "users": 100, "spawn_rate": 5},
+    {"duration": 80 * multiplier, "users": 100, "spawn_rate": 2},
     {"duration": 40 * multiplier, "users": 200, "spawn_rate": 20},
     {"duration": 40 * multiplier, "users": 300, "spawn_rate": 20},
     {"duration": 60 * multiplier, "users": 500, "spawn_rate": 20},
