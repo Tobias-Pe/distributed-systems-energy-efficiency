@@ -42,7 +42,7 @@ public class StatisticsReceiveService {
         trendService.registerPostAction(postActionMessage);
     }
 
-    @RabbitListener(queues = "user-statistics")
+    @RabbitListener(queues = "user-statistics", concurrency = "1-2")
     public void receiveUser(String user) {
         Integer followedUser = Integer.valueOf(user);
         log.info("user {} has a new follower", followedUser);
