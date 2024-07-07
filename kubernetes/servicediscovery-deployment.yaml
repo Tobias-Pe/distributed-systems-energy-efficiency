@@ -43,8 +43,8 @@ spec:
               protocol: TCP
           resources:
             limits:
-              memory: "1048576e3"
+              memory: "209715200"
             requests:
               cpu: "1"
-              memory: "1048576e3"
+              memory: "209715200"
       restartPolicy: Always
