@@ -6,7 +6,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/userservice:latest
     labels:
       - kompose.hpa.cpu=80
-      - kompose.hpa.memory=80
+      - kompose.hpa.memory=65
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
     environment:
@@ -32,7 +32,7 @@ services:
   postservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
     labels:
-      - kompose.hpa.cpu=80
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
@@ -113,7 +113,7 @@ services:
   feedservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
     labels:
-      - kompose.hpa.cpu=80
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
@@ -142,8 +142,8 @@ services:
     ports:
       - "8080:8080"
     labels:
-      - kompose.hpa.cpu=80
-      - kompose.hpa.memory=80
+      - kompose.hpa.cpu=70
+      - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
       - kompose.service.type=loadbalancer
@@ -178,10 +178,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1000M
+          memory: 200M
         reservations:
           cpus: '1.0'
-          memory: 1000M
+          memory: 200M
     ports:
       - "8761:8761"
     healthcheck:
