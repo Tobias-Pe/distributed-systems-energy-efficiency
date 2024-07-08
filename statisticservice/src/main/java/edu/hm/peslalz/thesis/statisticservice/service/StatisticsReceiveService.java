@@ -34,7 +34,7 @@ public class StatisticsReceiveService {
         trendService.registerNewPost(postMessage);
     }
 
-    @RabbitListener(queues = "post-action-statistics")
+    @RabbitListener(queues = "post-action-statistics", concurrency = "1-2")
     public void receivePostAction(String postAction) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
