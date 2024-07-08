@@ -4,9 +4,16 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.hpa.cpu: "70"
-    kompose.hpa.memory: "70"
+    kompose.hpa.memory: "60"
     kompose.hpa.replicas.max: "10"
     kompose.hpa.replicas.min: "2"
+    kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
+    kompose.service.healthcheck.liveness.http_get_port: "8080"
+    kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
+    kompose.service.healthcheck.readiness.http_get_port: "8080"
+    kompose.service.healthcheck.readiness.retries: "5"
+    kompose.service.healthcheck.readiness.start_period: 8s
+    kompose.service.healthcheck.readiness.timeout: 5s
     kompose.service.type: loadbalancer
     kompose.version: 1.34.0 (cbf2835db)
   labels:
@@ -22,9 +29,16 @@ spec:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
         kompose.hpa.cpu: "70"
-        kompose.hpa.memory: "70"
+        kompose.hpa.memory: "60"
         kompose.hpa.replicas.max: "10"
         kompose.hpa.replicas.min: "2"
+        kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
+        kompose.service.healthcheck.liveness.http_get_port: "8080"
+        kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
+        kompose.service.healthcheck.readiness.http_get_port: "8080"
+        kompose.service.healthcheck.readiness.retries: "5"
+        kompose.service.healthcheck.readiness.start_period: 8s
+        kompose.service.healthcheck.readiness.timeout: 5s
         kompose.service.type: loadbalancer
         kompose.version: 1.34.0 (cbf2835db)
       labels:
@@ -36,25 +50,31 @@ spec:
               value: http://servicediscovery:8761/eureka
             - name: JAVA_TOOL_OPTIONS
               value: -XX:ActiveProcessorCount=4
-            - name: THC_PATH
-              value: /actuator/health
-            - name: THC_PORT
-              value: "8080"
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
           livenessProbe:
-            exec:
-              command:
-                - /cnb/process/health-check
+            failureThreshold: 5
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 8
+            timeoutSeconds: 5
           name: gateway
           ports:
             - containerPort: 8080
               protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 8
+            timeoutSeconds: 5
           resources:
             limits:
-              memory: "1048576e3"
+              memory: "1572864e3"
             requests:
               cpu: "1"
-              memory: "1048576e3"
+              memory: "1572864e3"
       restartPolicy: Always

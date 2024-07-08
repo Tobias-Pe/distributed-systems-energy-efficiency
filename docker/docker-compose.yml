@@ -13,6 +13,9 @@ services:
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
       - kompose.service.healthcheck.readiness.http_get_port=8081
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
+      - kompose.service.healthcheck.readiness.start_period=8s
+      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -28,6 +31,10 @@ services:
         reservations:
           cpus: '1.0'
           memory: 1000M
+    healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
+      start_period: 8s
+      timeout: 5s
+      retries: 5
 
   postservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
@@ -40,6 +47,9 @@ services:
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
       - kompose.service.healthcheck.readiness.http_get_port=8082
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
+      - kompose.service.healthcheck.readiness.start_period=8s
+      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -55,6 +65,10 @@ services:
         reservations:
           cpus: '1.0'
           memory: 1000M
+    healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
+      start_period: 8s
+      timeout: 5s
+      retries: 5
 
   notificationservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
@@ -67,6 +81,9 @@ services:
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
       - kompose.service.healthcheck.readiness.http_get_port=8083
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
+      - kompose.service.healthcheck.readiness.start_period=8s
+      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -82,6 +99,10 @@ services:
         reservations:
           cpus: '1.0'
           memory: 1000M
+    healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
+      start_period: 8s
+      timeout: 5s
+      retries: 5
 
   statisticservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
@@ -94,6 +115,9 @@ services:
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
       - kompose.service.healthcheck.readiness.http_get_port=8084
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
+      - kompose.service.healthcheck.readiness.start_period=8s
+      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -109,6 +133,10 @@ services:
         reservations:
           cpus: '1.0'
           memory: 1000M
+    healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
+      start_period: 8s
+      timeout: 5s
+      retries: 5
 
   feedservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
@@ -121,6 +149,9 @@ services:
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
       - kompose.service.healthcheck.readiness.http_get_port=8085
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
+      - kompose.service.healthcheck.readiness.start_period=8s
+      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -136,6 +167,10 @@ services:
         reservations:
           cpus: '1.0'
           memory: 1000M
+    healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
+      start_period: 8s
+      timeout: 5s
+      retries: 5
 
   gateway:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
@@ -143,7 +178,7 @@ services:
       - "8080:8080"
     labels:
       - kompose.hpa.cpu=70
-      - kompose.hpa.memory=70
+      - kompose.hpa.memory=60
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
       - kompose.service.type=loadbalancer
@@ -151,6 +186,9 @@ services:
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
       - kompose.service.healthcheck.readiness.http_get_port=8080
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
+      - kompose.service.healthcheck.readiness.start_period=8s
+      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -160,11 +198,14 @@ services:
       replicas: 2
       resources:
         limits:
-          memory: 1000M
+          memory: 1500M
         reservations:
           cpus: '1.0'
-          memory: 1000M
-
+          memory: 1500M
+    healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
+      start_period: 8s
+      timeout: 5s
+      retries: 5
 
   servicediscovery:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:latest
@@ -174,6 +215,9 @@ services:
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
       - kompose.service.healthcheck.readiness.http_get_port=8761
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
+      - kompose.service.healthcheck.readiness.start_period=8s
+      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - ZIPKIN_URI=http://zipkin:9411/
       - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
@@ -186,3 +230,7 @@ services:
           memory: 1000M
     ports:
       - "8761:8761"
+    healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
+      start_period: 8s
+      timeout: 5s
+      retries: 5

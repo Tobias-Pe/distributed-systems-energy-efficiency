@@ -3,6 +3,13 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+    kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
+    kompose.service.healthcheck.liveness.http_get_port: "8761"
+    kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
+    kompose.service.healthcheck.readiness.http_get_port: "8761"
+    kompose.service.healthcheck.readiness.retries: "5"
+    kompose.service.healthcheck.readiness.start_period: 8s
+    kompose.service.healthcheck.readiness.timeout: 5s
     kompose.service.type: loadbalancer
     kompose.version: 1.34.0 (cbf2835db)
   labels:
@@ -17,6 +24,13 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
+        kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
+        kompose.service.healthcheck.liveness.http_get_port: "8761"
+        kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
+        kompose.service.healthcheck.readiness.http_get_port: "8761"
+        kompose.service.healthcheck.readiness.retries: "5"
+        kompose.service.healthcheck.readiness.start_period: 8s
+        kompose.service.healthcheck.readiness.timeout: 5s
         kompose.service.type: loadbalancer
         kompose.version: 1.34.0 (cbf2835db)
       labels:
@@ -26,21 +40,27 @@ spec:
         - env:
             - name: JAVA_TOOL_OPTIONS
               value: -XX:ActiveProcessorCount=4
-            - name: THC_PATH
-              value: /actuator/health
-            - name: THC_PORT
-              value: "8761"
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:latest
           livenessProbe:
-            exec:
-              command:
-                - /cnb/process/health-check
+            failureThreshold: 5
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8761
+            initialDelaySeconds: 8
+            timeoutSeconds: 5
           name: servicediscovery
           ports:
             - containerPort: 8761
               protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8761
+            initialDelaySeconds: 8
+            timeoutSeconds: 5
           resources:
             limits:
               memory: "1048576e3"
