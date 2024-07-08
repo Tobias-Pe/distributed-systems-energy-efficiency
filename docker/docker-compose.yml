@@ -178,10 +178,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 1000M
         reservations:
           cpus: '1.0'
-          memory: 200M
+          memory: 1000M
     ports:
       - "8761:8761"
     healthcheck:
