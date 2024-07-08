@@ -84,6 +84,7 @@ services:
       - kompose.service.healthcheck.readiness.start_period=8s
       - kompose.service.healthcheck.readiness.retries=5
       - kompose.service.healthcheck.readiness.timeout=5s
+      - kompose.volume.type=emptyDir
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
@@ -103,6 +104,8 @@ services:
       start_period: 8s
       timeout: 5s
       retries: 5
+    volumes:
+      - /workspace/notificationservice
 
   statisticservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
