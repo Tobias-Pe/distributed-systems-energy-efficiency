@@ -150,9 +150,9 @@
                     <layers>
                         <enabled>true</enabled>
                     </layers>
-                    <docker>
-                        <host>//./pipe/dockerDesktopLinuxEngine</host>
-                    </docker>
+<!--                    <docker>--> <!--needed for local windows docker bug-->
+<!--                        <host>//./pipe/dockerDesktopLinuxEngine</host>-->
+<!--                    </docker>-->
                 </configuration>
             </plugin>
         </plugins>
