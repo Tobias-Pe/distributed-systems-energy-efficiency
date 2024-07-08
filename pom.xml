@@ -150,15 +150,9 @@
                     <layers>
                         <enabled>true</enabled>
                     </layers>
-                    <image>
-                        <env>
-                            <BP_HEALTH_CHECKER_ENABLED>true</BP_HEALTH_CHECKER_ENABLED>
-                        </env>
-                        <buildpacks>
-                            <buildpack>urn:cnb:builder:paketo-buildpacks/java</buildpack>
-                            <buildpack>gcr.io/paketo-buildpacks/health-checker:latest</buildpack>
-                        </buildpacks>
-                    </image>
+                    <docker>
+                        <host>//./pipe/dockerDesktopLinuxEngine</host>
+                    </docker>
                 </configuration>
             </plugin>
         </plugins>

@@ -36,6 +36,15 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
 
 eureka:
   client:
