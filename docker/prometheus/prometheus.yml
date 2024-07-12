@@ -22,10 +22,8 @@ scrape_configs:
     static_configs:
          - targets: ['localhost:9090']
 
-
+  # Scrape Eureka itself to discover new services.
   - job_name: 'eureka'
-
-    # Scrape Eureka itself to discover new services.
     eureka_sd_configs:
       - server: http://servicediscovery:8761/eureka
     relabel_configs:

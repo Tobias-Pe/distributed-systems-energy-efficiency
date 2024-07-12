@@ -6,6 +6,8 @@ import edu.hm.peslalz.thesis.feedservice.entity.PostActionMessage;
 import edu.hm.peslalz.thesis.feedservice.entity.PostMessage;
 import edu.hm.peslalz.thesis.feedservice.entity.UserPreference;
 import edu.hm.peslalz.thesis.feedservice.repository.UserPreferenceRepository;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -26,8 +28,13 @@ import java.util.Objects;
 public class PreferencesReceiveService {
     UserPreferenceRepository userPreferenceRepository;
 
-    public PreferencesReceiveService(UserPreferenceRepository userPreferenceRepository) {
+    private final Counter preferenceUpdateCounter;
+
+    public PreferencesReceiveService(UserPreferenceRepository userPreferenceRepository, MeterRegistry registry) {
         this.userPreferenceRepository = userPreferenceRepository;
+        this.preferenceUpdateCounter = Counter.builder("feedservice_updated_preferences_counter")
+                .description("Count of preference updates")
+                .register(registry);
     }
 
     // enable tracing for rabbitmq listener
@@ -72,5 +79,6 @@ public class PreferencesReceiveService {
         }
         postMessage.getCategories().forEach(userPreference::addCategoryInteraction);
         userPreferenceRepository.save(userPreference);
+        preferenceUpdateCounter.increment();
     }
 }

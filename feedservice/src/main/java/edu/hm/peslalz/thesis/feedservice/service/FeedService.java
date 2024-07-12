@@ -17,9 +17,7 @@ import java.util.List;
 @Service
 public class FeedService {
     TrendClient trendClient;
-
     PostClient postClient;
-
     UserPreferenceRepository userPreferenceRepository;
 
     public FeedService(TrendClient trendClient, PostClient postClient, UserPreferenceRepository userPreferenceRepository) {

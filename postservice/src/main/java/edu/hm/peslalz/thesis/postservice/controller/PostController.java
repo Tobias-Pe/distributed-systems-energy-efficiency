@@ -5,6 +5,7 @@ import edu.hm.peslalz.thesis.postservice.entity.ImageData;
 import edu.hm.peslalz.thesis.postservice.entity.Post;
 import edu.hm.peslalz.thesis.postservice.entity.PostRequest;
 import edu.hm.peslalz.thesis.postservice.service.PostService;
+import io.micrometer.core.annotation.Counted;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.InputStreamResource;

@@ -5,6 +5,8 @@ import edu.hm.peslalz.thesis.notificationservice.entity.Notification;
 import edu.hm.peslalz.thesis.notificationservice.entity.PostMessage;
 import edu.hm.peslalz.thesis.notificationservice.entity.UserMessage;
 import edu.hm.peslalz.thesis.notificationservice.repository.NotificationRepository;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -30,14 +32,19 @@ public class NotificationService {
     NotificationRepository notificationRepository;
     UserClient userClient;
 
+    private final Counter notificationsCounter;
+
     @Value("classpath:email-template.html")
     Resource templateFile;
 
     public static final String OUTPUT_FOLDERNAME = "notificationservice/inbox/";
 
-    public NotificationService(NotificationRepository notificationRepository, UserClient userClient) {
+    public NotificationService(NotificationRepository notificationRepository, UserClient userClient, MeterRegistry registry) {
         this.notificationRepository = notificationRepository;
         this.userClient = userClient;
+        this.notificationsCounter = Counter.builder("notificationservice_created_notifications_counter")
+                .description("Count of created notifications")
+                .register(registry);
     }
 
     public Set<Notification> getUsersNotifications(Integer userId) {
@@ -67,12 +74,14 @@ public class NotificationService {
     public void notifySubscriber(PostMessage postMessage) {
         ResponseEntity<List<UserMessage>> responseEntity = userClient.getUserFollowers(postMessage.getUserId());
         List<UserMessage> followers = responseEntity.getBody();
+        assert followers != null;
         for (UserMessage follower : followers) {
             simulateEmailSending(follower, String.valueOf(postMessage.getId()));
             Notification notification = new Notification(postMessage);
             notification.setNotifiedUsersId(follower.getId());
             createNotification(notification);
         }
+        notificationsCounter.increment(followers.size());
     }
 
     public void simulateEmailSending(UserMessage user, String postId) {
