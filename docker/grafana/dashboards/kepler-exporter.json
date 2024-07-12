@@ -687,7 +687,9 @@
           ],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Range",
+          "sortDesc": true
         },
         "tooltip": {
           "mode": "single",
@@ -1060,8 +1062,8 @@
             "type": "prometheus",
             "uid": "P1809F7CD0C75ACF3"
           },
-          "editorMode": "builder",
-          "expr": "http_server_requests_seconds_count{error=\"none\", outcome!~\"SERVER_ERROR|UNKNOWN\"}",
+          "editorMode": "code",
+          "expr": "http_server_requests_seconds_count{error=\"none\", outcome!~\"SERVER_ERROR|UNKNOWN\", uri!~\"/actuator/.*\"}",
           "hide": false,
           "instant": false,
           "range": true,
