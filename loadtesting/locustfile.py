@@ -10,17 +10,15 @@ class GatewayUser(HttpUser):
     wait_time = between(0.5, 5)
     tasks = {UserActions: 30, PostActions: 30, FeedActions: 15, NotificationActions: 10}
 
-
-multiplier = 5
+minutes = 30
 
 stages = [
-    {"duration": 90 * multiplier, "users": 100, "spawn_rate": 2},
-    {"duration": 40 * multiplier, "users": 200, "spawn_rate": 2},
-    {"duration": 40 * multiplier, "users": 300, "spawn_rate": 2},
-    {"duration": 60 * multiplier, "users": 500, "spawn_rate": 2},
-    {"duration": 80 * multiplier, "users": 800, "spawn_rate": 2},
-    {"duration": 80 * multiplier, "users": 1300, "spawn_rate": 2},
-    {"duration": 100 * multiplier, "users": 2100, "spawn_rate": 4}
+    {"duration": 60 * minutes, "users": 100, "spawn_rate": 2},
+    {"duration": 60 * minutes, "users": 200, "spawn_rate": 2},
+    {"duration": 60 * minutes, "users": 300, "spawn_rate": 2},
+    {"duration": 60 * minutes, "users": 500, "spawn_rate": 2},
+    {"duration": 60 * minutes, "users": 800, "spawn_rate": 2},
+    {"duration": 60 * minutes, "users": 1300, "spawn_rate": 2}
 ]
 
 cumulative_duration = 0
