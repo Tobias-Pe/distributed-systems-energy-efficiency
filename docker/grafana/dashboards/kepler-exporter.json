@@ -702,7 +702,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 5,
         "w": 7,
         "x": 12,
         "y": 15
@@ -806,7 +806,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 5,
         "x": 19,
         "y": 15
@@ -1010,9 +1010,9 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "PF62EF777181A29A8"
       },
-      "description": "All prometheus metrics which symbolize usefull work: Some custom metrics & successfull http requests",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1025,18 +1025,15 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 2,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "smooth",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -1069,21 +1066,22 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 12,
+        "h": 4,
+        "w": 7,
         "x": 12,
-        "y": 22
+        "y": 20
       },
-      "id": 64,
+      "id": 65,
       "options": {
         "legend": {
           "calcs": [
-            "range"
+            "min",
+            "max"
           ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true,
-          "sortBy": "Range",
+          "sortBy": "Max",
           "sortDesc": true
         },
         "tooltip": {
@@ -1095,54 +1093,17 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
-          },
-          "editorMode": "code",
-          "expr": "http_server_requests_seconds_count{error=\"none\", outcome!~\"SERVER_ERROR|UNKNOWN\", uri!~\"/actuator/.*\"}",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "{{application}} {{uri}}",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "PF62EF777181A29A8"
           },
           "editorMode": "builder",
-          "expr": "feedservice_updated_preferences_counter_total",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
-          },
-          "editorMode": "builder",
-          "expr": "notificationservice_created_notifications_counter_total",
+          "expr": "sum by(container, reason) (kube_pod_container_status_last_terminated_reason{namespace=~\"$namespace\"})",
           "hide": false,
           "instant": false,
           "range": true,
           "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
-          },
-          "editorMode": "builder",
-          "expr": "trendservice_trend_updates_counter_total",
-          "hide": false,
-          "instant": false,
-          "range": true,
-          "refId": "D"
         }
       ],
-      "title": "Usefull Work - Service Metrics",
+      "title": "Kubernetes Container Terminate Reasons in Namespace $namespace",
       "type": "timeseries"
     },
     {
@@ -1254,6 +1215,144 @@
         "type": "prometheus",
         "uid": "P1809F7CD0C75ACF3"
       },
+      "description": "All prometheus metrics which symbolize usefull work: Some custom metrics & successfull http requests",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "id": 64,
+      "options": {
+        "legend": {
+          "calcs": [
+            "range"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Range",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "expr": "http_server_requests_seconds_count{error=\"none\", outcome!~\"SERVER_ERROR|UNKNOWN\", uri!~\"/actuator/.*\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{application}} {{uri}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "feedservice_updated_preferences_counter_total",
+          "hide": false,
+          "instant": false,
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "notificationservice_created_notifications_counter_total",
+          "hide": false,
+          "instant": false,
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "trendservice_trend_updates_counter_total",
+          "hide": false,
+          "instant": false,
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "Usefull Work - Service Metrics",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1314,7 +1413,7 @@
         "h": 6,
         "w": 10,
         "x": 12,
-        "y": 29
+        "y": 31
       },
       "id": 63,
       "options": {
@@ -1387,7 +1486,7 @@
         "h": 6,
         "w": 2,
         "x": 22,
-        "y": 29
+        "y": 31
       },
       "id": 21,
       "options": {
@@ -1424,7 +1523,7 @@
       "type": "gauge"
     }
   ],
-  "refresh": "30s",
+  "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -1514,7 +1613,7 @@
     ]
   },
   "time": {
-    "from": "2024-07-14T10:22:50.000Z",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
