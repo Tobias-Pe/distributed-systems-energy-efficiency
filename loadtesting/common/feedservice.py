@@ -18,3 +18,4 @@ class FeedActions(TaskSet):
                 return
             feeds[user_id] = response.json().get('content')
             response.success()
+        self.interrupt()

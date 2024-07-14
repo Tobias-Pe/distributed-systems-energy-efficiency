@@ -13,6 +13,7 @@ class NotificationActions(TaskSet):
         user_id = random.choice(list(users.keys()))
         self.client.post(f"/notificationservice/notifications/count?userId={user_id}",
                          name="/notificationservice/notifications/count")
+        self.interrupt()
 
     @task
     def get_notifications(self):
@@ -31,6 +32,7 @@ class NotificationActions(TaskSet):
                 return
             notification_id = random.choice(notifications).get("id")
             self.change_notification_read_status(notification_id)
+        self.interrupt()
 
     def change_notification_read_status(self, notification_id):
         self.client.post(f"/notificationservice/notifications/{notification_id}?isRead={fake.boolean()}",

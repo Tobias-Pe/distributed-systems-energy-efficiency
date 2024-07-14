@@ -21,6 +21,7 @@ class UserActions(TaskSet):
         with self.client.post("/userservice/users", json={"username": fake.user_name()}, name="/userservice/users",
                               catch_response=True) as response:
             handle_user_response(response)
+        self.interrupt()
 
     def if_no_user_exists_create(self):
         for _ in range(10):
@@ -39,6 +40,7 @@ class UserActions(TaskSet):
                              name="/userservice/users/{id}",
                              catch_response=True) as response:
             handle_user_response(response)
+        self.interrupt()
 
     @task(8)
     def follow(self):
@@ -52,18 +54,21 @@ class UserActions(TaskSet):
                 response.success()
                 return
             response.failure(response.text)
+        self.interrupt()
 
     @task
     def get_followers(self):
         self.if_no_user_exists_create()
         user_id = random.choice(list(users.keys()))
         self.client.get(f"/userservice/users/{user_id}/followers", name="/userservice/users/{id}/followers")
+        self.interrupt()
 
     @task
     def get_user(self):
         self.if_no_user_exists_create()
         user_id = random.choice(list(users.keys()))
         self.client.get(f"/userservice/users/{user_id}", name="/userservice/users/{id}")
+        self.interrupt()
 
     @task(2)
     def search_user(self):
@@ -76,6 +81,7 @@ class UserActions(TaskSet):
         else:
             letters = "%" + letters + "%"
         self.search_user_paginated(letters, 0)
+        self.interrupt()
 
     def search_user_paginated(self, query, page):
         with self.client.post(f"/userservice/users/search?page={page}&query={query}", name="/userservice/users/search",

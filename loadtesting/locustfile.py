@@ -8,7 +8,7 @@ from common.userservice import UserActions
 
 class GatewayUser(HttpUser):
     wait_time = between(0.5, 5)
-    tasks = {UserActions: 30, PostActions: 30, FeedActions: 15, NotificationActions: 10}
+    tasks = {UserActions: 20, PostActions: 30, FeedActions: 15, NotificationActions: 10}
 
 minutes = 30
 

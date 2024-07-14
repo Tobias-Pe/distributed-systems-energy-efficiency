@@ -27,6 +27,7 @@ class PostActions(TaskSet):
             else:
                 posts[response.json().get("id")] = response.json()
                 response.success()
+        self.interrupt()
 
     def generate_post_data(self):
         words = fake.words(nb=fake.random_int(1, 6, 1), unique=True)
@@ -61,18 +62,21 @@ class PostActions(TaskSet):
     def like_post(self):
         post_id, user_id = self.get_post_and_user_pair()
         self.client.post(f"/postservice/posts/{post_id}/like?userId={user_id}", name="/postservice/posts/{id}/like")
+        self.interrupt()
 
     @task
     def get_post(self):
         self.if_no_post_exists_create()
         post_id = random.choice(list(posts.keys()))
         self.client.get(f"/postservice/posts/{post_id}", name="/postservice/posts/{id}")
+        self.interrupt()
 
     @task
     def get_post_image(self):
         self.if_no_post_exists_create()
         post_id = random.choice(list(posts.keys()))
         self.client.get(f"/postservice/posts/{post_id}/image", name="/postservice/posts/{id}/image")
+        self.interrupt()
 
     @task
     def comment_post(self):
@@ -81,6 +85,7 @@ class PostActions(TaskSet):
         self.client.post(f"/postservice/posts/{post_id}/comments",
                          json={"userId": user_id, "text": text},
                          name="/postservice/posts/{id}/comments")
+        self.interrupt()
 
     def get_post_and_user_pair(self):
         if len(feeds) > 0 and fake.boolean(50):
@@ -96,6 +101,7 @@ class PostActions(TaskSet):
     @task
     def get_categories(self):
         self.get_categories_paginated(0)
+        self.interrupt()
 
     def get_categories_paginated(self, page):
         with self.client.get(f"/postservice/categories",
@@ -120,6 +126,7 @@ class PostActions(TaskSet):
             category = random.choice(categories)
 
         self.get_posts_paginated_filtered(0, category=category, user_id=user_id)
+        self.interrupt()
 
     def get_posts_paginated_filtered(self, page, category=None, user_id=None):
         params = f"?page={page}"
