@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.hpa.cpu: "80"
     kompose.hpa.memory: "80"
-    kompose.hpa.replicas.max: "10"
+    kompose.hpa.replicas.max: "5"
     kompose.hpa.replicas.min: "2"
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
     kompose.service.healthcheck.liveness.http_get_port: "8083"
@@ -32,7 +32,7 @@ spec:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
         kompose.hpa.cpu: "80"
         kompose.hpa.memory: "80"
-        kompose.hpa.replicas.max: "10"
+        kompose.hpa.replicas.max: "5"
         kompose.hpa.replicas.min: "2"
         kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
         kompose.service.healthcheck.liveness.http_get_port: "8083"
@@ -84,5 +84,6 @@ spec:
             - mountPath: /workspace/notificationservice
               name: notificationservice-empty0
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
       volumes:
         - name: notificationservice-empty0

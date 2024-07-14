@@ -78,3 +78,4 @@ spec:
               cpu: "1"
               memory: "1572864e3"
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30

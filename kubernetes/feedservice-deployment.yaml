@@ -77,3 +77,4 @@ spec:
               cpu: 1500m
               memory: "1572864e3"
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30

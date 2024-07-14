@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.hpa.cpu: "70"
     kompose.hpa.memory: "80"
-    kompose.hpa.replicas.max: "10"
+    kompose.hpa.replicas.max: "15"
     kompose.hpa.replicas.min: "2"
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
     kompose.service.healthcheck.liveness.http_get_port: "8082"
@@ -29,7 +29,7 @@ spec:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
         kompose.hpa.cpu: "70"
         kompose.hpa.memory: "80"
-        kompose.hpa.replicas.max: "10"
+        kompose.hpa.replicas.max: "15"
         kompose.hpa.replicas.min: "2"
         kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
         kompose.service.healthcheck.liveness.http_get_port: "8082"
@@ -77,3 +77,4 @@ spec:
               cpu: 1500m
               memory: "2097152e3"
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30

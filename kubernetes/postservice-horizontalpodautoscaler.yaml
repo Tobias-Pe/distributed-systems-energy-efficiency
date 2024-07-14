@@ -3,7 +3,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: postservice
 spec:
-  maxReplicas: 10
+  maxReplicas: 15
   metrics:
     - resource:
         name: cpu
