@@ -22,6 +22,7 @@ services:
     labels:
       - kompose.service.type=loadbalancer
       - org.springframework.boot.ignore=true
+    command: -c 'max_connections=200'
     ports:
       - "5433:5432"
 

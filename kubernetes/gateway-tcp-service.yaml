@@ -3,7 +3,7 @@ kind: Service
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-    kompose.hpa.cpu: "70"
+    kompose.hpa.cpu: "90"
     kompose.hpa.memory: "60"
     kompose.hpa.replicas.max: "10"
     kompose.hpa.replicas.min: "2"

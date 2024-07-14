@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-    kompose.hpa.cpu: "70"
+    kompose.hpa.cpu: "90"
     kompose.hpa.memory: "80"
     kompose.hpa.replicas.max: "15"
     kompose.hpa.replicas.min: "2"
@@ -27,7 +27,7 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-        kompose.hpa.cpu: "70"
+        kompose.hpa.cpu: "90"
         kompose.hpa.memory: "80"
         kompose.hpa.replicas.max: "15"
         kompose.hpa.replicas.min: "2"
@@ -74,7 +74,7 @@ spec:
             limits:
               memory: "2097152e3"
             requests:
-              cpu: 1500m
+              cpu: 900m
               memory: "2097152e3"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

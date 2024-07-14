@@ -25,7 +25,10 @@ spec:
         io.kompose.service: postservice-db
     spec:
       containers:
-        - env:
+        - args:
+            - -c
+            - max_connections=200
+          env:
             - name: POSTGRES_DB
               value: postdatabase
             - name: POSTGRES_PASSWORD
