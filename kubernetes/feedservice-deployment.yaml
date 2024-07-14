@@ -11,7 +11,7 @@ metadata:
     kompose.service.healthcheck.liveness.http_get_port: "8085"
     kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
     kompose.service.healthcheck.readiness.http_get_port: "8085"
-    kompose.service.healthcheck.readiness.retries: "5"
+    kompose.service.healthcheck.readiness.retries: "3"
     kompose.service.healthcheck.readiness.start_period: 8s
     kompose.service.healthcheck.readiness.timeout: 5s
     kompose.version: 1.34.0 (cbf2835db)
@@ -35,7 +35,7 @@ spec:
         kompose.service.healthcheck.liveness.http_get_port: "8085"
         kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
         kompose.service.healthcheck.readiness.http_get_port: "8085"
-        kompose.service.healthcheck.readiness.retries: "5"
+        kompose.service.healthcheck.readiness.retries: "3"
         kompose.service.healthcheck.readiness.start_period: 8s
         kompose.service.healthcheck.readiness.timeout: 5s
         kompose.version: 1.34.0 (cbf2835db)
@@ -47,7 +47,7 @@ spec:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
             - name: JAVA_TOOL_OPTIONS
-              value: -XX:ActiveProcessorCount=4
+              value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M
             - name: POSTGRES_URI
               value: jdbc:postgresql://feedservice-db:5436/
             - name: RABBITMQ_HOST
@@ -61,10 +61,10 @@ spec:
               path: /actuator/health/liveness
               port: 8085
             initialDelaySeconds: 8
-            timeoutSeconds: 5
+            timeoutSeconds: 10
           name: feedservice
           readinessProbe:
-            failureThreshold: 5
+            failureThreshold: 3
             httpGet:
               path: /actuator/health/readiness
               port: 8085
@@ -72,8 +72,8 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              memory: "1048576e3"
+              memory: "1572864e3"
             requests:
-              cpu: "1"
-              memory: "1048576e3"
+              cpu: 1500m
+              memory: "1572864e3"
       restartPolicy: Always

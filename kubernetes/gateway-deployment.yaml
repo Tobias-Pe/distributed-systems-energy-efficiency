@@ -11,7 +11,7 @@ metadata:
     kompose.service.healthcheck.liveness.http_get_port: "8080"
     kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
     kompose.service.healthcheck.readiness.http_get_port: "8080"
-    kompose.service.healthcheck.readiness.retries: "5"
+    kompose.service.healthcheck.readiness.retries: "3"
     kompose.service.healthcheck.readiness.start_period: 8s
     kompose.service.healthcheck.readiness.timeout: 5s
     kompose.service.type: loadbalancer
@@ -36,7 +36,7 @@ spec:
         kompose.service.healthcheck.liveness.http_get_port: "8080"
         kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
         kompose.service.healthcheck.readiness.http_get_port: "8080"
-        kompose.service.healthcheck.readiness.retries: "5"
+        kompose.service.healthcheck.readiness.retries: "3"
         kompose.service.healthcheck.readiness.start_period: 8s
         kompose.service.healthcheck.readiness.timeout: 5s
         kompose.service.type: loadbalancer
@@ -49,7 +49,7 @@ spec:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
             - name: JAVA_TOOL_OPTIONS
-              value: -XX:ActiveProcessorCount=4
+              value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
@@ -59,13 +59,13 @@ spec:
               path: /actuator/health/liveness
               port: 8080
             initialDelaySeconds: 8
-            timeoutSeconds: 5
+            timeoutSeconds: 10
           name: gateway
           ports:
             - containerPort: 8080
               protocol: TCP
           readinessProbe:
-            failureThreshold: 5
+            failureThreshold: 3
             httpGet:
               path: /actuator/health/readiness
               port: 8080

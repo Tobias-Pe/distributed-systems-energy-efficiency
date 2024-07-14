@@ -14,14 +14,14 @@ services:
       - kompose.service.healthcheck.readiness.http_get_port=8081
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
       - kompose.service.healthcheck.readiness.start_period=8s
-      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.retries=3
       - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
       - POSTGRES_URI=jdbc:postgresql://userservice-db:5432/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       mode: replicated
       replicas: 2
@@ -33,7 +33,7 @@ services:
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
-      timeout: 5s
+      timeout: 10s
       retries: 5
 
   postservice:
@@ -48,26 +48,26 @@ services:
       - kompose.service.healthcheck.readiness.http_get_port=8082
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
       - kompose.service.healthcheck.readiness.start_period=8s
-      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.retries=3
       - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
       - POSTGRES_URI=jdbc:postgresql://postservice-db:5433/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       mode: replicated
       replicas: 2
       resources:
         limits:
-          memory: 1000M
+          memory: 2000M
         reservations:
-          cpus: '1.0'
-          memory: 1000M
+          cpus: '1.5'
+          memory: 2000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
-      timeout: 5s
+      timeout: 10s
       retries: 5
 
   notificationservice:
@@ -82,7 +82,7 @@ services:
       - kompose.service.healthcheck.readiness.http_get_port=8083
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
       - kompose.service.healthcheck.readiness.start_period=8s
-      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.retries=3
       - kompose.service.healthcheck.readiness.timeout=5s
       - kompose.volume.type=emptyDir
     environment:
@@ -90,7 +90,7 @@ services:
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
       - POSTGRES_URI=jdbc:postgresql://notificationservice-db:5434/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M
     deploy:
       mode: replicated
       replicas: 2
@@ -102,7 +102,7 @@ services:
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
-      timeout: 5s
+      timeout: 10s
       retries: 5
     volumes:
       - /workspace/notificationservice
@@ -119,14 +119,14 @@ services:
       - kompose.service.healthcheck.readiness.http_get_port=8084
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
       - kompose.service.healthcheck.readiness.start_period=8s
-      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.retries=3
       - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
       - POSTGRES_URI=jdbc:postgresql://statisticservice-db:5435/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       mode: replicated
       replicas: 2
@@ -138,7 +138,7 @@ services:
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
-      timeout: 5s
+      timeout: 10s
       retries: 5
 
   feedservice:
@@ -153,26 +153,26 @@ services:
       - kompose.service.healthcheck.readiness.http_get_port=8085
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
       - kompose.service.healthcheck.readiness.start_period=8s
-      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.retries=3
       - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
       - POSTGRES_URI=jdbc:postgresql://feedservice-db:5436/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       mode: replicated
       replicas: 2
       resources:
         limits:
-          memory: 1000M
+          memory: 1500M
         reservations:
-          cpus: '1.0'
-          memory: 1000M
+          cpus: '1.5'
+          memory: 1500M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
-      timeout: 5s
+      timeout: 10s
       retries: 5
 
   gateway:
@@ -190,12 +190,12 @@ services:
       - kompose.service.healthcheck.readiness.http_get_port=8080
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
       - kompose.service.healthcheck.readiness.start_period=8s
-      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.retries=3
       - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       mode: replicated
       replicas: 2
@@ -207,7 +207,7 @@ services:
           memory: 1500M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
-      timeout: 5s
+      timeout: 10s
       retries: 5
 
   servicediscovery:
@@ -219,11 +219,11 @@ services:
       - kompose.service.healthcheck.readiness.http_get_port=8761
       - kompose.service.healthcheck.readiness.http_get_path=/actuator/health/readiness
       - kompose.service.healthcheck.readiness.start_period=8s
-      - kompose.service.healthcheck.readiness.retries=5
+      - kompose.service.healthcheck.readiness.retries=3
       - kompose.service.healthcheck.readiness.timeout=5s
     environment:
       - ZIPKIN_URI=http://zipkin:9411/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       resources:
         limits:
@@ -235,5 +235,5 @@ services:
       - "8761:8761"
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
-      timeout: 5s
+      timeout: 10s
       retries: 5
