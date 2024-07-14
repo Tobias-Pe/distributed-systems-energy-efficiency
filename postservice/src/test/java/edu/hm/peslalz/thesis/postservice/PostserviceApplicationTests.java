@@ -56,7 +56,7 @@ class PostserviceApplicationTests {
         Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenReturn(ResponseEntity.ok().build());
         File file = ResourceUtils.getFile("classpath:ExampleImage.png");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
-        Post postFirst = postController.createPost(new PostRequest(1, "MyFirstPost", Set.of("beginnings", "blog")), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes));
+        Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes));
         verify(rabbitTemplate, times(1)).convertAndSend(eq("postservice.direct"), eq("post"),any(String.class));
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Assertions.assertThat(Objects.requireNonNull(postController.getPostImage(postFirst.getId()).getBody()).getContentAsByteArray()).isEqualTo(imageBytes);
@@ -73,7 +73,7 @@ class PostserviceApplicationTests {
         Comment comment = commentController.likeComment(postFirst.getComments().stream().findFirst().get().getId());
         Assertions.assertThat(comment.getLikes()).isEqualTo(1);
 
-        postController.createPost(new PostRequest(1, "NewzFromMyLaif", Set.of("life", "blog")), null);
+        postController.createPost(1, "NewzFromMyLaif", Set.of("life", "blog"), null);
         List<Category> categories = categoryController.getCategories(0).getContent();
         Assertions.assertThat(categories).hasSize(3);
         Set<Post> blogPosts = categories.stream().filter(category -> "blog".equals(category.getName())).findFirst().get().getPosts();
@@ -83,13 +83,12 @@ class PostserviceApplicationTests {
     @Test
     void scenarioUserNotFound() {
         Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenThrow(FeignException.class);
-        PostRequest postRequest = new PostRequest(1, null, null);
-        assertThrows(ResponseStatusException.class, () -> postController.createPost(postRequest, null));
+        assertThrows(ResponseStatusException.class, () -> postController.createPost(1, null, null, null));
     }
 
     @Test
     void parallelLikes() {
-        Post postFirst = postController.createPost(new PostRequest(1, "MyFirstPost", Set.of("beginnings", "blog")), null);
+        Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), null);
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Post finalPostFirst = postFirst;
         IntStream.range(0, 20).parallel().forEach(i -> postController.likePost(finalPostFirst.getId(),1));

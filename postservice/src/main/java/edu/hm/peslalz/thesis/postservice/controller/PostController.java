@@ -5,7 +5,6 @@ import edu.hm.peslalz.thesis.postservice.entity.ImageData;
 import edu.hm.peslalz.thesis.postservice.entity.Post;
 import edu.hm.peslalz.thesis.postservice.entity.PostRequest;
 import edu.hm.peslalz.thesis.postservice.service.PostService;
-import io.micrometer.core.annotation.Counted;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.InputStreamResource;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.util.Set;
 
 @RestController
 @RequestMapping("posts")
@@ -31,7 +31,10 @@ public class PostController {
     @Operation(description = "Create a post")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public Post createPost(@ModelAttribute PostRequest postRequest, @RequestPart(value = "image", required = false) MultipartFile file) {
+    public Post createPost(@RequestParam("userId") Integer userId,
+                           @RequestParam("text") String text,
+                           @RequestParam Set<String> categories, @RequestPart(value = "image", required = false) MultipartFile file) {
+        PostRequest postRequest = new PostRequest(userId, text, categories);
         log.info("Creating a new post by user {}; Image is present: {}", postRequest.getUserId(), file == null);
         return postService.createPost(postRequest, file);
     }
