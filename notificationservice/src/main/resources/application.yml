@@ -20,10 +20,13 @@ spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
 
 server:
   forward-headers-strategy: framework
   port: 8083
+  shutdown: graceful
 
 management:
   endpoints:

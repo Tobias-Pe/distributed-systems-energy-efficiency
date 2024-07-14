@@ -4,7 +4,8 @@ spring:
     output:
       ansi:
         enabled: ALWAYS
-
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   cloud:
     gateway:
       globalcors:
@@ -49,7 +50,10 @@ spring:
       file: docker/infrastructure-compose.yml
       lifecycle-management: start-only
 
+server:
+  forward-headers-strategy: framework
   port: 8080
+  shutdown: graceful
 
 management:
   endpoints:
