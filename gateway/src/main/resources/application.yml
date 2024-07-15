@@ -18,6 +18,12 @@ spring:
               firstBackoff: 50ms
               maxBackoff: 400ms
               factor: 2
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      httpclient:
+        connect-timeout: 5000
       globalcors:
         cors-configurations:
           '[/**]':
