@@ -23,7 +23,10 @@ spec:
         io.kompose.service: zipkin
     spec:
       containers:
-        - image: openzipkin/zipkin:3
+        - env:
+            - name: JAVA_OPTS
+              value: -Xms1g -Xmx1g -XX:+ExitOnOutOfMemoryError
+          image: openzipkin/zipkin:3
           name: zipkin
           ports:
             - containerPort: 9411
