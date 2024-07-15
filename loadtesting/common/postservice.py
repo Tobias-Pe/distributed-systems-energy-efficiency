@@ -37,7 +37,7 @@ class PostActions(TaskSet):
         for word in words:
             category_parameters += f"&categories={word}"
         text = fake.text(max_nb_chars=500)
-        width_height_size = (fake.random_int(200, 8000, 100), fake.random_int(200, 8000, 100))
+        width_height_size = (fake.random_int(200, 6000, 100), fake.random_int(200, 6000, 100))
         if fake.boolean(50):
             multipart_file = self.create_jpg(width_height_size)
         else:
