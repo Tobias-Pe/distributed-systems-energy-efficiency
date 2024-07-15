@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences
+PUT,/userservice/users/{id}/follow,"CatchResponseError('{""timestamp"":""2024-07-15T09:50:46.625+00:00"",""status"":404,""error"":""Not Found"",""path"":""/userservice/users/3732/follow""}')",1
