@@ -8,6 +8,16 @@ spring:
     timeout-per-shutdown-phase: 20s
   cloud:
     gateway:
+      default-filters:
+        - name: Retry
+          args:
+            retries: 3
+            series: SERVER_ERROR
+            methods: GET,POST,PUT,DELETE
+            backoff:
+              firstBackoff: 50ms
+              maxBackoff: 400ms
+              factor: 2
       globalcors:
         cors-configurations:
           '[/**]':
