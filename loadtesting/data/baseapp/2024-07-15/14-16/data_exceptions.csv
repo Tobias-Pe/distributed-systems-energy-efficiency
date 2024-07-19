@@ -1,0 +1,195 @@
+Count,Message,Traceback,Nodes
+13,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 63, in like_post
+    post_id, user_id = self.get_post_and_user_pair()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/mnt/locust/common/postservice.py"", line 95, in get_post_and_user_pair
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+4,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 69, in get_post
+    self.if_no_post_exists_create()
+  File ""/mnt/locust/common/postservice.py"", line 59, in if_no_post_exists_create
+    self.create_post()
+  File ""/mnt/locust/common/postservice.py"", line 18, in create_post
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+4,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 76, in get_post_image
+    self.if_no_post_exists_create()
+  File ""/mnt/locust/common/postservice.py"", line 59, in if_no_post_exists_create
+    self.create_post()
+  File ""/mnt/locust/common/postservice.py"", line 18, in create_post
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+4,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 18, in create_post
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+10,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/feedservice.py"", line 12, in get_users_feed
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+2,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/notificationservice.py"", line 20, in get_notifications
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+1,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 83, in comment_post
+    post_id, user_id = self.get_post_and_user_pair()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/mnt/locust/common/postservice.py"", line 95, in get_post_and_user_pair
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+2,No users present after waiting.,"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/notificationservice.py"", line 12, in count_notifications
+    if_no_user_exists_wait()
+  File ""/mnt/locust/common/util.py"", line 26, in if_no_user_exists_wait
+    raise Exception(""No users present after waiting."")
+",78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01
+3,'NoneType' object has no attribute 'url',"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 103, in get_categories
+    self.get_categories_paginated(0)
+  File ""/mnt/locust/common/postservice.py"", line 107, in get_categories_paginated
+    with self.client.get(f""/postservice/categories"",
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 252, in get
+    return self.request(""GET"", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 196, in request
+    url = request_before_redirect.url  # type: ignore
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+","add21a07b385_18e67abbcc5a484ca0c1ee6c2826ae92, dc33555b49a3_b00ae4e577a44582908327007b8fd71d, acfed5c14712_1f92b53960004525a0686d86c32896b1"
+1,'NoneType' object has no attribute 'url',"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 22, in create_post
+    with self.client.post(f""/postservice/posts?userId={user_id}&text={text}{category_parameters}"",
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 286, in post
+    return self.request(""POST"", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 196, in request
+    url = request_before_redirect.url  # type: ignore
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+",a98624c0a912_1e30fa3f6b61457da4bcbb3b646b58e5
+2,'NoneType' object has no attribute 'url',"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/feedservice.py"", line 14, in get_users_feed
+    with self.client.get(f""/feedservice/feeds/{user_id}"",
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 252, in get
+    return self.request(""GET"", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 196, in request
+    url = request_before_redirect.url  # type: ignore
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+","b3fb5b537a74_7d50a58b90f743a886c9ebcfb2472378, acfed5c14712_1f92b53960004525a0686d86c32896b1"
+1,'NoneType' object has no attribute 'url',"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 103, in get_categories
+    self.get_categories_paginated(0)
+  File ""/mnt/locust/common/postservice.py"", line 116, in get_categories_paginated
+    self.get_categories_paginated(page + 1)
+  File ""/mnt/locust/common/postservice.py"", line 107, in get_categories_paginated
+    with self.client.get(f""/postservice/categories"",
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 252, in get
+    return self.request(""GET"", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 196, in request
+    url = request_before_redirect.url  # type: ignore
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+",acfed5c14712_1f92b53960004525a0686d86c32896b1
+2,'NoneType' object has no attribute 'url',"  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 340, in run
+    self.execute_next_task()
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 373, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+  File ""/opt/venv/lib/python3.11/site-packages/locust/user/task.py"", line 385, in execute_task
+    task(self)
+  File ""/mnt/locust/common/postservice.py"", line 103, in get_categories
+    self.get_categories_paginated(0)
+  File ""/mnt/locust/common/postservice.py"", line 116, in get_categories_paginated
+    self.get_categories_paginated(page + 1)
+  File ""/mnt/locust/common/postservice.py"", line 116, in get_categories_paginated
+    self.get_categories_paginated(page + 1)
+  File ""/mnt/locust/common/postservice.py"", line 107, in get_categories_paginated
+    with self.client.get(f""/postservice/categories"",
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 252, in get
+    return self.request(""GET"", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/opt/venv/lib/python3.11/site-packages/locust/clients.py"", line 196, in request
+    url = request_before_redirect.url  # type: ignore
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+","dc33555b49a3_b00ae4e577a44582908327007b8fd71d, 78721c0db6e1_7d06c0c775684b0e9de346d13e40ab01"
