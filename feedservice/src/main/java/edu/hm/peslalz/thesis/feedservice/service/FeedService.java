@@ -27,7 +27,6 @@ public class FeedService {
         this.userPreferenceRepository = userPreferenceRepository;
     }
 
-    @Cacheable("feeds")
     public Slice<PostDTO> getPersonalizedFeed(int userId, int page) {
         List<String> trendingCategories = new ArrayList<>(trendClient.getTrendingCategories(0, 5).getContent()
                 .stream()

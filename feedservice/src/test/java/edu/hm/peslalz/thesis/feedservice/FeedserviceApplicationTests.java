@@ -12,6 +12,9 @@ import edu.hm.peslalz.thesis.feedservice.service.FeedService;
 import edu.hm.peslalz.thesis.feedservice.service.PreferencesReceiveService;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
@@ -20,6 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Slice;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +52,21 @@ class FeedserviceApplicationTests {
 
     @Autowired
     UserPreferenceRepository userPreferenceRepository;
+
+    private static GenericContainer<?> redis;
+
+    @BeforeAll
+    static void beforeAll() {
+        redis = new GenericContainer<>(DockerImageName.parse("redis:7.0-alpine")).withExposedPorts(6379);
+        redis.start();
+        System.setProperty("spring.data.redis.host", redis.getHost());
+        System.setProperty("spring.data.redis.port", redis.getMappedPort(6379).toString());
+    }
+
+    @AfterAll
+    static void afterAll() {
+        redis.stop();
+    }
 
     @SneakyThrows
     @Test
