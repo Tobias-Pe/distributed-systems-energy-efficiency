@@ -5,6 +5,7 @@ import edu.hm.peslalz.thesis.feedservice.client.TrendClient;
 import edu.hm.peslalz.thesis.feedservice.entity.PostDTO;
 import edu.hm.peslalz.thesis.feedservice.entity.Trend;
 import edu.hm.peslalz.thesis.feedservice.repository.UserPreferenceRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -26,6 +27,7 @@ public class FeedService {
         this.userPreferenceRepository = userPreferenceRepository;
     }
 
+    @Cacheable("feeds")
     public Slice<PostDTO> getPersonalizedFeed(int userId, int page) {
         List<String> trendingCategories = new ArrayList<>(trendClient.getTrendingCategories(0, 5).getContent()
                 .stream()
