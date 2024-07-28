@@ -22,6 +22,14 @@ spring:
     port: 5672
   lifecycle:
     timeout-per-shutdown-phase: 20s
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+  data:
+    redis:
+      host: ${REDIS_URI:localhost}
+      port: 6379
 
 server:
   forward-headers-strategy: framework
