@@ -52,6 +52,8 @@ spec:
               value: jdbc:postgresql://feedservice-db:5436/
             - name: RABBITMQ_HOST
               value: rabbitmq
+            - name: REDIS_URI
+              value: redis
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
@@ -75,6 +77,6 @@ spec:
               memory: "1572864e3"
             requests:
               cpu: 750m
-              memory: "1048576e3"
+              memory: "1572864e3"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

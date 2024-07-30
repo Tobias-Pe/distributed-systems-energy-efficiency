@@ -49,7 +49,7 @@ spec:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
             - name: JAVA_TOOL_OPTIONS
-              value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M
+              value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=500M
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
@@ -73,9 +73,9 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              memory: "1572864e3"
+              memory: "2097152e3"
             requests:
               cpu: 750m
-              memory: "1048576e3"
+              memory: "2097152e3"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

@@ -174,7 +174,7 @@ services:
           memory: 1500M
         reservations:
           cpus: '0.75'
-          memory: 1000M
+          memory: 1500M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
@@ -201,16 +201,16 @@ services:
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=500M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       mode: replicated
       replicas: 2
       resources:
         limits:
-          memory: 1500M
+          memory: 2000M
         reservations:
           cpus: '0.75'
-          memory: 1000M
+          memory: 2000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
