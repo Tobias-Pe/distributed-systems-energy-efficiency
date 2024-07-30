@@ -1,5 +1,6 @@
 package edu.hm.peslalz.thesis.feedservice.client;
 
+import edu.hm.peslalz.thesis.feedservice.entity.PagedPostResponse;
 import edu.hm.peslalz.thesis.feedservice.entity.PostDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface PostClient {
     @Cacheable("posts")
     @GetMapping("posts")
-    Page<PostDTO> getPosts(@RequestParam(required = false) String category, @RequestParam(required = false) Integer userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size);
+    PagedPostResponse getPosts(@RequestParam(required = false) String category, @RequestParam(required = false) Integer userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size);
 
     @Cacheable("post")
     @GetMapping(value = "posts/{id}")

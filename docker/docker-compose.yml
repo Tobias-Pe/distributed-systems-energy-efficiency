@@ -163,6 +163,7 @@ services:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
+      - REDIS_URI=redis
       - POSTGRES_URI=jdbc:postgresql://feedservice-db:5436/
       - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:

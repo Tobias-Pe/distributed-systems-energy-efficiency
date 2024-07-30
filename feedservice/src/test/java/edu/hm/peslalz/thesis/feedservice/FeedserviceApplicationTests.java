@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.hm.peslalz.thesis.feedservice.client.PostClient;
 import edu.hm.peslalz.thesis.feedservice.client.TrendClient;
 import edu.hm.peslalz.thesis.feedservice.controller.FeedController;
-import edu.hm.peslalz.thesis.feedservice.entity.PostDTO;
-import edu.hm.peslalz.thesis.feedservice.entity.Trend;
-import edu.hm.peslalz.thesis.feedservice.entity.UserPreference;
+import edu.hm.peslalz.thesis.feedservice.entity.*;
 import edu.hm.peslalz.thesis.feedservice.repository.UserPreferenceRepository;
 import edu.hm.peslalz.thesis.feedservice.service.FeedService;
 import edu.hm.peslalz.thesis.feedservice.service.PreferencesReceiveService;
@@ -147,10 +145,10 @@ class FeedserviceApplicationTests {
 
     @Test
     void testFeed() {
-        Mockito.when(trendClient.getTrendingCategories(anyInt(), anyInt())).thenReturn(new PageImpl<>(List.of(new Trend("Fishing", 12), new Trend("Outdoor", 6))));
-        Mockito.when(trendClient.getTrendingPosts(anyInt(), anyInt())).thenReturn(new PageImpl<>(List.of(new Trend("1", 12), new Trend("2", 6))));
-        Mockito.when(trendClient.getTrendingUsers(anyInt(), anyInt())).thenReturn(new PageImpl<>(List.of(new Trend("1", 12), new Trend("2", 6))));
-        Mockito.when(postClient.getPosts(any(), any(),anyInt(),anyInt())).thenReturn(new PageImpl<>(List.of(new PostDTO(), new PostDTO())));
+        Mockito.when(trendClient.getTrendingCategories(anyInt(), anyInt())).thenReturn(new PagedTrendResponse(List.of(new Trend("Fishing", 12), new Trend("Outdoor", 6))));
+        Mockito.when(trendClient.getTrendingPosts(anyInt(), anyInt())).thenReturn(new PagedTrendResponse(List.of(new Trend("1", 12), new Trend("2", 6))));
+        Mockito.when(trendClient.getTrendingUsers(anyInt(), anyInt())).thenReturn(new PagedTrendResponse(List.of(new Trend("1", 12), new Trend("2", 6))));
+        Mockito.when(postClient.getPosts(any(), any(),anyInt(),anyInt())).thenReturn(new PagedPostResponse(List.of(new PostDTO(), new PostDTO())));
         Mockito.when(postClient.getPost(anyInt())).thenReturn(new PostDTO());
         Slice<PostDTO> personalizedFeed = feedController.getPersonalizedFeed(1, 0);
         Mockito.verify(postClient, Mockito.times(5)).getPosts(any(), any(), anyInt(), anyInt());

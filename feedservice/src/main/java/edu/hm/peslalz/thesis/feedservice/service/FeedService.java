@@ -2,11 +2,10 @@ package edu.hm.peslalz.thesis.feedservice.service;
 
 import edu.hm.peslalz.thesis.feedservice.client.PostClient;
 import edu.hm.peslalz.thesis.feedservice.client.TrendClient;
+import edu.hm.peslalz.thesis.feedservice.entity.PagedTrendResponse;
 import edu.hm.peslalz.thesis.feedservice.entity.PostDTO;
 import edu.hm.peslalz.thesis.feedservice.entity.Trend;
 import edu.hm.peslalz.thesis.feedservice.repository.UserPreferenceRepository;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -40,16 +39,16 @@ public class FeedService {
                 .toList());
         trendingUsers.addAll(userPreferenceRepository.findByUserIdTopUsers(userId, Pageable.ofSize(5)));
 
-        Page<Trend> trendingPosts = trendClient.getTrendingPosts(0, 10);
+        PagedTrendResponse trendingPosts = trendClient.getTrendingPosts(0, 10);
 
         return collectTrendingAndPreferredPosts(page, trendingCategories, trendingUsers, trendingPosts);
     }
 
-    private Slice<PostDTO> collectTrendingAndPreferredPosts(int page, List<String> categories, List<String> contentCreators, Page<Trend> trendingPosts) {
+    private Slice<PostDTO> collectTrendingAndPreferredPosts(int page, List<String> categories, List<String> contentCreators, PagedTrendResponse trendingPosts) {
         List<PostDTO> posts = new ArrayList<>();
         categories.forEach(id -> posts.addAll(postClient.getPosts(id, null, page, 2).getContent()));
         contentCreators.forEach(id -> posts.addAll(postClient.getPosts(null, Integer.valueOf(id), page, 2).getContent()));
-        trendingPosts.forEach(trendInterface -> posts.add(postClient.getPost(Integer.parseInt(trendInterface.identifier()))));
+        trendingPosts.getContent().forEach(trend -> posts.add(postClient.getPost(Integer.parseInt(trend.identifier()))));
         fillUpWithRecentPosts(page, posts);
         return new SliceImpl<>(posts);
     }
