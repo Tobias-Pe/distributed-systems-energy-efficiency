@@ -106,11 +106,7 @@ jobs:
         run: |
           ./mvnw spring-boot:build-image -pl ${{ matrix.image }} -am
           BRANCH_NAME=${GITHUB_REF##*/}
-          docker tag ${{ matrix.image }}:${{ env.VERSION }} ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:${{ github.run_id }}
-          docker tag ${{ matrix.image }}:${{ env.VERSION }} ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:${{ env.VERSION }}
           docker tag ${{ matrix.image }}:${{ env.VERSION }} ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:latest
           docker tag ${{ matrix.image }}:${{ env.VERSION }} ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:${BRANCH_NAME}
-          docker push ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:${{ github.run_id }}
-          docker push ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:${{ env.VERSION }}
           docker push ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:latest
           docker push ghcr.io/tobias-pe/distributed-systems-energy-efficiency/${{ matrix.image }}:${BRANCH_NAME}
