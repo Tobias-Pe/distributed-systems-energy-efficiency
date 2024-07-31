@@ -15,7 +15,7 @@ class PostActions(TaskSet):
 
     @task
     def create_post(self):
-        if_no_user_exists_wait()
+        if_no_user_exists_wait(self)
 
         user_id = random.choice(list(users.keys()))
         category_parameters, multipart_file, text = self.generate_post_data()
@@ -92,7 +92,7 @@ class PostActions(TaskSet):
             user_id, feed_posts = random.choice(list(feeds.items()))
             post_id = random.choice(feed_posts).get("id")
             return post_id, user_id
-        if_no_user_exists_wait()
+        if_no_user_exists_wait(self)
         self.if_no_post_exists_create()
         post_id = random.choice(list(posts.keys()))
         user_id = random.choice(list(users.keys()))

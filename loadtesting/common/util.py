@@ -17,10 +17,11 @@ def wait_random_duration(min_seconds, max_seconds):
     time.sleep(duration)
 
 
-def if_no_user_exists_wait():
-    for _ in range(10):
+def if_no_user_exists_wait(caller):
+    for _ in range(5):
         if not users:
-            time.sleep(2)
+            time.sleep(1)
         else:
             return
-    raise Exception("No users present after waiting.")
+    print("No users present after waiting. Interrupting my task set...")
+    caller.interrupt()

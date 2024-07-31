@@ -9,7 +9,7 @@ class FeedActions(TaskSet):
 
     @task
     def get_users_feed(self):
-        if_no_user_exists_wait()
+        if_no_user_exists_wait(self)
         user_id = random.choice(list(users.keys()))
         with self.client.get(f"/feedservice/feeds/{user_id}",
                         name="/feedservice/feeds/{user_id}", catch_response=True) as response:

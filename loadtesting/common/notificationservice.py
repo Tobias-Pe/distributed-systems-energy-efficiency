@@ -9,7 +9,7 @@ class NotificationActions(TaskSet):
 
     @task
     def count_notifications(self):
-        if_no_user_exists_wait()
+        if_no_user_exists_wait(self)
         user_id = random.choice(list(users.keys()))
         self.client.post(f"/notificationservice/notifications/count?userId={user_id}",
                          name="/notificationservice/notifications/count")
@@ -17,7 +17,7 @@ class NotificationActions(TaskSet):
 
     @task
     def get_notifications(self):
-        if_no_user_exists_wait()
+        if_no_user_exists_wait(self)
         user_id = random.choice(list(users.keys()))
         with self.client.get(f"/notificationservice/notifications?userId={user_id}",
                              name="/notificationservice/notifications", catch_response=True) as response:
