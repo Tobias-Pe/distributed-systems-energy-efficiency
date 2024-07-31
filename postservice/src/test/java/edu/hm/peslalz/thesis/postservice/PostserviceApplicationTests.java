@@ -74,10 +74,8 @@ class PostserviceApplicationTests {
         Assertions.assertThat(comment.getLikes()).isEqualTo(1);
 
         postController.createPost(1, "NewzFromMyLaif", Set.of("life", "blog"), null);
-        List<Category> categories = categoryController.getCategories(0).getContent();
+        List<String> categories = categoryController.getCategories(0).getContent();
         Assertions.assertThat(categories).hasSize(3);
-        Set<Post> blogPosts = categories.stream().filter(category -> "blog".equals(category.getName())).findFirst().get().getPosts();
-        Assertions.assertThat(blogPosts).hasSize(2);
     }
 
     @Test

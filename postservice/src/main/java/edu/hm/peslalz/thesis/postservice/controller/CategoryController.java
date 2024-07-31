@@ -1,6 +1,5 @@
 package edu.hm.peslalz.thesis.postservice.controller;
 
-import edu.hm.peslalz.thesis.postservice.entity.Category;
 import edu.hm.peslalz.thesis.postservice.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +21,7 @@ public class CategoryController {
 
     @Operation(description = "Get all categories")
     @GetMapping
-    public Page<Category> getCategories(@RequestParam(defaultValue = "0") int page) {
+    public Page<String> getCategories(@RequestParam(defaultValue = "0") int page) {
         log.info("Get categories | Page: {}",page);
         return categoryService.getCategories(page);
     }
