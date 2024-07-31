@@ -8,7 +8,7 @@ services:
      - "8089:8089"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://10.28.45.81:8080 --csv data --headless --expect-workers 8 --reset-stats --only-summary --loglevel WARNING
+    command: -f /mnt/locust/locustfile.py --master -H http://10.28.45.81:8080 --csv data --headless --expect-workers 16 --reset-stats --only-summary --loglevel WARNING
 
   worker:
     build:
