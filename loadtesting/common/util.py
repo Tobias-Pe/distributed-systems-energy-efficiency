@@ -6,8 +6,8 @@ fake = Faker()
 
 users = {}
 feeds = {}
-posts = {}
-categories = []
+post_ids = set()
+categories = set()
 
 
 def wait_random_duration(min_seconds, max_seconds):

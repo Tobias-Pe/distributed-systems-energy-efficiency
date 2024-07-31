@@ -5,7 +5,7 @@ from faker_file.providers.png_file import GraphicPngFileProvider
 from locust import TaskSet, task
 
 from common import util
-from common.util import if_no_user_exists_wait, posts, users, feeds, categories, fake, wait_random_duration
+from common.util import if_no_user_exists_wait, post_ids, users, feeds, categories, fake, wait_random_duration
 
 fake.add_provider(GraphicPngFileProvider)
 fake.add_provider(GraphicJpegFileProvider)
@@ -25,7 +25,7 @@ class PostActions(TaskSet):
             if response.status_code != 201:
                 response.failure(response.text)
             else:
-                posts[response.json().get("id")] = response.json()
+                post_ids.add(response.json().get("id"))
                 response.success()
         self.interrupt()
 
@@ -33,7 +33,7 @@ class PostActions(TaskSet):
         words = fake.words(nb=fake.random_int(1, 6, 1), unique=True)
         category_parameters = ""
         # keep track of all categories
-        util.categories.extend(words)
+        util.categories.update(words)
         for word in words:
             category_parameters += f"&categories={word}"
         text = fake.text(max_nb_chars=500)
@@ -55,7 +55,7 @@ class PostActions(TaskSet):
         return multipart_file
 
     def if_no_post_exists_create(self):
-        if len(posts) == 0:
+        if len(post_ids) == 0:
             self.create_post()
 
     @task(5)
@@ -67,14 +67,14 @@ class PostActions(TaskSet):
     @task
     def get_post(self):
         self.if_no_post_exists_create()
-        post_id = random.choice(list(posts.keys()))
+        post_id = random.choice(tuple(post_ids))
         self.client.get(f"/postservice/posts/{post_id}", name="/postservice/posts/{id}")
         self.interrupt()
 
     @task
     def get_post_image(self):
         self.if_no_post_exists_create()
-        post_id = random.choice(list(posts.keys()))
+        post_id = random.choice(tuple(post_ids))
         self.client.get(f"/postservice/posts/{post_id}/image", name="/postservice/posts/{id}/image")
         self.interrupt()
 
@@ -89,12 +89,12 @@ class PostActions(TaskSet):
 
     def get_post_and_user_pair(self):
         if len(feeds) > 0 and fake.boolean(50):
-            user_id, feed_posts = random.choice(list(feeds.items()))
-            post_id = random.choice(feed_posts).get("id")
+            user_id, feed_post_ids = random.choice(list(feeds.items()))
+            post_id = random.choice(feed_post_ids)
             return post_id, user_id
         if_no_user_exists_wait(self)
         self.if_no_post_exists_create()
-        post_id = random.choice(list(posts.keys()))
+        post_id = random.choice(tuple(post_ids))
         user_id = random.choice(list(users.keys()))
         return post_id, user_id
 
@@ -123,7 +123,7 @@ class PostActions(TaskSet):
 
         category = None
         if categories and fake.boolean(50):
-            category = random.choice(categories)
+            category = random.choice(tuple(categories))
 
         self.get_posts_paginated_filtered(0, category=category, user_id=user_id)
         self.interrupt()

@@ -16,6 +16,6 @@ class FeedActions(TaskSet):
             if response.status_code != 200:
                 response.failure(response.text)
                 return
-            feeds[user_id] = response.json().get('content')
             response.success()
+            feeds[user_id] = [post['id'] for post in response.json().get('content', [])]
         self.interrupt()
