@@ -25,13 +25,18 @@ for stage in stages:
     cumulative_duration += stage["duration"]
     stage["cumulative_duration"] = cumulative_duration
 
+current_stage = None
 
 class StagedLoadShape(LoadTestShape):
     def tick(self):
+        global current_stage  # Declare current_stage as global to modify it
         run_time = self.get_run_time()
 
         for stage in stages:
             if run_time < stage["cumulative_duration"]:
+                if current_stage != stage:
+                    current_stage = stage
+                    print(f"New stage: {stage}")
                 # user count, spawn rate
                 tick_data = (stage["users"], stage["spawn_rate"])
                 return tick_data
