@@ -1,49 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_PROMETHEUS-KUBERNETES",
-      "label": "prometheus-kubernetes",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.0.12"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -67,14 +22,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "fieldConfig": {
         "defaults": {
@@ -219,7 +174,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "P1809F7CD0C75ACF3"
           },
           "editorMode": "builder",
           "expr": "cmcIIIVarValueInt",
@@ -235,7 +190,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "fieldConfig": {
         "defaults": {
@@ -349,7 +304,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-KUBERNETES}"
+        "uid": "PF62EF777181A29A8"
       },
       "description": "",
       "fieldConfig": {
@@ -432,7 +387,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-KUBERNETES}"
+            "uid": "PF62EF777181A29A8"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -451,7 +406,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "description": "Here you can get a feeling if the Queues are all consumed",
       "fieldConfig": {
@@ -589,7 +544,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-KUBERNETES}"
+        "uid": "PF62EF777181A29A8"
       },
       "description": "",
       "fieldConfig": {
@@ -691,7 +646,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-KUBERNETES}"
+        "uid": "PF62EF777181A29A8"
       },
       "description": "Here you can get a feeling if the Queues are all consumed",
       "fieldConfig": {
@@ -790,7 +745,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-KUBERNETES}"
+        "uid": "PF62EF777181A29A8"
       },
       "description": "",
       "fieldConfig": {
@@ -918,7 +873,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "description": "All prometheus metrics which symbolize usefull work: Some custom metrics & successfull http requests",
       "fieldConfig": {
@@ -1055,7 +1010,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-KUBERNETES}"
+        "uid": "PF62EF777181A29A8"
       },
       "description": "",
       "fieldConfig": {
@@ -1166,7 +1121,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-KUBERNETES}"
+        "uid": "PF62EF777181A29A8"
       },
       "description": "",
       "fieldConfig": {
@@ -1270,7 +1225,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "description": "All prometheus metrics which symbolize usefull work: Some custom metrics & successfull http requests",
       "fieldConfig": {
@@ -1408,7 +1363,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "description": "",
       "fieldConfig": {
@@ -1454,8 +1409,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1510,7 +1464,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-KUBERNETES}"
+        "uid": "PF62EF777181A29A8"
       },
       "description": "",
       "fieldConfig": {
@@ -1523,8 +1477,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1583,7 +1536,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "description": "All prometheus metrics which symbolize usefull work: Some custom metrics & successfull http requests",
       "fieldConfig": {
@@ -1629,8 +1582,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1685,7 +1637,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "fieldConfig": {
         "defaults": {
@@ -1727,8 +1679,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1804,10 +1755,14 @@
       },
       {
         "allValue": ".*",
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "default",
+          "value": "default"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS-KUBERNETES}"
+          "uid": "PF62EF777181A29A8"
         },
         "definition": "label_values(kepler_container_package_joules_total, container_namespace)",
         "description": "Namespace for pods to choose",
@@ -1832,10 +1787,14 @@
       },
       {
         "allValue": ".*",
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS-KUBERNETES}"
+          "uid": "PF62EF777181A29A8"
         },
         "definition": "label_values(kepler_container_package_joules_total{container_namespace=~\"$namespace\"},container_name)",
         "hide": 0,
@@ -1860,7 +1819,7 @@
     ]
   },
   "time": {
-    "from": "2024-07-30T14:06:50.000Z",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
