@@ -1,20 +1,20 @@
-19:33:49 INFO - Starting
-19:33:51 INFO - Start: 2024-07-31 16:40:44 ; End: 2024-07-31 18:19:55
-19:33:51 INFO - Total energy consumed from 2024-07-31 16:40:44 to 2024-07-31 18:19:55 tracked by pdu metrics: 1.17822 MJ
-19:33:51 INFO - Total energy consumed from 2024-07-31 16:40:44 to 2024-07-31 18:19:55 tracked by kepler: 351.088 kJ
-19:33:51 INFO - Mean Abs Error of Keplers Trends compared to PDU (MAE over all data point diffs): 2019.93 J
-19:33:51 INFO - Stage: 100, From: 2024-07-31 16:40:44, To: 2024-07-31 16:59:55, Kepler: 20.309 kJ, PDU: 161.74 kJ
-19:33:51 INFO - Stage: 200, From: 2024-07-31 17:01:35, To: 2024-07-31 17:19:55, Kepler: 39.643 kJ, PDU: 180.64 kJ
-19:33:51 INFO - Stage: 300, From: 2024-07-31 17:21:36, To: 2024-07-31 17:39:55, Kepler: 76.277 kJ, PDU: 239.135 kJ
-19:33:51 INFO - Stage: 400, From: 2024-07-31 17:41:36, To: 2024-07-31 17:59:55, Kepler: 92.541 kJ, PDU: 253.89 kJ
-19:33:51 INFO - Stage: 500, From: 2024-07-31 18:01:35, To: 2024-07-31 18:19:55, Kepler: 95.15 kJ, PDU: 262.52 kJ
-19:33:52 INFO - Stage: 100, From: 2024-07-31 16:40:44, To: 2024-07-31 16:59:55, Successfull Requests: 392632.0 ,Kepler efficiency: 19332.906593136046, PDU efficiency: 2427.5503895140346
-19:33:52 INFO - Stage: 200, From: 2024-07-31 17:01:35, To: 2024-07-31 17:19:55, Successfull Requests: 715373.0 ,Kepler efficiency: 18045.38001664859, PDU efficiency: 3960.2136846767053
-19:33:52 INFO - Stage: 300, From: 2024-07-31 17:21:36, To: 2024-07-31 17:39:55, Successfull Requests: 912672.0 ,Kepler efficiency: 11965.23198342882, PDU efficiency: 3816.555502122232
-19:33:52 INFO - Stage: 400, From: 2024-07-31 17:41:36, To: 2024-07-31 17:59:55, Successfull Requests: 844999.0 ,Kepler efficiency: 9131.077036124529, PDU efficiency: 3328.2090669187446
-19:33:52 INFO - Stage: 500, From: 2024-07-31 18:01:35, To: 2024-07-31 18:19:55, Successfull Requests: 704956.0 ,Kepler efficiency: 7408.891224382553, PDU efficiency: 2685.342069175682
-19:33:52 INFO - Total Energy Efficiency (Kepler): 11023.190911336134 successful requests/kJ
-19:33:52 INFO - Total Energy Efficiency (PDU): 3252.1638545437986 successful requests/kJ
-19:33:52 INFO - Total Energy Efficiency (Kepler): 11.023190911336135 successful requests/J
-19:33:52 INFO - Total Energy Efficiency (PDU): 3.2521638545437987 successful requests/J
-19:33:53 INFO - Finished
+08:43:11 INFO - Starting
+08:43:11 INFO - Start: 2024-07-31 16:40:44 ; End: 2024-07-31 18:19:55
+08:43:11 INFO - Total energy consumed from 2024-07-31 16:40:44 to 2024-07-31 18:19:55 tracked by pdu metrics: 1.17822 MJ
+08:43:11 INFO - Total energy consumed from 2024-07-31 16:40:44 to 2024-07-31 18:19:55 tracked by kepler: 351.088 kJ
+08:43:11 INFO - Mean Abs Error of Keplers Trends compared to PDU (MAE over all data point diffs): 2019.93 J
+08:43:11 INFO - Stage: 100, From: 2024-07-31 16:40:44, To: 2024-07-31 16:59:55, Kepler: 20.309 kJ, PDU: 161.74 kJ
+08:43:11 INFO - Stage: 200, From: 2024-07-31 17:01:35, To: 2024-07-31 17:19:55, Kepler: 39.643 kJ, PDU: 180.64 kJ
+08:43:11 INFO - Stage: 300, From: 2024-07-31 17:21:36, To: 2024-07-31 17:39:55, Kepler: 76.277 kJ, PDU: 239.135 kJ
+08:43:11 INFO - Stage: 400, From: 2024-07-31 17:41:36, To: 2024-07-31 17:59:55, Kepler: 92.541 kJ, PDU: 253.89 kJ
+08:43:11 INFO - Stage: 500, From: 2024-07-31 18:01:35, To: 2024-07-31 18:19:55, Kepler: 95.15 kJ, PDU: 262.52 kJ
+08:43:11 INFO - Stage: 100, From: 2024-07-31 16:40:44, To: 2024-07-31 16:59:55, Successfull Requests: 392632.0 ,Kepler efficiency: 19332.906593136046, PDU efficiency: 2427.5503895140346
+08:43:11 INFO - Stage: 200, From: 2024-07-31 17:01:35, To: 2024-07-31 17:19:55, Successfull Requests: 715373.0 ,Kepler efficiency: 18045.38001664859, PDU efficiency: 3960.2136846767053
+08:43:11 INFO - Stage: 300, From: 2024-07-31 17:21:36, To: 2024-07-31 17:39:55, Successfull Requests: 912672.0 ,Kepler efficiency: 11965.23198342882, PDU efficiency: 3816.555502122232
+08:43:11 INFO - Stage: 400, From: 2024-07-31 17:41:36, To: 2024-07-31 17:59:55, Successfull Requests: 844999.0 ,Kepler efficiency: 9131.077036124529, PDU efficiency: 3328.2090669187446
+08:43:11 INFO - Stage: 500, From: 2024-07-31 18:01:35, To: 2024-07-31 18:19:55, Successfull Requests: 704956.0 ,Kepler efficiency: 7408.891224382553, PDU efficiency: 2685.342069175682
+08:43:11 INFO - Total Energy Efficiency (Kepler): 11023.190911336134 successful requests/kJ
+08:43:11 INFO - Total Energy Efficiency (PDU): 3252.1638545437986 successful requests/kJ
+08:43:11 INFO - Total Energy Efficiency (Kepler): 11.023190911336135 successful requests/J
+08:43:11 INFO - Total Energy Efficiency (PDU): 3.2521638545437987 successful requests/J
+08:43:12 INFO - Finished
