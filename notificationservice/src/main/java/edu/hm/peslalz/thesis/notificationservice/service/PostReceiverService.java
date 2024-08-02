@@ -26,7 +26,7 @@ public class PostReceiverService {
         return container -> container.setObservationEnabled(true);
     }
 
-    @RabbitListener(queues = "notifications")
+    @RabbitListener(queues = "notifications", concurrency = "2-4")
     public void receive(String post) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostMessage postMessage = mapper.readValue(post, PostMessage.class);

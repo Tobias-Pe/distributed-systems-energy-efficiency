@@ -49,7 +49,7 @@ public class PreferencesReceiveService {
             maxAttempts = 5,
             backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
     )
-    @RabbitListener(queues = "post-feed")
+    @RabbitListener(queues = "post-feed", concurrency = "2-4")
     public void receivePost(String post) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostMessage postMessage = mapper.readValue(post, PostMessage.class);
@@ -63,7 +63,7 @@ public class PreferencesReceiveService {
             maxAttempts = 5,
             backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
     )
-    @RabbitListener(queues = "post-action-feed")
+    @RabbitListener(queues = "post-action-feed", concurrency = "2-4")
     public void receivePostAction(String postAction) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);

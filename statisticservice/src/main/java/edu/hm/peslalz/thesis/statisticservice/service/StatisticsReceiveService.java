@@ -26,7 +26,7 @@ public class StatisticsReceiveService {
         return container -> container.setObservationEnabled(true);
     }
 
-    @RabbitListener(queues = "post-statistics")
+    @RabbitListener(queues = "post-statistics", concurrency = "2-4")
     public void receivePost(String post) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostMessage postMessage = mapper.readValue(post, PostMessage.class);
@@ -34,7 +34,7 @@ public class StatisticsReceiveService {
         trendService.registerNewPost(postMessage);
     }
 
-    @RabbitListener(queues = "post-action-statistics", concurrency = "1-2")
+    @RabbitListener(queues = "post-action-statistics", concurrency = "2-4")
     public void receivePostAction(String postAction) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
@@ -42,7 +42,7 @@ public class StatisticsReceiveService {
         trendService.registerPostAction(postActionMessage);
     }
 
-    @RabbitListener(queues = "user-statistics", concurrency = "1-2")
+    @RabbitListener(queues = "user-statistics", concurrency = "2-4")
     public void receiveUser(String user) {
         Integer followedUser = Integer.valueOf(user);
         log.info("user {} has a new follower", followedUser);
