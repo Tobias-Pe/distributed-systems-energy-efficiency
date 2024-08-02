@@ -22,6 +22,9 @@ spring:
     port: 5672
   lifecycle:
     timeout-per-shutdown-phase: 20s
+  threads:
+    virtual:
+      enabled: true
 
 server:
   forward-headers-strategy: framework
