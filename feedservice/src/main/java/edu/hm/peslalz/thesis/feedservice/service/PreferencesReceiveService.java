@@ -46,8 +46,8 @@ public class PreferencesReceiveService {
     @Transactional
     @Retryable(
             noRetryFor = ResponseStatusException.class,
-            maxAttempts = 5,
-            backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
+            maxAttempts = 4,
+            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
     )
     @RabbitListener(queues = "post-feed", concurrency = "2-4")
     public void receivePost(String post) throws JsonProcessingException {
@@ -60,8 +60,8 @@ public class PreferencesReceiveService {
     @Transactional
     @Retryable(
             noRetryFor = ResponseStatusException.class,
-            maxAttempts = 5,
-            backoff = @Backoff(random = true, delay = 1000, maxDelay = 5000, multiplier = 1.5)
+            maxAttempts = 4,
+            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
     )
     @RabbitListener(queues = "post-action-feed", concurrency = "2-4")
     public void receivePostAction(String postAction) throws JsonProcessingException {
