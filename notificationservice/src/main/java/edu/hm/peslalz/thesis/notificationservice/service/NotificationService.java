@@ -75,13 +75,13 @@ public class NotificationService {
         ResponseEntity<List<UserMessage>> responseEntity = userClient.getUserFollowers(postMessage.getUserId());
         List<UserMessage> followers = responseEntity.getBody();
         assert followers != null;
-        for (UserMessage follower : followers) {
+        followers.parallelStream().forEach(follower -> {
             simulateEmailSending(follower, String.valueOf(postMessage.getId()));
             Notification notification = new Notification(postMessage);
             notification.setNotifiedUsersId(follower.getId());
             createNotification(notification);
-        }
-        notificationsCounter.increment(followers.size());
+            notificationsCounter.increment();
+        });
     }
 
     public void simulateEmailSending(UserMessage user, String postId) {
