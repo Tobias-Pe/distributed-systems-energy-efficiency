@@ -90,8 +90,9 @@ class PostActions(TaskSet):
     def get_post_and_user_pair(self):
         if len(feeds) > 0 and fake.boolean(50):
             user_id, feed_post_ids = random.choice(list(feeds.items()))
-            post_id = random.choice(feed_post_ids)
-            return post_id, user_id
+            if len(feed_post_ids)>0:
+                post_id = random.choice(feed_post_ids)
+                return post_id, user_id
         if_no_user_exists_wait(self)
         self.if_no_post_exists_create()
         post_id = random.choice(tuple(post_ids))
