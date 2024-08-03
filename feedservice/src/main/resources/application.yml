@@ -33,11 +33,14 @@ spring:
   threads:
     virtual:
       enabled: true
+  cloud:
+    openfeign:
+      httpclient:
+        connection-timeout: 500
 server:
   forward-headers-strategy: framework
   port: 8085
   shutdown: graceful
-
 management:
   endpoints:
     web:
