@@ -15,7 +15,6 @@ public class PostDTO implements Serializable {
     private Integer userId;
     private String text;
     private Integer likes;
-    private List<CommentDTO> comments;
     private List<CategoryDTO> categories;
 
     @Data
