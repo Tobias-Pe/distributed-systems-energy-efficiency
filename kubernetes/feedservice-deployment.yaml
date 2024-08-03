@@ -76,7 +76,7 @@ spec:
             limits:
               memory: "1258291200"
             requests:
-              cpu: 400m
+              cpu: 550m
               memory: "1258291200"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

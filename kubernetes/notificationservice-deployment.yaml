@@ -78,7 +78,7 @@ spec:
             limits:
               memory: "1048576e3"
             requests:
-              cpu: 400m
+              cpu: 500m
               memory: "1048576e3"
           volumeMounts:
             - mountPath: /workspace/notificationservice

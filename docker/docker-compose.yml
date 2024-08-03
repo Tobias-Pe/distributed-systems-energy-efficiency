@@ -42,7 +42,7 @@ services:
     labels:
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=70
-      - kompose.hpa.replicas.max=15
+      - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
       - kompose.service.healthcheck.liveness.http_get_port=8082
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
@@ -64,7 +64,7 @@ services:
         limits:
           memory: 1200M
         reservations:
-          cpus: '0.4'
+          cpus: '0.55'
           memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
@@ -100,7 +100,7 @@ services:
         limits:
           memory: 1000M
         reservations:
-          cpus: '0.4'
+          cpus: '0.5'
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
@@ -115,7 +115,7 @@ services:
     labels:
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=80
-      - kompose.hpa.replicas.max=10
+      - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
       - kompose.service.healthcheck.liveness.http_get_port=8084
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
@@ -150,7 +150,7 @@ services:
     labels:
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=70
-      - kompose.hpa.replicas.max=10
+      - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
       - kompose.service.healthcheck.liveness.http_get_port=8085
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
@@ -173,7 +173,7 @@ services:
         limits:
           memory: 1200M
         reservations:
-          cpus: '0.4'
+          cpus: '0.55'
           memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
