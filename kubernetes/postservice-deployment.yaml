@@ -4,7 +4,7 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
     kompose.hpa.cpu: "90"
-    kompose.hpa.memory: "80"
+    kompose.hpa.memory: "70"
     kompose.hpa.replicas.max: "15"
     kompose.hpa.replicas.min: "2"
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
@@ -28,7 +28,7 @@ spec:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
         kompose.hpa.cpu: "90"
-        kompose.hpa.memory: "80"
+        kompose.hpa.memory: "70"
         kompose.hpa.replicas.max: "15"
         kompose.hpa.replicas.min: "2"
         kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
@@ -54,7 +54,7 @@ spec:
               value: rabbitmq
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:02-resource-usage
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -72,9 +72,9 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              memory: "2097152e3"
+              memory: "1258291200"
             requests:
-              cpu: 900m
-              memory: "2097152e3"
+              cpu: 400m
+              memory: "1258291200"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

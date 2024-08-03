@@ -56,7 +56,7 @@ spec:
               value: redis
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:02-resource-usage
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -74,9 +74,9 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              memory: "1572864e3"
+              memory: "1258291200"
             requests:
-              cpu: 750m
-              memory: "1572864e3"
+              cpu: 400m
+              memory: "1258291200"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

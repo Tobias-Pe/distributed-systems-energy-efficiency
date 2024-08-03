@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-    kompose.hpa.cpu: "80"
+    kompose.hpa.cpu: "90"
     kompose.hpa.memory: "80"
     kompose.hpa.replicas.max: "5"
     kompose.hpa.replicas.min: "2"
@@ -30,7 +30,7 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-        kompose.hpa.cpu: "80"
+        kompose.hpa.cpu: "90"
         kompose.hpa.memory: "80"
         kompose.hpa.replicas.max: "5"
         kompose.hpa.replicas.min: "2"
@@ -58,7 +58,7 @@ spec:
               value: rabbitmq
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:02-resource-usage
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -78,7 +78,7 @@ spec:
             limits:
               memory: "1048576e3"
             requests:
-              cpu: "1"
+              cpu: 400m
               memory: "1048576e3"
           volumeMounts:
             - mountPath: /workspace/notificationservice

@@ -41,7 +41,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
     labels:
       - kompose.hpa.cpu=90
-      - kompose.hpa.memory=80
+      - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=15
       - kompose.hpa.replicas.min=2
       - kompose.service.healthcheck.liveness.http_get_port=8082
@@ -62,10 +62,10 @@ services:
       replicas: 2
       resources:
         limits:
-          memory: 2000M
+          memory: 1200M
         reservations:
-          cpus: '0.9'
-          memory: 2000M
+          cpus: '0.4'
+          memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
@@ -75,7 +75,7 @@ services:
   notificationservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
     labels:
-      - kompose.hpa.cpu=80
+      - kompose.hpa.cpu=90
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=5
       - kompose.hpa.replicas.min=2
@@ -100,7 +100,7 @@ services:
         limits:
           memory: 1000M
         reservations:
-          cpus: '1.0'
+          cpus: '0.4'
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
@@ -171,10 +171,10 @@ services:
       replicas: 2
       resources:
         limits:
-          memory: 1500M
+          memory: 1200M
         reservations:
-          cpus: '0.75'
-          memory: 1500M
+          cpus: '0.4'
+          memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
@@ -187,7 +187,7 @@ services:
       - "8080:8080"
     labels:
       - kompose.hpa.cpu=90
-      - kompose.hpa.memory=60
+      - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
       - kompose.service.type=loadbalancer
@@ -207,10 +207,10 @@ services:
       replicas: 2
       resources:
         limits:
-          memory: 2000M
+          memory: 1200M
         reservations:
-          cpus: '0.75'
-          memory: 2000M
+          cpus: '0.5'
+          memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
@@ -236,7 +236,7 @@ services:
         limits:
           memory: 1000M
         reservations:
-          cpus: '1.0'
+          cpus: '0.4'
           memory: 1000M
     ports:
       - "8761:8761"

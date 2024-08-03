@@ -42,7 +42,7 @@ spec:
               value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:02-resource-usage
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -65,6 +65,6 @@ spec:
             limits:
               memory: "1048576e3"
             requests:
-              cpu: "1"
+              cpu: 400m
               memory: "1048576e3"
       restartPolicy: Always

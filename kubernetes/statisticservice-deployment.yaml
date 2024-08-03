@@ -54,7 +54,7 @@ spec:
               value: rabbitmq
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:02-resource-usage
           livenessProbe:
             failureThreshold: 5
             httpGet:
