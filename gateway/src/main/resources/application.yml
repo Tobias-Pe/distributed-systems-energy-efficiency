@@ -23,7 +23,7 @@ spring:
           enabled: true
           lower-case-service-id: true
       httpclient:
-        connect-timeout: 1000
+        connect-timeout: 500
       globalcors:
         cors-configurations:
           '[/**]':
