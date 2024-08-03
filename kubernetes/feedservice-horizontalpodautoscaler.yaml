@@ -3,7 +3,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: feedservice
 spec:
-  maxReplicas: 10
+  maxReplicas: 12
   metrics:
     - resource:
         name: cpu
