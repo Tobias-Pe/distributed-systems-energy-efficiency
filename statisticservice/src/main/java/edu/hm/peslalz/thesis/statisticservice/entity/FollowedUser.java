@@ -28,6 +28,6 @@ public class FollowedUser {
     @Column(name = "userId", nullable = false, unique = true)
     private int userId;
 
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<ActionProtocol> interactions = new ArrayList<>();
 }

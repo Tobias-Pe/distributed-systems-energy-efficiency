@@ -28,6 +28,6 @@ public class Post {
     @Column(name = "postId", nullable = false, unique = true)
     private int postId;
 
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<ActionProtocol> interactions = new ArrayList<>();
 }

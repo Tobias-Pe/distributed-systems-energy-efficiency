@@ -8,6 +8,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -19,10 +20,8 @@ public class ActionProtocol {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.INTEGER)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(name = "action", nullable = false)
     private String action;
