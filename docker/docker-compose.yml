@@ -6,7 +6,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/userservice:latest
     labels:
       - kompose.image-pull-policy=Always
-      - kompose.hpa.cpu=90
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=65
       - kompose.hpa.replicas.max=5
       - kompose.hpa.replicas.min=2
@@ -42,7 +42,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
     labels:
       - kompose.image-pull-policy=Always
-      - kompose.hpa.cpu=90
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
@@ -78,7 +78,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
     labels:
       - kompose.image-pull-policy=Always
-      - kompose.hpa.cpu=90
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=5
       - kompose.hpa.replicas.min=2
@@ -117,7 +117,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
     labels:
       - kompose.image-pull-policy=Always
-      - kompose.hpa.cpu=90
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
@@ -153,7 +153,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
     labels:
       - kompose.image-pull-policy=Always
-      - kompose.hpa.cpu=90
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
@@ -192,7 +192,7 @@ services:
       - "8080:8080"
     labels:
       - kompose.image-pull-policy=Always
-      - kompose.hpa.cpu=90
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
