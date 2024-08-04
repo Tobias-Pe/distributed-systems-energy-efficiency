@@ -24,6 +24,7 @@ import org.springframework.data.domain.Slice;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -71,7 +72,7 @@ class FeedserviceApplicationTests {
     void receivePreferencesParallel() {
         IntStream.range(0, 20).parallel().forEach(i -> {
             try {
-                preferencesReceiveService.receivePostAction(String.format("""
+                preferencesReceiveService.receivePostAction(Collections.singletonList(String.format("""
                         {
                           "userId": 12,
                           "action": "like",
@@ -91,7 +92,7 @@ class FeedserviceApplicationTests {
                             "hasImage": true
                           }
                         }
-                        """, i));
+                        """, i)));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -113,7 +114,7 @@ class FeedserviceApplicationTests {
     @SneakyThrows
     @Test
     void receivePreferences() {
-        preferencesReceiveService.receivePost("""
+        preferencesReceiveService.receivePost(Collections.singletonList("""
                 {
                     "id": 12,
                     "userId": 123,
@@ -129,7 +130,7 @@ class FeedserviceApplicationTests {
                     ],
                     "hasImage": true
                 }
-                """);
+                """));
 
         Optional<UserPreference> optionalUserPreference = userPreferenceRepository.findByUserId(123);
         Assertions.assertThat(optionalUserPreference).isPresent();

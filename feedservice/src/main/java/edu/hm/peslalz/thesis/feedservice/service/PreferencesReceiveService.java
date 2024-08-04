@@ -20,6 +20,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -50,11 +51,13 @@ public class PreferencesReceiveService {
             backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
     )
     @RabbitListener(queues = "post-feed", concurrency = "2-4")
-    public void receivePost(String post) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        PostMessage postMessage = mapper.readValue(post, PostMessage.class);
-        log.info("post {} received from {}", postMessage.getId(), postMessage.getUserId());
-        applyEvent(postMessage, postMessage.getUserId());
+    public void receivePost(List<String> posts) throws JsonProcessingException {
+        for (String post : posts) {
+            ObjectMapper mapper = new ObjectMapper();
+            PostMessage postMessage = mapper.readValue(post, PostMessage.class);
+            log.info("post {} received from {}", postMessage.getId(), postMessage.getUserId());
+            applyEvent(postMessage, postMessage.getUserId());
+        }
     }
 
     @Transactional
@@ -64,11 +67,13 @@ public class PreferencesReceiveService {
             backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
     )
     @RabbitListener(queues = "post-action-feed", concurrency = "2-4")
-    public void receivePostAction(String postAction) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
-        log.info("post-action {} received from {}", postActionMessage.getPostMessage().getId(), postActionMessage.getUserId());
-        applyEvent(postActionMessage.getPostMessage(), postActionMessage.getUserId());
+    public void receivePostAction(List<String> postActions) throws JsonProcessingException {
+        for (String postAction : postActions) {
+            ObjectMapper mapper = new ObjectMapper();
+            PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
+            log.info("post-action {} received from {}", postActionMessage.getPostMessage().getId(), postActionMessage.getUserId());
+            applyEvent(postActionMessage.getPostMessage(), postActionMessage.getUserId());
+        }
     }
 
     private void applyEvent(PostMessage postMessage, Integer userId) {

@@ -20,6 +20,10 @@ spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672
+    listener:
+      simple:
+        consumer-batch-enabled: true
+        batch-size: 10
   lifecycle:
     timeout-per-shutdown-phase: 20s
   cache:

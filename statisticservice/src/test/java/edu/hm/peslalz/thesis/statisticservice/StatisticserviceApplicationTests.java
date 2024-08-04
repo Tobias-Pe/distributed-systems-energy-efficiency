@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
+import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
@@ -26,14 +27,14 @@ class StatisticserviceApplicationTests {
 
     @Test
     void testUserTrend() {
-        statisticReceiveService.receiveUser("1");
-        statisticReceiveService.receiveUser("2");
-        statisticReceiveService.receiveUser("3");
-        statisticReceiveService.receiveUser("1");
-        statisticReceiveService.receiveUser("4");
-        statisticReceiveService.receiveUser("2");
-        statisticReceiveService.receiveUser("5");
-        statisticReceiveService.receiveUser("1");
+        statisticReceiveService.receiveUser(Collections.singletonList(1));
+        statisticReceiveService.receiveUser(Collections.singletonList(2));
+        statisticReceiveService.receiveUser(Collections.singletonList(3));
+        statisticReceiveService.receiveUser(Collections.singletonList(1));
+        statisticReceiveService.receiveUser(Collections.singletonList(4));
+        statisticReceiveService.receiveUser(Collections.singletonList(2));
+        statisticReceiveService.receiveUser(Collections.singletonList(5));
+        statisticReceiveService.receiveUser(Collections.singletonList(1));
 
         Page<TrendInterface> trendingUsers = trendController.getTrendingUsers(0);
         Assertions.assertThat(trendingUsers.getNumberOfElements()).isEqualTo(5);
@@ -75,8 +76,8 @@ class StatisticserviceApplicationTests {
         Assertions.assertThat(trendingPostsContent.getLast().getTrendPoints()).isEqualTo(1);
     }
 
-    String createPostMessageJsonWithCategories(String... categories) throws JsonProcessingException {
-        return createPostMessageJsonWithCategories(1, categories);
+    List<String> createPostMessageJsonWithCategories(String... categories) throws JsonProcessingException {
+        return Collections.singletonList(createPostMessageJsonWithCategories(1, categories));
     }
 
     String createPostMessageJsonWithCategories(Integer postId, String... categories) throws JsonProcessingException {
@@ -97,16 +98,16 @@ class StatisticserviceApplicationTests {
                 """, postId, categoryJson);
     }
 
-    String createPostActionMessageJson(String action, Integer postId) throws JsonProcessingException {
+    List<String> createPostActionMessageJson(String action, Integer postId) throws JsonProcessingException {
         String postMessageJson = createPostMessageJsonWithCategories(postId, "debugging", "testing");
 
-        return String.format("""
+        return Collections.singletonList(String.format("""
                 {
                     "userId": 789,
                     "action": "%s",
                     "postMessage": %s
                 }
-                """, action, postMessageJson);
+                """, action, postMessageJson));
     }
 
 }
