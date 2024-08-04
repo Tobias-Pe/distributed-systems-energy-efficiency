@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class StatisticsReceiveService {
         return container -> container.setObservationEnabled(true);
     }
 
+    @Transactional
     @RabbitListener(queues = "post-statistics", concurrency = "2-4")
     public void receivePost(List<String> posts) throws JsonProcessingException {
         for (String post : posts) {
@@ -38,6 +40,8 @@ public class StatisticsReceiveService {
         }
     }
 
+
+    @Transactional
     @RabbitListener(queues = "post-action-statistics", concurrency = "2-4")
     public void receivePostAction(List<String> postActions) throws JsonProcessingException {
         for (String postAction : postActions) {
@@ -48,6 +52,8 @@ public class StatisticsReceiveService {
         }
     }
 
+
+    @Transactional
     @RabbitListener(queues = "user-statistics", concurrency = "2-4")
     public void receiveUser(List<Integer> users) {
         for (Integer user : users) {

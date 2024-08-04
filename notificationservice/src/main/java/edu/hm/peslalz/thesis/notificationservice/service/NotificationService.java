@@ -12,7 +12,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -71,6 +75,12 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // https://medium.com/@ayushgupta60/springboot-retry-transaction-marked-as-rollback-74ab21733469
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 4,
+            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
+    )
     public void notifySubscriber(PostMessage postMessage) {
         ResponseEntity<List<UserMessage>> responseEntity = userClient.getUserFollowers(postMessage.getUserId());
         List<UserMessage> followers = responseEntity.getBody();

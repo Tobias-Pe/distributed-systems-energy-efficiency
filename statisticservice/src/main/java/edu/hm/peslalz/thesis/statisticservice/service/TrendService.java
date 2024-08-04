@@ -9,7 +9,12 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -37,6 +42,12 @@ public class TrendService {
                 .register(registry);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // https://medium.com/@ayushgupta60/springboot-retry-transaction-marked-as-rollback-74ab21733469
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 4,
+            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
+    )
     public void registerAccountFollowed(Integer userId) {
         FollowedUser followedUser = followedUserRepository.findByUserId(userId).orElse(new FollowedUser(userId));
         followedUser.getInteractions().add(createActionProtocol("new follower"));
@@ -49,6 +60,12 @@ public class TrendService {
         return this.actionProtocolRepository.save(actionProtocol);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 4,
+            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
+    )
     public void registerPostAction(PostActionMessage postActionMessage) {
         Post post = postRepository.findByPostId(postActionMessage.getPostMessage().getId()).orElse(new Post(postActionMessage.getPostMessage().getId()));
         post.getInteractions().add(createActionProtocol(postActionMessage.getAction()));
@@ -56,6 +73,12 @@ public class TrendService {
         trendUpdateCounter.increment();
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // https://medium.com/@ayushgupta60/springboot-retry-transaction-marked-as-rollback-74ab21733469
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 4,
+            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
+    )
     public void registerNewPost(PostMessage postMessage) {
         postMessage.getCategories().forEach(this::registerCategory);
         trendUpdateCounter.increment(postMessage.getCategories().size());

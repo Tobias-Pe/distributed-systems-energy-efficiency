@@ -8,7 +8,6 @@ import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
 import feign.FeignException;
-import jakarta.transaction.Transactional;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
