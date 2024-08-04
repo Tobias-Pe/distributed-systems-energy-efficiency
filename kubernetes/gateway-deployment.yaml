@@ -7,6 +7,7 @@ metadata:
     kompose.hpa.memory: "70"
     kompose.hpa.replicas.max: "10"
     kompose.hpa.replicas.min: "2"
+    kompose.image-pull-policy: Always
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
     kompose.service.healthcheck.liveness.http_get_port: "8080"
     kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -32,6 +33,7 @@ spec:
         kompose.hpa.memory: "70"
         kompose.hpa.replicas.max: "10"
         kompose.hpa.replicas.min: "2"
+        kompose.image-pull-policy: Always
         kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
         kompose.service.healthcheck.liveness.http_get_port: "8080"
         kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -53,6 +55,7 @@ spec:
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
           image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:02-resource-usage
+          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 5
             httpGet:

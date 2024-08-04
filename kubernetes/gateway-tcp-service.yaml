@@ -7,6 +7,7 @@ metadata:
     kompose.hpa.memory: "70"
     kompose.hpa.replicas.max: "10"
     kompose.hpa.replicas.min: "2"
+    kompose.image-pull-policy: Always
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
     kompose.service.healthcheck.liveness.http_get_port: "8080"
     kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness

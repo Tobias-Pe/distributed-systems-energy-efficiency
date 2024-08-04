@@ -5,6 +5,7 @@ services:
   userservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/userservice:latest
     labels:
+      - kompose.image-pull-policy=Always
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=65
       - kompose.hpa.replicas.max=5
@@ -40,6 +41,7 @@ services:
   postservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
     labels:
+      - kompose.image-pull-policy=Always
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=12
@@ -75,6 +77,7 @@ services:
   notificationservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
     labels:
+      - kompose.image-pull-policy=Always
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=5
@@ -113,6 +116,8 @@ services:
   statisticservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
     labels:
+      - kompose.image-pull-policy=Always
+      - kompose.image-pull-policy=Always
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=12
@@ -148,6 +153,7 @@ services:
   feedservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
     labels:
+      - kompose.image-pull-policy=Always
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=12
@@ -186,6 +192,7 @@ services:
     ports:
       - "8080:8080"
     labels:
+      - kompose.image-pull-policy=Always
       - kompose.hpa.cpu=90
       - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=10
@@ -220,6 +227,7 @@ services:
   servicediscovery:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:latest
     labels:
+      - kompose.image-pull-policy=Always
       - kompose.service.type=loadbalancer
       - kompose.service.healthcheck.liveness.http_get_port=8761
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
