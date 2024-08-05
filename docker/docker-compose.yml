@@ -117,7 +117,7 @@ services:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
     labels:
       - kompose.image-pull-policy=Always
-      - kompose.hpa.cpu=70
+      - kompose.hpa.cpu=80
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
@@ -141,7 +141,7 @@ services:
         limits:
           memory: 1000M
         reservations:
-          cpus: '0.5'
+          cpus: '0.55'
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
