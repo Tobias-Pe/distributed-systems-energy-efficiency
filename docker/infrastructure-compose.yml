@@ -10,6 +10,7 @@ services:
     labels:
       - kompose.service.type=loadbalancer
       - org.springframework.boot.ignore=true
+    command: -c 'max_connections=200'
     ports:
       - "5432:5432"
 
@@ -35,6 +36,7 @@ services:
     labels:
       - kompose.service.type=loadbalancer
       - org.springframework.boot.ignore=true
+    command: -c 'max_connections=200'
     ports:
       - "5434:5432"
 
@@ -47,6 +49,7 @@ services:
     labels:
       - kompose.service.type=loadbalancer
       - org.springframework.boot.ignore=true
+    command: -c 'max_connections=200'
     ports:
       - "5435:5432"
 
@@ -59,6 +62,7 @@ services:
     labels:
       - kompose.service.type=loadbalancer
       - org.springframework.boot.ignore=true
+    command: -c 'max_connections=200'
     ports:
       - "5436:5432"
 
