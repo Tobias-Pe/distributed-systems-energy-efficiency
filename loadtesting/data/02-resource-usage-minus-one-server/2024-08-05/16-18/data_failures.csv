@@ -1,0 +1,6 @@
+Method,Name,Error,Occurrences
+GET,/feedservice/feeds/{user_id},"CatchResponseError('{""timestamp"":""2024-08-05T15:54:14.260+00:00"",""path"":""/feedservice/feeds/7404"",""status"":500,""error"":""Internal Server Error"",""requestId"":""76551086-704576""}')",1
+GET,/feedservice/feeds/{user_id},"CatchResponseError('{""timestamp"":""2024-08-05T15:53:57.394+00:00"",""path"":""/feedservice/feeds/40808"",""status"":500,""error"":""Internal Server Error"",""requestId"":""b893365f-701397""}')",1
+GET,/feedservice/feeds/{user_id},"CatchResponseError('{""timestamp"":""2024-08-05T15:54:20.729+00:00"",""path"":""/feedservice/feeds/37378"",""status"":500,""error"":""Internal Server Error"",""requestId"":""216afa2e-835614""}')",1
+PUT,/userservice/users/{id}/follow,"CatchResponseError('{""timestamp"":""2024-08-05T15:58:45.321+00:00"",""status"":404,""error"":""Not Found"",""path"":""/userservice/users/9222/follow""}')",1
+GET,/feedservice/feeds/{user_id},"CatchResponseError('{""timestamp"":""2024-08-05T15:54:18.362+00:00"",""path"":""/feedservice/feeds/29911"",""status"":500,""error"":""Internal Server Error"",""requestId"":""fe64aa75-705446""}')",1
