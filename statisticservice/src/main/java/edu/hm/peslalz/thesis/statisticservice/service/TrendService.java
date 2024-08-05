@@ -50,14 +50,9 @@ public class TrendService {
     )
     public void registerAccountFollowed(Integer userId) {
         FollowedUser followedUser = followedUserRepository.findByUserId(userId).orElse(new FollowedUser(userId));
-        followedUser.getInteractions().add(createActionProtocol("new follower"));
         followedUserRepository.save(followedUser);
+        followedUser.getInteractions().add(new ActionProtocol("new follower"));
         trendUpdateCounter.increment();
-    }
-
-    private ActionProtocol createActionProtocol(String action) {
-        ActionProtocol actionProtocol = new ActionProtocol(action);
-        return this.actionProtocolRepository.save(actionProtocol);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -68,8 +63,8 @@ public class TrendService {
     )
     public void registerPostAction(PostActionMessage postActionMessage) {
         Post post = postRepository.findByPostId(postActionMessage.getPostMessage().getId()).orElse(new Post(postActionMessage.getPostMessage().getId()));
-        post.getInteractions().add(createActionProtocol(postActionMessage.getAction()));
         postRepository.save(post);
+        post.getInteractions().add(new ActionProtocol(postActionMessage.getAction()));
         trendUpdateCounter.increment();
     }
 
@@ -86,8 +81,8 @@ public class TrendService {
 
     private void registerCategory(String categoryName) {
         Category category = categoryRepository.findByName(categoryName).orElse(new Category(categoryName));
-        category.getInteractions().add(createActionProtocol("new post"));
         categoryRepository.save(category);
+        category.getInteractions().add(new ActionProtocol("new post"));
     }
 
     public Page<TrendInterface> getCategoryTrends(int page) {

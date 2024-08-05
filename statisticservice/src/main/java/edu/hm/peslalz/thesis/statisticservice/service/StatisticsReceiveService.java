@@ -47,7 +47,11 @@ public class StatisticsReceiveService {
         for (String postAction : postActions) {
             ObjectMapper mapper = new ObjectMapper();
             PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
-            log.info("post-action {} received from {}", postActionMessage.getPostMessage().getId(), postActionMessage.getUserId());
+            if (postActionMessage.getAction() == null || postActionMessage.getAction().trim().isEmpty()) {
+                log.error("Action null {}",postActionMessage);
+                continue;
+            }
+            log.info("post-action {} with action '{}' received from {}", postActionMessage.getPostMessage().getId(),postActionMessage.getAction(), postActionMessage.getUserId());
             trendService.registerPostAction(postActionMessage);
         }
     }

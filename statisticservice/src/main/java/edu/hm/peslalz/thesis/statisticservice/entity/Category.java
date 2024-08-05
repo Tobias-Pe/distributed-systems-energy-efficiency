@@ -28,6 +28,6 @@ public class Category {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<ActionProtocol> interactions = new ArrayList<>();
 }

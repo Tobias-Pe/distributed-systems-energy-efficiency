@@ -20,7 +20,7 @@ public class ActionProtocol {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "action", nullable = false)
