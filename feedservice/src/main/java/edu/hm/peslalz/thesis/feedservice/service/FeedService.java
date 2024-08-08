@@ -91,8 +91,8 @@ public class FeedService {
     }
 
     private void fillUpWithRecentPosts(int page, List<PostDTO> posts) {
-        if (posts.size() < 50) {
-            posts.addAll(postClient.getPosts(null, null, page, 50 - posts.size()).getContent());
+        if (posts.size() < 40) {
+            posts.addAll(postClient.getPosts(null, null, page, 40 - posts.size()).getContent());
         }
     }
 }

@@ -1,5 +1,6 @@
 package edu.hm.peslalz.thesis.userservice.service;
 
+import edu.hm.peslalz.thesis.userservice.entity.FollowerDto;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import edu.hm.peslalz.thesis.userservice.exceptions.UserNotFoundException;
@@ -82,7 +83,7 @@ public class UserAccountService {
         return userAccount;
     }
 
-    public Set<UserAccount> getFollowers(Integer id) {
+    public Set<FollowerDto> getFollowers(Integer id) {
         UserAccount userAccount = getUserById(id);
         return userAccountRepository.findUserAccountsByFollowingContaining(userAccount);
     }

@@ -1,6 +1,7 @@
 package edu.hm.peslalz.thesis.userservice.repository;
 
 
+import edu.hm.peslalz.thesis.userservice.entity.FollowerDto;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,5 +15,5 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
 
     Page<UserAccount> findUserAccountByUsernameLike(String query, Pageable pageable);
 
-    Set<UserAccount> findUserAccountsByFollowingContaining(UserAccount userAccount);
+    Set<FollowerDto> findUserAccountsByFollowingContaining(UserAccount userAccount);
 }

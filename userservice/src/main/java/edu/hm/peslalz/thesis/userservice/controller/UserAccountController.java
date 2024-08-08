@@ -1,11 +1,11 @@
 package edu.hm.peslalz.thesis.userservice.controller;
 
+import edu.hm.peslalz.thesis.userservice.entity.FollowerDto;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import edu.hm.peslalz.thesis.userservice.service.UserAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
-import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -74,7 +74,7 @@ public class UserAccountController {
 
     @Operation(description = "Get followers of a user")
     @GetMapping("/{id}/followers")
-    public Callable<Set<UserAccount>> getFollowers(@PathVariable Integer id) {
+    public Callable<Set<FollowerDto>> getFollowers(@PathVariable Integer id) {
         return () -> {
             log.info("Get followers of user: {}", id);
             return userAccountService.getFollowers(id);
