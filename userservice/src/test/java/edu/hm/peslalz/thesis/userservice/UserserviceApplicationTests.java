@@ -38,7 +38,7 @@ class UserserviceApplicationTests {
     private UserAccount createUser() throws Exception {
         UserAccount testiasTestlalz = userAccountController.createUserAccount(new UserAccountRequest("Testias Testlaz")).call();
         assertThat(testiasTestlalz.getId()).isNotNull();
-        assertThat(userAccountController.getUserAccount(testiasTestlalz.getId())).isEqualTo(userAccountController.searchUser("Testias Testlaz", 0).call().stream().iterator().next());
+        assertThat(userAccountController.getUserAccount(testiasTestlalz.getId()).call()).isEqualTo(userAccountController.searchUser("Testias Testlaz", 0).call().stream().iterator().next());
         return testiasTestlalz;
     }
 
@@ -57,9 +57,9 @@ class UserserviceApplicationTests {
 
     private void countFollowers(UserAccount contentCreator) throws Exception {
         UserAccount contentCreatorLover = userAccountController.createUserAccount(new UserAccountRequest("ContentCreatorLover")).call();
-        userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId());
-        userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId());
-        userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId());
+        userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId()).call();
+        userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId()).call();
+        userAccountController.followUser(contentCreator.getUsername(), contentCreatorLover.getId()).call();
         assertThat(userAccountController.getFollowers(contentCreator.getId()).call()).hasSize(2);
     }
 }

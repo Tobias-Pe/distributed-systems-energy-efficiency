@@ -72,10 +72,10 @@ class NotificationserviceApplicationTests {
         notification.setPostingUsersId(4);
         notificationService.createNotification(notification);
         Assertions.assertThat(notificationController.getUsersNotifications(3).call()).contains(notification);
-        Assertions.assertThat(notificationController.getNotificationCount(3, null)).isEqualTo(1);
-        Assertions.assertThat(notificationController.getNotificationCount(3, false)).isEqualTo(1);
-        notificationController.setReadStatus(3, true);
-        Assertions.assertThat(notificationController.getNotificationCount(3, true)).isEqualTo(1);
+        Assertions.assertThat(notificationController.getNotificationCount(3, null).call()).isEqualTo(1);
+        Assertions.assertThat(notificationController.getNotificationCount(3, false).call()).isEqualTo(1);
+        notificationController.setReadStatus(3, true).call();
+        Assertions.assertThat(notificationController.getNotificationCount(3, true).call()).isEqualTo(1);
     }
 
     @AfterAll
