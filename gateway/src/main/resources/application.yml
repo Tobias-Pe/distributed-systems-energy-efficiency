@@ -24,6 +24,7 @@ spring:
           lower-case-service-id: true
       httpclient:
         connect-timeout: 500
+        response-timeout: 5s
       globalcors:
         cors-configurations:
           '[/**]':
