@@ -145,13 +145,13 @@ class FeedserviceApplicationTests {
     }
 
     @Test
-    void testFeed() {
+    void testFeed() throws Exception {
         Mockito.when(trendClient.getTrendingCategories(anyInt(), anyInt())).thenReturn(new PagedTrendResponse(List.of(new Trend("Fishing", 12), new Trend("Outdoor", 6))));
         Mockito.when(trendClient.getTrendingPosts(anyInt(), anyInt())).thenReturn(new PagedTrendResponse(List.of(new Trend("1", 12), new Trend("2", 6))));
         Mockito.when(trendClient.getTrendingUsers(anyInt(), anyInt())).thenReturn(new PagedTrendResponse(List.of(new Trend("1", 12), new Trend("2", 6))));
         Mockito.when(postClient.getPosts(any(), any(),anyInt(),anyInt())).thenReturn(new PagedPostResponse(List.of(new PostDTO(), new PostDTO())));
         Mockito.when(postClient.getPost(anyInt())).thenReturn(new PostDTO());
-        Slice<PostDTO> personalizedFeed = feedController.getPersonalizedFeed(1, 0);
+        Slice<PostDTO> personalizedFeed = feedController.getPersonalizedFeed(1, 0).call();
         Mockito.verify(postClient, Mockito.times(5)).getPosts(any(), any(), anyInt(), anyInt());
         Mockito.verify(postClient, Mockito.times(2)).getPost(anyInt());
         Assertions.assertThat(personalizedFeed).isNotNull();

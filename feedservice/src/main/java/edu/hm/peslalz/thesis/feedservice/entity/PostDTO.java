@@ -18,17 +18,6 @@ public class PostDTO implements Serializable {
     private List<CategoryDTO> categories;
 
     @Data
-    public static class CommentDTO implements Serializable {
-        @Serial
-        private static final long serialVersionUID = 2L;
-
-        private Integer id;
-        private Integer userId;
-        private String text;
-        private Integer likes;
-    }
-
-    @Data
     public static class CategoryDTO implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;

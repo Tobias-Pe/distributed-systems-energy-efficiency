@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.Callable;
+
 @RestController
 @RequestMapping("comments")
 @Log4j2
@@ -21,8 +23,10 @@ public class CommentController {
 
     @Operation(description = "Like a comment")
     @PostMapping("/{comment_id}/like")
-    public Comment likeComment(@PathVariable(name = "comment_id") int commentId) {
-        log.info("Like Comment: {}", commentId);
-        return postService.likeComment(commentId);
+    public Callable<Comment> likeComment(@PathVariable(name = "comment_id") int commentId) {
+        return () -> {
+            log.info("Like Comment: {}", commentId);
+            return postService.likeComment(commentId);
+        };
     }
 }

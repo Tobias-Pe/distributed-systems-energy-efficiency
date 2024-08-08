@@ -52,29 +52,29 @@ class PostserviceApplicationTests {
     private RabbitTemplate rabbitTemplate;
 
     @Test
-    void scenario() throws IOException {
+    void scenario() throws Exception {
         Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenReturn(ResponseEntity.ok().build());
         File file = ResourceUtils.getFile("classpath:ExampleImage.png");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
-        Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes));
+        Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes)).call();
         verify(rabbitTemplate, times(1)).convertAndSend(eq("postservice.direct"), eq("post"),any(String.class));
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
-        Assertions.assertThat(Objects.requireNonNull(postController.getPostImage(postFirst.getId()).getBody()).getContentAsByteArray()).isEqualTo(imageBytes);
+        Assertions.assertThat(Objects.requireNonNull(postController.getPostImage(postFirst.getId()).call().getBody()).getContentAsByteArray()).isEqualTo(imageBytes);
         postController.likePost(postFirst.getId(), 1);
         postController.commentPost(postFirst.getId(), new CommentRequest(2, "What a first post! Wow :)"));
-        postFirst = postController.getPost(postFirst.getId());
+        postFirst = postController.getPost(postFirst.getId()).call();
         Assertions.assertThat(postFirst).isNotNull();
         Assertions.assertThat(postFirst.getComments()).hasSize(1);
         Assertions.assertThat(postFirst.getLikes()).isEqualTo(1);
         assertThrows(ResponseStatusException.class, () -> commentController.likeComment(12345));
         assertThrows(ResponseStatusException.class, () -> postController.getPost(12345));
-        Assertions.assertThat(postController.getPosts("blog", null, 0, 50)).hasSize(1);
-        Assertions.assertThat(postController.getPosts(null, 1, 0, 50)).hasSize(1);
-        Comment comment = commentController.likeComment(postFirst.getComments().stream().findFirst().get().getId());
+        Assertions.assertThat(postController.getPosts("blog", null, 0, 50).call()).hasSize(1);
+        Assertions.assertThat(postController.getPosts(null, 1, 0, 50).call()).hasSize(1);
+        Comment comment = commentController.likeComment(postFirst.getComments().stream().findFirst().get().getId()).call();
         Assertions.assertThat(comment.getLikes()).isEqualTo(1);
 
         postController.createPost(1, "NewzFromMyLaif", Set.of("life", "blog"), null);
-        List<String> categories = categoryController.getCategories(0).getContent();
+        List<String> categories = categoryController.getCategories(0).call().getContent();
         Assertions.assertThat(categories).hasSize(3);
     }
 
@@ -85,12 +85,12 @@ class PostserviceApplicationTests {
     }
 
     @Test
-    void parallelLikes() {
-        Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), null);
+    void parallelLikes() throws Exception {
+        Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), null).call();
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Post finalPostFirst = postFirst;
         IntStream.range(0, 20).parallel().forEach(i -> postController.likePost(finalPostFirst.getId(),1));
-        postFirst = postController.getPost(postFirst.getId());
+        postFirst = postController.getPost(postFirst.getId()).call();
         Assertions.assertThat(postFirst.getLikes()).isEqualTo(20);
     }
 

@@ -29,6 +29,10 @@ spring:
   threads:
     virtual:
       enabled: true
+  mvc:
+    async:
+      request-timeout: 5000
+
 server:
   forward-headers-strategy: framework
   port: 8084

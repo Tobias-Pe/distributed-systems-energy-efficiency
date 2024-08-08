@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.Callable;
+
 @RestController
 @RequestMapping("categories")
 @Log4j2
@@ -21,8 +23,10 @@ public class CategoryController {
 
     @Operation(description = "Get all categories")
     @GetMapping
-    public Page<String> getCategories(@RequestParam(defaultValue = "0") int page) {
-        log.info("Get categories | Page: {}",page);
-        return categoryService.getCategories(page);
+    public Callable<Page<String>> getCategories(@RequestParam(defaultValue = "0") int page) {
+        return () -> {
+            log.info("Get categories | Page: {}", page);
+            return categoryService.getCategories(page);
+        };
     }
 }

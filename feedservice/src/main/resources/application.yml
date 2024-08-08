@@ -41,6 +41,10 @@ spring:
     openfeign:
       httpclient:
         connection-timeout: 500
+  mvc:
+    async:
+      request-timeout: 5000
+
 server:
   forward-headers-strategy: framework
   port: 8085
@@ -65,7 +69,6 @@ management:
       enabled: true
     readinessstate:
       enabled: true
-
 eureka:
   client:
     serviceUrl:

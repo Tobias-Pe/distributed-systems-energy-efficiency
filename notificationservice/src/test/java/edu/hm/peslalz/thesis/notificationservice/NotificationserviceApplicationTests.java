@@ -64,14 +64,14 @@ class NotificationserviceApplicationTests {
     }
 
     @Test
-    void controllerTests() {
+    void controllerTests() throws Exception {
         Notification notification = new Notification();
         notification.setId(3);
         notification.setNotifiedUsersId(3);
         notification.setPostId(3);
         notification.setPostingUsersId(4);
         notificationService.createNotification(notification);
-        Assertions.assertThat(notificationController.getUsersNotifications(3)).contains(notification);
+        Assertions.assertThat(notificationController.getUsersNotifications(3).call()).contains(notification);
         Assertions.assertThat(notificationController.getNotificationCount(3, null)).isEqualTo(1);
         Assertions.assertThat(notificationController.getNotificationCount(3, false)).isEqualTo(1);
         notificationController.setReadStatus(3, true);
