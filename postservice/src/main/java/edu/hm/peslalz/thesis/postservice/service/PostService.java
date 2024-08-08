@@ -96,7 +96,7 @@ public class PostService {
     @Retryable(
             noRetryFor = ResponseStatusException.class,
             maxAttempts = 4,
-            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
+            backoff = @Backoff(random = true, delay = 400, maxDelay = 1000, multiplier = 1.33)
     )
     public Post likePost(int id, Integer userId) {
         Post post = lockAndGetPost(id);
@@ -114,7 +114,7 @@ public class PostService {
     @Retryable(
             noRetryFor = ResponseStatusException.class,
             maxAttempts = 4,
-            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
+            backoff = @Backoff(random = true, delay = 400, maxDelay = 1000, multiplier = 1.33)
     )
     public Post commentPost(int id, CommentRequest commentRequest) {
         checkUserExists(commentRequest.getUserId());
@@ -131,7 +131,7 @@ public class PostService {
     @Retryable(
             noRetryFor = ResponseStatusException.class,
             maxAttempts = 4,
-            backoff = @Backoff(random = true, delay = 100, maxDelay = 1000, multiplier = 2)
+            backoff = @Backoff(random = true, delay = 400, maxDelay = 1000, multiplier = 1.33)
     )
     public Comment likeComment(int id) {
         Comment comment = commentRepository.lockAndFindById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
