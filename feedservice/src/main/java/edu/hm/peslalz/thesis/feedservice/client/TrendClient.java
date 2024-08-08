@@ -1,10 +1,8 @@
 package edu.hm.peslalz.thesis.feedservice.client;
 
 import edu.hm.peslalz.thesis.feedservice.entity.PagedTrendResponse;
-import edu.hm.peslalz.thesis.feedservice.entity.Trend;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
