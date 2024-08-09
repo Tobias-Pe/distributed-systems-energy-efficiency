@@ -48,7 +48,7 @@ class PostserviceApplicationTests {
 
     @Test
     void scenario() throws Exception {
-        Mockito.when(rabbitTemplate.convertSendAndReceive(any(String.class), any(String.class), any(Integer.class))).thenReturn(ResponseEntity.ok().build());
+        Mockito.when(rabbitTemplate.convertSendAndReceive(any(String.class), any(String.class), any(Integer.class))).thenReturn(true);
         File file = ResourceUtils.getFile("classpath:ExampleImage.png");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
         Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes)).call();
@@ -81,6 +81,7 @@ class PostserviceApplicationTests {
 
     @Test
     void parallelLikes() throws Exception {
+        Mockito.when(rabbitTemplate.convertSendAndReceive(any(String.class), any(String.class), any(Integer.class))).thenReturn(true);
         Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), null).call();
         Assertions.assertThat(postFirst.getCategories()).hasSize(2);
         Post finalPostFirst = postFirst;
