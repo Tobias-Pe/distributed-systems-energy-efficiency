@@ -32,7 +32,7 @@ spec:
               value: "true"
             - name: GF_AUTH_ANONYMOUS_ORG_ROLE
               value: Admin
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/grafana:02-resource-usage
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/grafana:03-communication-efficiency
           name: grafana
           ports:
             - containerPort: 3000

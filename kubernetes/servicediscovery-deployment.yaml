@@ -44,7 +44,7 @@ spec:
               value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:02-resource-usage
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:03-communication-efficiency
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 5
