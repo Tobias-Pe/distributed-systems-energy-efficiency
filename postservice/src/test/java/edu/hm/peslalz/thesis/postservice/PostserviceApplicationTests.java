@@ -1,11 +1,9 @@
 package edu.hm.peslalz.thesis.postservice;
 
-import edu.hm.peslalz.thesis.postservice.client.UserClient;
 import edu.hm.peslalz.thesis.postservice.controller.CategoryController;
 import edu.hm.peslalz.thesis.postservice.controller.CommentController;
 import edu.hm.peslalz.thesis.postservice.controller.PostController;
 import edu.hm.peslalz.thesis.postservice.entity.*;
-import feign.FeignException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -46,14 +44,11 @@ class PostserviceApplicationTests {
     private CommentController commentController;
 
     @MockBean
-    private UserClient userClient;
-
-    @MockBean
     private RabbitTemplate rabbitTemplate;
 
     @Test
     void scenario() throws Exception {
-        Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenReturn(ResponseEntity.ok().build());
+        Mockito.when(rabbitTemplate.convertSendAndReceive(any(String.class), any(String.class), any(Integer.class))).thenReturn(ResponseEntity.ok().build());
         File file = ResourceUtils.getFile("classpath:ExampleImage.png");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
         Post postFirst = postController.createPost(1, "MyFirstPost", Set.of("beginnings", "blog"), new MockMultipartFile(file.getName(), file.getName(), "image/png", imageBytes)).call();
@@ -80,7 +75,7 @@ class PostserviceApplicationTests {
 
     @Test
     void scenarioUserNotFound() {
-        Mockito.when(userClient.getUserAccount(ArgumentMatchers.anyInt())).thenThrow(FeignException.class);
+        Mockito.when(rabbitTemplate.convertSendAndReceive(any(String.class), any(String.class), any(Integer.class))).thenReturn(null);
         assertThrows(ResponseStatusException.class, () -> postController.createPost(1, null, null, null).call());
     }
 

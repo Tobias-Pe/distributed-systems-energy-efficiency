@@ -60,6 +60,10 @@ public class UserAccountService {
         return userAccountRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.valueOf(id)));
     }
 
+    public boolean existUserWithId(Integer id) {
+        return userAccountRepository.existsById(id);
+    }
+
     public Page<UserAccount> search(String query, int page) {
         return userAccountRepository.findUserAccountByUsernameLike(query, PageRequest.of(page, 50));
     }

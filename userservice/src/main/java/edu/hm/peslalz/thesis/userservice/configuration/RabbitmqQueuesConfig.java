@@ -1,9 +1,6 @@
 package edu.hm.peslalz.thesis.userservice.configuration;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,5 +20,23 @@ public class RabbitmqQueuesConfig {
     @Bean
     public FanoutExchange fanout() {
         return new FanoutExchange("userservice.subscription.fanout");
+    }
+
+    @Bean
+    public Queue userVerficiationRpcQueue() {
+        return new Queue("userservice.rpc.verification");
+    }
+
+    @Bean
+    public DirectExchange userserviceRpcExchange() {
+        return new DirectExchange("userservice.rpc");
+    }
+
+    @Bean
+    public Binding binding(DirectExchange userserviceRpcExchange,
+                           Queue userVerficiationRpcQueue) {
+        return BindingBuilder.bind(userVerficiationRpcQueue)
+                .to(userserviceRpcExchange)
+                .with("rpc");
     }
 }

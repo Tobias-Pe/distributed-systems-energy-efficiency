@@ -2,12 +2,10 @@ package edu.hm.peslalz.thesis.postservice.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.hm.peslalz.thesis.postservice.client.UserClient;
 import edu.hm.peslalz.thesis.postservice.entity.*;
 import edu.hm.peslalz.thesis.postservice.repository.CategoryRepository;
 import edu.hm.peslalz.thesis.postservice.repository.CommentRepository;
 import edu.hm.peslalz.thesis.postservice.repository.PostRepository;
-import feign.FeignException;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +28,20 @@ public class PostService {
     CategoryRepository categoryRepository;
     CommentRepository commentRepository;
 
-    UserClient userClient;
     private final RabbitTemplate template;
-    private final DirectExchange directExchange;
+    private final DirectExchange postserviceDirectExchange;
+    private final DirectExchange userserviceRpcExchange;
 
     @Autowired
-    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, UserClient userClient, RabbitTemplate template, DirectExchange directExchange) {
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, CommentRepository commentRepository, RabbitTemplate template, DirectExchange postserviceDirectExchange, DirectExchange userserviceRpcExchange) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.commentRepository = commentRepository;
-        this.userClient = userClient;
         this.template = template;
         // enable tracing for rabbitmq template
         this.template.setObservationEnabled(true);
-        this.directExchange = directExchange;
+        this.postserviceDirectExchange = postserviceDirectExchange;
+        this.userserviceRpcExchange = userserviceRpcExchange;
     }
 
     Post savePost(Post post) {
@@ -81,14 +79,13 @@ public class PostService {
         } catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not process request to json", e);
         }
-        this.template.convertAndSend(directExchange.getName(), routingKey, message);
+        this.template.convertAndSend(postserviceDirectExchange.getName(), routingKey, message);
     }
 
     void checkUserExists(Integer userId) {
-        try {
-            userClient.getUserAccount(userId);
-        } catch (FeignException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist", e);
+        Boolean response = (Boolean) this.template.convertSendAndReceive(userserviceRpcExchange.getName(), "rpc", userId);
+        if (response == null || !response) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
         }
     }
 
