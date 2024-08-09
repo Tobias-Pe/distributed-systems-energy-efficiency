@@ -28,15 +28,33 @@ public class RabbitmqQueuesConfig {
     }
 
     @Bean
-    public DirectExchange userserviceRpcExchange() {
-        return new DirectExchange("userservice.rpc");
+    public DirectExchange userserviceVerificationRpcExchange() {
+        return new DirectExchange("userservice.rpc.verification");
     }
 
     @Bean
-    public Binding binding(DirectExchange userserviceRpcExchange,
+    public Binding bindingVerification(DirectExchange userserviceVerificationRpcExchange,
                            Queue userVerficiationRpcQueue) {
         return BindingBuilder.bind(userVerficiationRpcQueue)
-                .to(userserviceRpcExchange)
+                .to(userserviceVerificationRpcExchange)
+                .with("rpc");
+    }
+
+    @Bean
+    public Queue followersRpcQueue() {
+        return new Queue("userservice.rpc.followers");
+    }
+
+    @Bean
+    public DirectExchange userserviceFollowersRpcExchange() {
+        return new DirectExchange("userservice.rpc.followers");
+    }
+
+    @Bean
+    public Binding bindingFollowers(DirectExchange userserviceFollowersRpcExchange,
+                           Queue followersRpcQueue) {
+        return BindingBuilder.bind(followersRpcQueue)
+                .to(userserviceFollowersRpcExchange)
                 .with("rpc");
     }
 }

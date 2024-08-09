@@ -83,7 +83,7 @@ public class RabbitmqQueuesConfig {
 
     @Bean
     public DirectExchange userserviceRpcExchange() {
-        return new DirectExchange("userservice.rpc");
+        return new DirectExchange("userservice.rpc.verification");
     }
 
     @Bean

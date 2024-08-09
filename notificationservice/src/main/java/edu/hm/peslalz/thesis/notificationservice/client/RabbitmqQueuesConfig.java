@@ -10,4 +10,9 @@ public class RabbitmqQueuesConfig {
     public Queue notificationsQueue() {
         return new Queue("notifications");
     }
+
+    @Bean
+    public DirectExchange exchange() {
+        return new DirectExchange("userservice.rpc.followers");
+    }
 }
