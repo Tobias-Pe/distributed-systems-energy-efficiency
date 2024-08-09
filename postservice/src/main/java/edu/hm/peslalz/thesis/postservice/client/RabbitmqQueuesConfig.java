@@ -92,4 +92,35 @@ public class RabbitmqQueuesConfig {
         converter.setAllowedListPatterns(List.of("java.lang.*"));
         return converter;
     }
+
+    @Bean
+    public Queue postsRpcQueue() {
+        return new Queue("postservice.rpc.rpc-posts");
+    }
+
+    @Bean
+    public Queue singlePostRpcQueue() {
+        return new Queue("postservice.rpc.rpc-post");
+    }
+
+    @Bean
+    public DirectExchange postserviceRpcExchange() {
+        return new DirectExchange("postservice.rpc");
+    }
+
+    @Bean
+    public Binding bindingSinglePostToRpcExchange(DirectExchange postserviceRpcExchange,
+                                    Queue singlePostRpcQueue) {
+        return BindingBuilder.bind(singlePostRpcQueue)
+                .to(postserviceRpcExchange)
+                .with("rpc-post");
+    }
+
+    @Bean
+    public Binding bindingPostsToRpcExchange(DirectExchange postserviceRpcExchange,
+                                    Queue postsRpcQueue) {
+        return BindingBuilder.bind(postsRpcQueue)
+                .to(postserviceRpcExchange)
+                .with("rpc-posts");
+    }
 }

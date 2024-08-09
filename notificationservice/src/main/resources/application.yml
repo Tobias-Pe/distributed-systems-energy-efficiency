@@ -20,6 +20,7 @@ spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672
+    channel-rpc-timeout: 5000
   lifecycle:
     timeout-per-shutdown-phase: 20s
   threads:

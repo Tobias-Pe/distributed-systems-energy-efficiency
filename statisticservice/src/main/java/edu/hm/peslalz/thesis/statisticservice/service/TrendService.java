@@ -22,7 +22,7 @@ import java.util.Date;
 
 @Service
 public class TrendService {
-    public static final int TREND_SIZE = 10;
+    public static final int TREND_SIZE = 5;
     public static final int TREND_RELEVANT_TIMERANGE_MINUTES = 2;
 
     private final Counter trendUpdateCounter;

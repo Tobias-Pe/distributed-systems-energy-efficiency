@@ -30,21 +30,21 @@ public class FeedService {
     public Slice<PostDTO> getPersonalizedFeed(int userId, int page) {
         // Fetching trending categories, users, and posts in parallel
         CompletableFuture<List<String>> trendingCategoriesFuture = CompletableFuture.supplyAsync(() ->
-                trendClient.getTrendingCategories(0, 5).getContent()
+                trendClient.getTrendingCategories(0).getContent()
                         .stream()
                         .map(Trend::identifier)
                         .toList()
         );
 
         CompletableFuture<List<String>> trendingUsersFuture = CompletableFuture.supplyAsync(() ->
-                trendClient.getTrendingUsers(0, 5).getContent()
+                trendClient.getTrendingUsers(0).getContent()
                         .stream()
                         .map(Trend::identifier)
                         .toList()
         );
 
         CompletableFuture<PagedTrendResponse> trendingPostsFuture = CompletableFuture.supplyAsync(() ->
-                trendClient.getTrendingPosts(0, 10)
+                trendClient.getTrendingPosts(0)
         );
 
         // load preferences from repository

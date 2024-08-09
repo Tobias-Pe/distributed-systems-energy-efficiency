@@ -1,22 +1,47 @@
 package edu.hm.peslalz.thesis.feedservice.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.peslalz.thesis.feedservice.entity.PagedTrendResponse;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Component;
 
-@FeignClient("statisticservice")
-public interface TrendClient {
+@Component
+public class TrendClient {
+    private final DirectExchange trendExchange;
+    private final RabbitTemplate template;
+
+    public TrendClient(DirectExchange trendExchange, RabbitTemplate template) {
+        this.trendExchange = trendExchange;
+        this.template = template;
+    }
+
     @Cacheable("trends/categories")
-    @GetMapping("trends/categories")
-    PagedTrendResponse getTrendingCategories(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size);
+    public PagedTrendResponse getTrendingCategories(int page) {
+        return getPagedTrendResponse("rpc-categories", page);
+    }
 
     @Cacheable("trends/posts")
-    @GetMapping("trends/posts")
-    PagedTrendResponse getTrendingPosts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size);
+    public PagedTrendResponse getTrendingPosts(int page){
+        return getPagedTrendResponse("rpc-posts", page);
+    }
 
     @Cacheable("trends/users")
-    @GetMapping("trends/users")
-    PagedTrendResponse getTrendingUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size);
+    public PagedTrendResponse getTrendingUsers(int page){
+        return getPagedTrendResponse("rpc-users", page);
+    }
+
+    private PagedTrendResponse getPagedTrendResponse(String routingKey, int page) {
+        String response = (String) this.template.convertSendAndReceive(trendExchange.getName(), routingKey, page);
+        ObjectMapper mapper = new ObjectMapper();
+        PagedTrendResponse pagedTrendResponse;
+        try {
+            pagedTrendResponse = mapper.readValue(response, PagedTrendResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return pagedTrendResponse;
+    }
 }

@@ -30,7 +30,7 @@ public class StatisticsReceiveService {
     }
 
     @Transactional
-    @RabbitListener(queues = "post-statistics", concurrency = "2-4")
+    @RabbitListener(queues = "post-statistics", concurrency = "2-4", containerFactory = "consumerBatchContainerFactory")
     public void receivePost(List<String> posts) throws JsonProcessingException {
         for (String post : posts) {
             ObjectMapper mapper = new ObjectMapper();
@@ -42,7 +42,7 @@ public class StatisticsReceiveService {
 
 
     @Transactional
-    @RabbitListener(queues = "post-action-statistics", concurrency = "2-4")
+    @RabbitListener(queues = "post-action-statistics", concurrency = "2-4", containerFactory = "consumerBatchContainerFactory")
     public void receivePostAction(List<String> postActions) throws JsonProcessingException {
         for (String postAction : postActions) {
             ObjectMapper mapper = new ObjectMapper();
@@ -58,7 +58,7 @@ public class StatisticsReceiveService {
 
 
     @Transactional
-    @RabbitListener(queues = "user-statistics", concurrency = "2-4")
+    @RabbitListener(queues = "user-statistics", concurrency = "2-4", containerFactory = "consumerBatchContainerFactory")
     public void receiveUser(List<Integer> users) {
         for (Integer user : users) {
             log.info("user {} has a new follower", user);

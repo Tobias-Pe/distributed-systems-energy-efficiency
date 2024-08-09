@@ -1,5 +1,6 @@
 package edu.hm.peslalz.thesis.feedservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PagedTrendResponse implements Serializable {
     public PagedTrendResponse(List<Trend> content) {
         this.content = content;
