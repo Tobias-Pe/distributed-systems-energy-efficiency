@@ -1,0 +1,8 @@
+Method,Name,Error,Occurrences
+GET,/postservice/posts/{id},HTTPError('500 Server Error: Internal Server Error for url: /postservice/posts/{id}'),1
+GET,/postservice/posts,"CatchResponseError('{""timestamp"":""2024-08-09T20:21:00.787+00:00"",""path"":""/postservice/posts"",""status"":500,""error"":""Internal Server Error"",""requestId"":""fbeef901-824216""}')",1
+GET,/postservice/posts,"CatchResponseError('{""timestamp"":""2024-08-09T20:21:01.582+00:00"",""path"":""/postservice/posts"",""status"":500,""error"":""Internal Server Error"",""requestId"":""099ed6a8-849118""}')",1
+GET,/postservice/categories,"CatchResponseError('{""timestamp"":""2024-08-09T20:16:47.621+00:00"",""path"":""/postservice/categories"",""status"":500,""error"":""Internal Server Error"",""requestId"":""f9ac949d-772011""}')",1
+POST,/postservice/posts,"CatchResponseError('{""timestamp"":""2024-08-09T20:16:32.239+00:00"",""path"":""/postservice/posts"",""status"":500,""error"":""Internal Server Error"",""requestId"":""4d6dbc25-792843""}')",1
+POST,/postservice/posts/{id}/like,HTTPError('500 Server Error: Internal Server Error for url: /postservice/posts/{id}/like'),2
+GET,/postservice/posts/{id}/image,HTTPError('500 Server Error: Internal Server Error for url: /postservice/posts/{id}/image'),1
