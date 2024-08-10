@@ -46,5 +46,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @NonNull
     List<Post> findAllById(@NonNull Iterable<Integer> ids);
 
-
+    @Query("UPDATE Post p set p.likes = p.likes + 1 WHERE p.id = :id;")
+    Optional<Post> likePost(@NonNull Integer id);
 }
