@@ -80,8 +80,7 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    // https://medium.com/@ayushgupta60/springboot-retry-transaction-marked-as-rollback-74ab21733469
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // https://medium.com/@ayushgupta60/springboot-retry-transaction-marked-as-rollback-74ab21733469
     @Retryable(
             noRetryFor = ResponseStatusException.class,
             maxAttempts = 4,

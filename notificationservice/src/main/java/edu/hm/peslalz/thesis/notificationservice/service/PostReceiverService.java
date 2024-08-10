@@ -8,11 +8,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Log4j2
@@ -31,7 +28,7 @@ public class PostReceiverService {
     }
 
     @Transactional
-    @RabbitListener(queues = "notifications", concurrency = "2-4")
+    @RabbitListener(queues = "notifications", concurrency = "2-8")
     public void receive(String post) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PostMessage postMessage = mapper.readValue(post, PostMessage.class);
