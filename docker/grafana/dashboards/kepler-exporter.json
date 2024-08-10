@@ -1062,6 +1062,30 @@
           "instant": false,
           "range": true,
           "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "postservice_post_counter_total",
+          "hide": false,
+          "instant": false,
+          "range": true,
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "postservice_posts_counter_total",
+          "hide": false,
+          "instant": false,
+          "range": true,
+          "refId": "K"
         }
       ],
       "title": "Usefull Work - Service Metrics (export)",
