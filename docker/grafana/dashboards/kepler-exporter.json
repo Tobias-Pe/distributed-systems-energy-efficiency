@@ -1722,7 +1722,7 @@
         "x": 0,
         "y": 34
       },
-      "id": 66,
+      "id": 69,
       "options": {
         "legend": {
           "calcs": [
@@ -1746,7 +1746,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
-          "expr": "sum by(application, uri, outcome, error) (http_server_requests_seconds_count{uri!~\"/actuator/.*\", error!=\"none\"})",
+          "expr": "http_server_requests_seconds_count{uri!~\"/actuator/.*\", error!=\"none\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "__auto",
@@ -1754,7 +1754,7 @@
           "refId": "A"
         }
       ],
-      "title": "Failures Service Metrics",
+      "title": "Failures Service Metrics (exportable)",
       "type": "timeseries"
     },
     {
@@ -1851,9 +1851,111 @@
       ],
       "title": "JVM Buffer Memory",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "All prometheus metrics which symbolize usefull work: Some custom metrics & successfull http requests",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 41
+      },
+      "id": 66,
+      "options": {
+        "legend": {
+          "calcs": [
+            "range"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Range",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(application, uri, outcome, error) (http_server_requests_seconds_count{uri!~\"/actuator/.*\", error!=\"none\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Failures Service Metrics",
+      "type": "timeseries"
     }
   ],
-  "refresh": "30s",
+  "refresh": false,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -1880,7 +1982,7 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "default",
           "value": "default"
         },
@@ -1950,6 +2052,6 @@
   "timezone": "browser",
   "title": "Kepler Exporter Dashboard",
   "uid": "NhnADUW4zIBM3",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
