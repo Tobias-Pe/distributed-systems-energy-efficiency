@@ -348,3 +348,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,visualstudiocode,jetbrains+all,intellij+all,java,maven,jetbrains+iml
 
+**/__pycache__/*.pyc
