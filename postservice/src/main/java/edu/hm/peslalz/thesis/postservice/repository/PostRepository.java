@@ -7,10 +7,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +51,13 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @NonNull
     List<Post> findAllById(@NonNull Iterable<Integer> ids);
 
-    @Query("UPDATE Post p set p.likes = p.likes + 1 WHERE p.id = :id;")
-    Optional<Post> likePost(@NonNull Integer id);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Retryable(
+            noRetryFor = ResponseStatusException.class,
+            maxAttempts = 4,
+            backoff = @Backoff(random = true, delay = 400, maxDelay = 1000, multiplier = 1.33)
+    )
+    @Modifying
+    @Query("UPDATE Post p set p.likes = p.likes + 1 WHERE p.id = :id")
+    void likePost(@NonNull Integer id);
 }

@@ -89,14 +89,9 @@ public class PostService {
         }
     }
 
-    @Transactional
-    @Retryable(
-            noRetryFor = ResponseStatusException.class,
-            maxAttempts = 4,
-            backoff = @Backoff(random = true, delay = 400, maxDelay = 1000, multiplier = 1.33)
-    )
     public Post likePost(int id, Integer userId) {
-        Post post = this.postRepository.likePost(id).orElseThrow(()->{
+        this.postRepository.likePost(id);
+        Post post = this.postRepository.findById(id).orElseThrow(()->{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post does not exist");
         });
         publish(new PostActionMessage(userId, "like", new PostMessage(post)), "like");
