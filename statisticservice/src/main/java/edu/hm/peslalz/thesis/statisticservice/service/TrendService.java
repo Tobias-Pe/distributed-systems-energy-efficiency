@@ -9,7 +9,12 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -17,7 +22,7 @@ import java.util.Date;
 
 @Service
 public class TrendService {
-    public static final int TREND_SIZE = 10;
+    public static final int TREND_SIZE = 5;
     public static final int TREND_RELEVANT_TIMERANGE_MINUTES = 2;
 
     private final Counter trendUpdateCounter;
@@ -37,25 +42,23 @@ public class TrendService {
                 .register(registry);
     }
 
+    @Transactional
     public void registerAccountFollowed(Integer userId) {
         FollowedUser followedUser = followedUserRepository.findByUserId(userId).orElse(new FollowedUser(userId));
-        followedUser.getInteractions().add(createActionProtocol("new follower"));
         followedUserRepository.save(followedUser);
+        followedUser.getInteractions().add(new ActionProtocol("new follower"));
         trendUpdateCounter.increment();
     }
 
-    private ActionProtocol createActionProtocol(String action) {
-        ActionProtocol actionProtocol = new ActionProtocol(action);
-        return this.actionProtocolRepository.save(actionProtocol);
-    }
-
+    @Transactional
     public void registerPostAction(PostActionMessage postActionMessage) {
         Post post = postRepository.findByPostId(postActionMessage.getPostMessage().getId()).orElse(new Post(postActionMessage.getPostMessage().getId()));
-        post.getInteractions().add(createActionProtocol(postActionMessage.getAction()));
         postRepository.save(post);
+        post.getInteractions().add(new ActionProtocol(postActionMessage.getAction()));
         trendUpdateCounter.increment();
     }
 
+    @Transactional
     public void registerNewPost(PostMessage postMessage) {
         postMessage.getCategories().forEach(this::registerCategory);
         trendUpdateCounter.increment(postMessage.getCategories().size());
@@ -63,8 +66,8 @@ public class TrendService {
 
     private void registerCategory(String categoryName) {
         Category category = categoryRepository.findByName(categoryName).orElse(new Category(categoryName));
-        category.getInteractions().add(createActionProtocol("new post"));
         categoryRepository.save(category);
+        category.getInteractions().add(new ActionProtocol("new post"));
     }
 
     public Page<TrendInterface> getCategoryTrends(int page) {

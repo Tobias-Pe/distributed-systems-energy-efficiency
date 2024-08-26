@@ -3,10 +3,11 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-    kompose.hpa.cpu: "90"
-    kompose.hpa.memory: "80"
-    kompose.hpa.replicas.max: "15"
+    kompose.hpa.cpu: "70"
+    kompose.hpa.memory: "70"
+    kompose.hpa.replicas.max: "12"
     kompose.hpa.replicas.min: "2"
+    kompose.image-pull-policy: Always
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
     kompose.service.healthcheck.liveness.http_get_port: "8082"
     kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -27,10 +28,11 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-        kompose.hpa.cpu: "90"
-        kompose.hpa.memory: "80"
-        kompose.hpa.replicas.max: "15"
+        kompose.hpa.cpu: "70"
+        kompose.hpa.memory: "70"
+        kompose.hpa.replicas.max: "12"
         kompose.hpa.replicas.min: "2"
+        kompose.image-pull-policy: Always
         kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
         kompose.service.healthcheck.liveness.http_get_port: "8082"
         kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -54,7 +56,8 @@ spec:
               value: rabbitmq
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:03-communication-efficiency
+          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -72,9 +75,9 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              memory: "2097152e3"
+              memory: "1258291200"
             requests:
-              cpu: 900m
-              memory: "2097152e3"
+              cpu: 550m
+              memory: "1258291200"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

@@ -10,6 +10,9 @@ import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Log4j2
@@ -26,26 +29,40 @@ public class StatisticsReceiveService {
         return container -> container.setObservationEnabled(true);
     }
 
-    @RabbitListener(queues = "post-statistics")
-    public void receivePost(String post) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        PostMessage postMessage = mapper.readValue(post, PostMessage.class);
-        log.info("post {} received from {}", postMessage.getId(), postMessage.getUserId());
-        trendService.registerNewPost(postMessage);
+    @Transactional
+    @RabbitListener(queues = "post-statistics", concurrency = "2-4", containerFactory = "consumerBatchContainerFactory")
+    public void receivePost(List<String> posts) throws JsonProcessingException {
+        for (String post : posts) {
+            ObjectMapper mapper = new ObjectMapper();
+            PostMessage postMessage = mapper.readValue(post, PostMessage.class);
+            log.info("post {} received from {}", postMessage.getId(), postMessage.getUserId());
+            trendService.registerNewPost(postMessage);
+        }
     }
 
-    @RabbitListener(queues = "post-action-statistics", concurrency = "1-2")
-    public void receivePostAction(String postAction) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
-        log.info("post-action {} received from {}", postActionMessage.getPostMessage().getId(), postActionMessage.getUserId());
-        trendService.registerPostAction(postActionMessage);
+
+    @Transactional
+    @RabbitListener(queues = "post-action-statistics", concurrency = "2-4", containerFactory = "consumerBatchContainerFactory")
+    public void receivePostAction(List<String> postActions) throws JsonProcessingException {
+        for (String postAction : postActions) {
+            ObjectMapper mapper = new ObjectMapper();
+            PostActionMessage postActionMessage = mapper.readValue(postAction, PostActionMessage.class);
+            if (postActionMessage.getAction() == null || postActionMessage.getAction().trim().isEmpty()) {
+                log.error("Action null {}",postActionMessage);
+                continue;
+            }
+            log.info("post-action {} with action '{}' received from {}", postActionMessage.getPostMessage().getId(),postActionMessage.getAction(), postActionMessage.getUserId());
+            trendService.registerPostAction(postActionMessage);
+        }
     }
 
-    @RabbitListener(queues = "user-statistics", concurrency = "1-2")
-    public void receiveUser(String user) {
-        Integer followedUser = Integer.valueOf(user);
-        log.info("user {} has a new follower", followedUser);
-        trendService.registerAccountFollowed(followedUser);
+
+    @Transactional
+    @RabbitListener(queues = "user-statistics", concurrency = "2-4", containerFactory = "consumerBatchContainerFactory")
+    public void receiveUser(List<Integer> users) {
+        for (Integer user : users) {
+            log.info("user {} has a new follower", user);
+            trendService.registerAccountFollowed(user);
+        }
     }
 }

@@ -5,7 +5,8 @@ services:
   userservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/userservice:latest
     labels:
-      - kompose.hpa.cpu=90
+      - kompose.image-pull-policy=Always
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=65
       - kompose.hpa.replicas.max=5
       - kompose.hpa.replicas.min=2
@@ -40,9 +41,10 @@ services:
   postservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/postservice:latest
     labels:
-      - kompose.hpa.cpu=90
-      - kompose.hpa.memory=80
-      - kompose.hpa.replicas.max=15
+      - kompose.image-pull-policy=Always
+      - kompose.hpa.cpu=70
+      - kompose.hpa.memory=70
+      - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
       - kompose.service.healthcheck.liveness.http_get_port=8082
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
@@ -62,10 +64,10 @@ services:
       replicas: 2
       resources:
         limits:
-          memory: 2000M
+          memory: 1200M
         reservations:
-          cpus: '0.9'
-          memory: 2000M
+          cpus: '0.55'
+          memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
@@ -75,7 +77,8 @@ services:
   notificationservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
     labels:
-      - kompose.hpa.cpu=80
+      - kompose.image-pull-policy=Always
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=80
       - kompose.hpa.replicas.max=5
       - kompose.hpa.replicas.min=2
@@ -100,7 +103,7 @@ services:
         limits:
           memory: 1000M
         reservations:
-          cpus: '1.0'
+          cpus: '0.5'
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
@@ -113,9 +116,10 @@ services:
   statisticservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/statisticservice:latest
     labels:
-      - kompose.hpa.cpu=90
+      - kompose.image-pull-policy=Always
+      - kompose.hpa.cpu=80
       - kompose.hpa.memory=80
-      - kompose.hpa.replicas.max=10
+      - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
       - kompose.service.healthcheck.liveness.http_get_port=8084
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
@@ -137,7 +141,7 @@ services:
         limits:
           memory: 1000M
         reservations:
-          cpus: '0.5'
+          cpus: '0.55'
           memory: 1000M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
@@ -148,9 +152,10 @@ services:
   feedservice:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/feedservice:latest
     labels:
-      - kompose.hpa.cpu=90
+      - kompose.image-pull-policy=Always
+      - kompose.hpa.cpu=70
       - kompose.hpa.memory=70
-      - kompose.hpa.replicas.max=10
+      - kompose.hpa.replicas.max=12
       - kompose.hpa.replicas.min=2
       - kompose.service.healthcheck.liveness.http_get_port=8085
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
@@ -163,6 +168,7 @@ services:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
       - RABBITMQ_HOST=rabbitmq
+      - REDIS_URI=redis
       - POSTGRES_URI=jdbc:postgresql://feedservice-db:5436/
       - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
@@ -170,10 +176,10 @@ services:
       replicas: 2
       resources:
         limits:
-          memory: 1500M
+          memory: 1200M
         reservations:
-          cpus: '0.75'
-          memory: 1000M
+          cpus: '0.55'
+          memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
@@ -185,8 +191,9 @@ services:
     ports:
       - "8080:8080"
     labels:
-      - kompose.hpa.cpu=90
-      - kompose.hpa.memory=60
+      - kompose.image-pull-policy=Always
+      - kompose.hpa.cpu=70
+      - kompose.hpa.memory=70
       - kompose.hpa.replicas.max=10
       - kompose.hpa.replicas.min=2
       - kompose.service.type=loadbalancer
@@ -200,16 +207,16 @@ services:
     environment:
       - EUREKA_URI=http://servicediscovery:8761/eureka
       - ZIPKIN_URI=http://zipkin:9411/
-      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=500M  #https://github.com/paketo-buildpacks/spring-boot/issues/11
     deploy:
       mode: replicated
       replicas: 2
       resources:
         limits:
-          memory: 1500M
+          memory: 1200M
         reservations:
-          cpus: '0.75'
-          memory: 1000M
+          cpus: '0.5'
+          memory: 1200M
     healthcheck: # without test --> will be provided by kompose.service.healthcheck.liveness
       start_period: 8s
       timeout: 10s
@@ -219,6 +226,7 @@ services:
   servicediscovery:
     image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/servicediscovery:latest
     labels:
+      - kompose.image-pull-policy=Always
       - kompose.service.type=loadbalancer
       - kompose.service.healthcheck.liveness.http_get_port=8761
       - kompose.service.healthcheck.liveness.http_get_path=/actuator/health/liveness
@@ -235,7 +243,7 @@ services:
         limits:
           memory: 1000M
         reservations:
-          cpus: '1.0'
+          cpus: '0.4'
           memory: 1000M
     ports:
       - "8761:8761"

@@ -1,5 +1,6 @@
 package edu.hm.peslalz.thesis.userservice.service;
 
+import edu.hm.peslalz.thesis.userservice.entity.FollowerDto;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccount;
 import edu.hm.peslalz.thesis.userservice.entity.UserAccountRequest;
 import edu.hm.peslalz.thesis.userservice.exceptions.UserNotFoundException;
@@ -59,6 +60,10 @@ public class UserAccountService {
         return userAccountRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.valueOf(id)));
     }
 
+    public boolean existUserWithId(Integer id) {
+        return userAccountRepository.existsById(id);
+    }
+
     public Page<UserAccount> search(String query, int page) {
         return userAccountRepository.findUserAccountByUsernameLike(query, PageRequest.of(page, 50));
     }
@@ -82,7 +87,7 @@ public class UserAccountService {
         return userAccount;
     }
 
-    public Set<UserAccount> getFollowers(Integer id) {
+    public Set<FollowerDto> getFollowers(Integer id) {
         UserAccount userAccount = getUserById(id);
         return userAccountRepository.findUserAccountsByFollowingContaining(userAccount);
     }

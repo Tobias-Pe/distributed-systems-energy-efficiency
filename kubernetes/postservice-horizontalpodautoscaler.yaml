@@ -3,18 +3,18 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: postservice
 spec:
-  maxReplicas: 15
+  maxReplicas: 12
   metrics:
     - resource:
         name: cpu
         target:
-          averageUtilization: 90
+          averageUtilization: 70
           type: Utilization
       type: Resource
     - resource:
         name: memory
         target:
-          averageUtilization: 80
+          averageUtilization: 70
           type: Utilization
       type: Resource
   minReplicas: 2

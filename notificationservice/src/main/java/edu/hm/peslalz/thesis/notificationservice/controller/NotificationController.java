@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 @RestController
 @RequestMapping("notifications")
@@ -20,24 +21,30 @@ public class NotificationController {
 
     @Operation(summary = "Set the read status of the notification")
     @PostMapping("/{id}")
-    public Notification setReadStatus(@PathVariable(name = "id") int notificationId, @RequestParam("isRead") boolean isRead) {
-        log.info("Setting read status of notification {} to {}", notificationId, isRead);
-        return notificationService.setReadStatus(notificationId, isRead);
+    public Callable<Notification> setReadStatus(@PathVariable(name = "id") int notificationId, @RequestParam("isRead") boolean isRead) {
+        return () -> {
+            log.info("Setting read status of notification {} to {}", notificationId, isRead);
+            return notificationService.setReadStatus(notificationId, isRead);
+        };
     }
 
     @Operation(summary = "Count how many notifications a user has with query option for the read status")
     @PostMapping("/count")
-    public Long getNotificationCount(@RequestParam(name = "userId") int userId,
-                                     @RequestParam(name = "wasRead", required = false) Boolean wasRead) {
-        log.info("Count notifications of user {} with query option {}", userId, wasRead);
-        return notificationService.countNotificationOfUser(userId, wasRead);
+    public Callable<Long> getNotificationCount(@RequestParam(name = "userId") int userId,
+                                               @RequestParam(name = "wasRead", required = false) Boolean wasRead) {
+        return () -> {
+            log.info("Count notifications of user {} with query option {}", userId, wasRead);
+            return notificationService.countNotificationOfUser(userId, wasRead);
+        };
     }
 
     @Operation(summary = "Find all notifications an user has")
     @GetMapping
-    public Set<Notification> getUsersNotifications(@RequestParam(name = "userId") int userId) {
-        log.info("Find all notifications of user {}", userId);
-        return notificationService.getUsersNotifications(userId);
+    public Callable<Set<Notification>> getUsersNotifications(@RequestParam(name = "userId") int userId) {
+        return () -> {
+            log.info("Find all notifications of user {}", userId);
+            return notificationService.getUsersNotifications(userId);
+        };
     }
 
 }

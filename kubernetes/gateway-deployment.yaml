@@ -3,10 +3,11 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-    kompose.hpa.cpu: "90"
-    kompose.hpa.memory: "60"
+    kompose.hpa.cpu: "70"
+    kompose.hpa.memory: "70"
     kompose.hpa.replicas.max: "10"
     kompose.hpa.replicas.min: "2"
+    kompose.image-pull-policy: Always
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
     kompose.service.healthcheck.liveness.http_get_port: "8080"
     kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -28,10 +29,11 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-        kompose.hpa.cpu: "90"
-        kompose.hpa.memory: "60"
+        kompose.hpa.cpu: "70"
+        kompose.hpa.memory: "70"
         kompose.hpa.replicas.max: "10"
         kompose.hpa.replicas.min: "2"
+        kompose.image-pull-policy: Always
         kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
         kompose.service.healthcheck.liveness.http_get_port: "8080"
         kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -49,10 +51,11 @@ spec:
             - name: EUREKA_URI
               value: http://servicediscovery:8761/eureka
             - name: JAVA_TOOL_OPTIONS
-              value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=100M
+              value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=500M
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:03-communication-efficiency
+          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -73,9 +76,9 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              memory: "1572864e3"
+              memory: "1258291200"
             requests:
-              cpu: 750m
-              memory: "1048576e3"
+              cpu: 500m
+              memory: "1258291200"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

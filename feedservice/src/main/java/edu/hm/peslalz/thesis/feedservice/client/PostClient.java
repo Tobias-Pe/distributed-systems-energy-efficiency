@@ -1,17 +1,57 @@
 package edu.hm.peslalz.thesis.feedservice.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.hm.peslalz.thesis.feedservice.entity.PagedPostResponse;
 import edu.hm.peslalz.thesis.feedservice.entity.PostDTO;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import edu.hm.peslalz.thesis.feedservice.entity.PostsRequestDTO;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
-@FeignClient("postservice")
-public interface PostClient {
-    @GetMapping("posts")
-    Page<PostDTO> getPosts(@RequestParam(required = false) String category, @RequestParam(required = false) Integer userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size);
+@Component
+public class PostClient {
+    private final DirectExchange postExchange;
+    private final RabbitTemplate template;
 
-    @GetMapping(value = "posts/{id}")
-    PostDTO getPost(@PathVariable int id);
+    public PostClient(DirectExchange postExchange, RabbitTemplate template) {
+        this.postExchange = postExchange;
+        this.template = template;
+    }
+
+    @Cacheable("posts")
+    public PagedPostResponse getPosts(String category, Integer userId, int page, int size) {
+        PostsRequestDTO postsRequestDTO = new PostsRequestDTO(category, userId, page, size);
+        ObjectMapper mapper = new ObjectMapper();
+        String message;
+        try {
+            message = mapper.writeValueAsString(postsRequestDTO);
+        } catch (JsonProcessingException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not process request to json", e);
+        }
+        String response = (String) this.template.convertSendAndReceive(postExchange.getName(), "rpc-posts", message);
+        PagedPostResponse pagedPostResponse;
+        try {
+            pagedPostResponse = mapper.readValue(response, PagedPostResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return pagedPostResponse;
+    }
+
+    @Cacheable("post")
+    public PostDTO getPost(int id) {
+        String response = (String) this.template.convertSendAndReceive(postExchange.getName(), "rpc-post", id);
+        ObjectMapper mapper = new ObjectMapper();
+        PostDTO postDTO;
+        try {
+            postDTO = mapper.readValue(response, PostDTO.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return postDTO;
+    }
 }

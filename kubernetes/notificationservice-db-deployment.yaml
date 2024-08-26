@@ -25,7 +25,10 @@ spec:
         io.kompose.service: notificationservice-db
     spec:
       containers:
-        - env:
+        - args:
+            - -c
+            - max_connections=200
+          env:
             - name: POSTGRES_DB
               value: notificationdatabase
             - name: POSTGRES_PASSWORD

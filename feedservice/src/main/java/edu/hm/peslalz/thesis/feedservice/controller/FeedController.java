@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.Callable;
+
 @RestController
 @RequestMapping("feeds")
 @Log4j2
@@ -19,9 +21,11 @@ public class FeedController {
 
     @Operation(description = "Get a user's personalized feed")
     @GetMapping(value = "/{userId}")
-    public Slice<PostDTO> getPersonalizedFeed(@PathVariable int userId, @RequestParam(defaultValue = "0") int page) {
-        log.info("Getting personalized feed for user {}", userId);
-        return feedService.getPersonalizedFeed(userId, page);
+    public Callable<Slice<PostDTO>> getPersonalizedFeed(@PathVariable int userId, @RequestParam(defaultValue = "0") int page) {
+        return () -> {
+            log.info("Getting personalized feed for user {}", userId);
+            return feedService.getPersonalizedFeed(userId, page);
+        };
     }
 
 }

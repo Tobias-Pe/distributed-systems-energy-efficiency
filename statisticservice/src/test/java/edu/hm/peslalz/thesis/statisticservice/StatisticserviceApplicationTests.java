@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
+import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
@@ -25,17 +26,17 @@ class StatisticserviceApplicationTests {
     TrendController trendController;
 
     @Test
-    void testUserTrend() {
-        statisticReceiveService.receiveUser("1");
-        statisticReceiveService.receiveUser("2");
-        statisticReceiveService.receiveUser("3");
-        statisticReceiveService.receiveUser("1");
-        statisticReceiveService.receiveUser("4");
-        statisticReceiveService.receiveUser("2");
-        statisticReceiveService.receiveUser("5");
-        statisticReceiveService.receiveUser("1");
+    void testUserTrend() throws Exception {
+        statisticReceiveService.receiveUser(Collections.singletonList(1));
+        statisticReceiveService.receiveUser(Collections.singletonList(2));
+        statisticReceiveService.receiveUser(Collections.singletonList(3));
+        statisticReceiveService.receiveUser(Collections.singletonList(1));
+        statisticReceiveService.receiveUser(Collections.singletonList(4));
+        statisticReceiveService.receiveUser(Collections.singletonList(2));
+        statisticReceiveService.receiveUser(Collections.singletonList(5));
+        statisticReceiveService.receiveUser(Collections.singletonList(1));
 
-        Page<TrendInterface> trendingUsers = trendController.getTrendingUsers(0);
+        Page<TrendInterface> trendingUsers = trendController.getTrendingUsers(0).call();
         Assertions.assertThat(trendingUsers.getNumberOfElements()).isEqualTo(5);
         List<TrendInterface> trendingUsersContent = trendingUsers.getContent();
         Assertions.assertThat(trendingUsersContent.getFirst().getIdentifier()).isEqualTo("1");
@@ -49,7 +50,7 @@ class StatisticserviceApplicationTests {
         statisticReceiveService.receivePost(createPostMessageJsonWithCategories("fish", "meat", "a", "b", "c", "d"));
         statisticReceiveService.receivePost(createPostMessageJsonWithCategories("fish", "meat", "e", "f", "g", "h", "i", "j", "k", "l"));
 
-        Page<TrendInterface> trendingCategories = trendController.getTrendingCategories(0);
+        Page<TrendInterface> trendingCategories = trendController.getTrendingCategories(0).call();
         Assertions.assertThat(trendingCategories.getNumberOfElements()).isEqualTo(TrendService.TREND_SIZE);
         List<TrendInterface> trendingCategoriesContent = trendingCategories.getContent();
         Assertions.assertThat(trendingCategoriesContent.getFirst().getIdentifier()).hasSize(4);
@@ -67,7 +68,7 @@ class StatisticserviceApplicationTests {
         statisticReceiveService.receivePostAction(createPostActionMessageJson("comment", 2));
         statisticReceiveService.receivePostAction(createPostActionMessageJson("like", 3));
 
-        Page<TrendInterface> trendingPosts = trendController.getTrendingPosts(0);
+        Page<TrendInterface> trendingPosts = trendController.getTrendingPosts(0).call();
         Assertions.assertThat(trendingPosts.getNumberOfElements()).isEqualTo(3);
         List<TrendInterface> trendingPostsContent = trendingPosts.getContent();
         Assertions.assertThat(trendingPostsContent.getFirst().getIdentifier()).isEqualTo("1");
@@ -75,8 +76,8 @@ class StatisticserviceApplicationTests {
         Assertions.assertThat(trendingPostsContent.getLast().getTrendPoints()).isEqualTo(1);
     }
 
-    String createPostMessageJsonWithCategories(String... categories) throws JsonProcessingException {
-        return createPostMessageJsonWithCategories(1, categories);
+    List<String> createPostMessageJsonWithCategories(String... categories) throws JsonProcessingException {
+        return Collections.singletonList(createPostMessageJsonWithCategories(1, categories));
     }
 
     String createPostMessageJsonWithCategories(Integer postId, String... categories) throws JsonProcessingException {
@@ -97,16 +98,16 @@ class StatisticserviceApplicationTests {
                 """, postId, categoryJson);
     }
 
-    String createPostActionMessageJson(String action, Integer postId) throws JsonProcessingException {
+    List<String> createPostActionMessageJson(String action, Integer postId) throws JsonProcessingException {
         String postMessageJson = createPostMessageJsonWithCategories(postId, "debugging", "testing");
 
-        return String.format("""
+        return Collections.singletonList(String.format("""
                 {
                     "userId": 789,
                     "action": "%s",
                     "postMessage": %s
                 }
-                """, action, postMessageJson);
+                """, action, postMessageJson));
     }
 
 }

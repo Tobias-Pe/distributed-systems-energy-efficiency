@@ -3,10 +3,11 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-    kompose.hpa.cpu: "80"
+    kompose.hpa.cpu: "70"
     kompose.hpa.memory: "80"
     kompose.hpa.replicas.max: "5"
     kompose.hpa.replicas.min: "2"
+    kompose.image-pull-policy: Always
     kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
     kompose.service.healthcheck.liveness.http_get_port: "8083"
     kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -30,10 +31,11 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f ./docker/docker-compose.yml -o ./kubernetes/
-        kompose.hpa.cpu: "80"
+        kompose.hpa.cpu: "70"
         kompose.hpa.memory: "80"
         kompose.hpa.replicas.max: "5"
         kompose.hpa.replicas.min: "2"
+        kompose.image-pull-policy: Always
         kompose.service.healthcheck.liveness.http_get_path: /actuator/health/liveness
         kompose.service.healthcheck.liveness.http_get_port: "8083"
         kompose.service.healthcheck.readiness.http_get_path: /actuator/health/readiness
@@ -58,7 +60,8 @@ spec:
               value: rabbitmq
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:latest
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/notificationservice:03-communication-efficiency
+          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -78,7 +81,7 @@ spec:
             limits:
               memory: "1048576e3"
             requests:
-              cpu: "1"
+              cpu: 500m
               memory: "1048576e3"
           volumeMounts:
             - mountPath: /workspace/notificationservice

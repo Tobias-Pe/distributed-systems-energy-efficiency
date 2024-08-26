@@ -23,7 +23,8 @@ spring:
           enabled: true
           lower-case-service-id: true
       httpclient:
-        connect-timeout: 1000
+        connect-timeout: 500
+        response-timeout: 5s
       globalcors:
         cors-configurations:
           '[/**]':
@@ -65,6 +66,9 @@ spring:
       enabled: true
       file: docker/infrastructure-compose.yml
       lifecycle-management: start-only
+  threads:
+    virtual:
+      enabled: true
 
 server:
   forward-headers-strategy: framework
