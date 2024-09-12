@@ -54,7 +54,7 @@ spec:
               value: -XX:ActiveProcessorCount=4 -XX:MaxDirectMemorySize=500M
             - name: ZIPKIN_URI
               value: http://zipkin:9411/
-          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:03-communication-efficiency
+          image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/gateway:latest
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 5

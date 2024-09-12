@@ -640,7 +640,7 @@
           "refId": "D"
         }
       ],
-      "title": "Summed Node Power Consumption (W) in Namespace: $namespace",
+      "title": "Summed Node Power Consumption in Namespace: $namespace",
       "type": "timeseries"
     },
     {
@@ -1303,7 +1303,7 @@
           "refId": "D"
         }
       ],
-      "title": "Summed Container Power Consumption (W) in Namespace: $namespace",
+      "title": "Summed Container Power Consumption in Namespace: $namespace",
       "type": "timeseries"
     },
     {

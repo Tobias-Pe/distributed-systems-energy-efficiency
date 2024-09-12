@@ -23,7 +23,7 @@ spec:
         io.kompose.service: snmp-exporter
     spec:
       containers:
-        - image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/snmp-exporter:03-communication-efficiency
+        - image: ghcr.io/tobias-pe/distributed-systems-energy-efficiency/snmp-exporter:latest
           name: snmp-exporter
           ports:
             - containerPort: 9116
