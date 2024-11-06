@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Peslalz"
+  given-names: "Tobias Leonhard Joschka"
+license: MIT 
+keywords:
+ - Software
+ - Sustainability
+ - Green Software
+ - Energy efficiency
+ - Optimization
+ - Kubernetes
+ - Microservices
+ - Distributed Systems
+ - Monitoring tools
+title: "Optimization of Energy Efficiency in Distributed Systems - Experiment"
+repository-code: "https://github.com/Tobias-Pe/distributed-systems-energy-efficiency"
+date-released: 2024-11-06
+preferred-citation:
+  type: generic
+  authors:
+  - family-names: "Peslalz"
+    given-names: "Tobias Leonhard Joschka"
+  month: 11
+  title: "Experimental Analysis of Optimization Techniques for Energy Efficiency in Distributed Systems"
+  thesis-type: "Mastersthesis"
+  pages: 119
+  url: "https://opus4.kobv.de/opus4-hm/frontdoor/index/index/docId/573"
+  year: 2024
