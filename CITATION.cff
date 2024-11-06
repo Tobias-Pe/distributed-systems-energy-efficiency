@@ -16,6 +16,7 @@ keywords:
  - Monitoring tools
 title: "Optimization of Energy Efficiency in Distributed Systems - Experiment"
 repository-code: "https://github.com/Tobias-Pe/distributed-systems-energy-efficiency"
+url: "https://github.com/Tobias-Pe/distributed-systems-energy-efficiency"
 date-released: 2024-11-06
 preferred-citation:
   type: generic
